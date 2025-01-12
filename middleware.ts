@@ -1,8 +1,18 @@
-import { type NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { updateSession } from "./lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
-  return await updateSession(request);
+  const res = NextResponse.next();
+  const url = request.nextUrl;
+
+  // Run both async operations in parallel for performance
+  const [{ countryCode }] = await Promise.all([
+    fetch(`${url.origin}/api/geo`).then((res) => res.json()),
+    updateSession(request),
+  ]);
+
+  res.headers.set("x-country-code", countryCode);
+  return res;
 }
 
 export const config = {
