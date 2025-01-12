@@ -7,6 +7,7 @@ export async function middleware(request: NextRequest) {
   console.log("URL:", url);
   // Get geolocation data
   const geoRes = await fetch(`${url.origin}/api/geo`);
+  console.log("Geo:", geoRes);
   // const geo = await geoRes.json();
 
   // Add geolocation data to request headers
