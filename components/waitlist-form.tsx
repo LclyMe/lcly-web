@@ -64,6 +64,7 @@ export function WaitlistForm({ lightMode = false }: { lightMode?: boolean }) {
       form.reset();
       router.push("/success");
     } catch (error) {
+      console.error(error);
       toast({
         title: "Something went wrong",
         description: "Please try again later.",

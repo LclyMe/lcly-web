@@ -13,6 +13,7 @@ import {
   SquareUserRound,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -25,9 +26,11 @@ export default function Home() {
           transition={{ duration: 0.5 }}
           className="mx-auto max-w-7xl px-6 lg:px-8 flex items-center sm:h-9 mb-8 sm:mb-14 gap-4"
         >
-          <img
+          <Image
             src="/union-flag.png"
             alt="Union Flag"
+            width={48}
+            height={48}
             className="h-10 w-10 sm:h-12 sm:w-12 rounded-full"
           />
           <LclyLogo className="h-6 sm:h-8 w-auto text-black/90 -mb-1.5" />
