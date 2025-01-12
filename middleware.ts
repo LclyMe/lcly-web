@@ -5,15 +5,15 @@ export async function middleware(request: NextRequest) {
   const res = NextResponse.next();
   const url = request.nextUrl;
 
-  // Run both async operations in parallel for performance
-  // { countryCode }
-  const [] = await Promise.all([
-    // fetch(`${url.origin}/api/geo`).then((res) => res.json()),
-    updateSession(request),
-  ]);
+  // Get geolocation data
+  const geoRes = await fetch(`${url.origin}/api/geo`);
+  const geo = await geoRes.json();
 
-  // res.headers.set("x-country-code", countryCode);
-  return res;
+  // Add geolocation data to request headers
+  res.headers.set("x-country-code", JSON.stringify(geo));
+
+  // Update Supabase session
+  return await updateSession(request);
 }
 
 export const config = {
