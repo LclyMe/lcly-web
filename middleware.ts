@@ -4,13 +4,13 @@ import { updateSession } from "./lib/supabase/middleware";
 export async function middleware(request: NextRequest) {
   const res = NextResponse.next();
   const url = request.nextUrl;
-
+  console.log("URL:", url);
   // Get geolocation data
   const geoRes = await fetch(`${url.origin}/api/geo`);
-  const geo = await geoRes.json();
+  // const geo = await geoRes.json();
 
   // Add geolocation data to request headers
-  res.headers.set("x-country-code", JSON.stringify(geo));
+  // res.headers.set("x-country-code", JSON.stringify(geo));
 
   // Update Supabase session
   return await updateSession(request);
