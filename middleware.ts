@@ -6,12 +6,13 @@ export async function middleware(request: NextRequest) {
   const url = request.nextUrl;
 
   // Run both async operations in parallel for performance
-  const [{ countryCode }] = await Promise.all([
-    fetch(`${url.origin}/api/geo`).then((res) => res.json()),
+  // { countryCode }
+  const [] = await Promise.all([
+    // fetch(`${url.origin}/api/geo`).then((res) => res.json()),
     updateSession(request),
   ]);
 
-  res.headers.set("x-country-code", countryCode);
+  // res.headers.set("x-country-code", countryCode);
   return res;
 }
 
