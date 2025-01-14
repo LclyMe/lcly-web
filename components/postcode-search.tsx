@@ -28,6 +28,7 @@ export function PostcodeSearch() {
       const data = await getPostcodeInfo(postcode.trim());
       router.push(`/map?lat=${data.latitude}&lng=${data.longitude}`);
     } catch (error) {
+      console.error(error);
       toast({
         title: "Invalid postcode",
         description: "Please enter a valid UK postcode",
