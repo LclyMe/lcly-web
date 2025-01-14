@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Location } from "@/hooks/use-postcode";
-import { Map as MapIcon } from "lucide-react";
+import { Map as MapIcon, Check } from "lucide-react";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
 import {
@@ -9,6 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import * as React from "react";
 
 export const MAP_VIEWS = {
   country: {
@@ -35,6 +36,8 @@ export function MapViews({
 }) {
   const map = useMap();
   const defaultLocation = MAP_VIEWS.country.center;
+  const [currentView, setCurrentView] =
+    React.useState<keyof typeof MAP_VIEWS>("town");
 
   const getCenter = () => {
     if (savedLocation) {
@@ -49,6 +52,7 @@ export function MapViews({
   const handleViewChange = (view: keyof typeof MAP_VIEWS) => {
     const center = getCenter();
     map.setView(center, MAP_VIEWS[view].zoom);
+    setCurrentView(view);
   };
 
   return (
@@ -59,21 +63,27 @@ export function MapViews({
           className="rounded-full shadow-lg h-10 w-10 sm:w-auto"
         >
           <MapIcon className={"h-4 w-4 sm:mr-1"} />{" "}
-          <span className="hidden sm:block">View</span>
+          <span className="hidden sm:block">
+            {currentView.charAt(0).toUpperCase() + currentView.slice(1)}
+          </span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="z-[1000]">
+      <DropdownMenuContent align="start" className="z-[1000]">
         <DropdownMenuItem onClick={() => handleViewChange("country")}>
           Country View
+          {currentView === "country" && <Check className="h-4 w-4 ml-auto" />}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleViewChange("council")}>
           Council View
+          {currentView === "council" && <Check className="h-4 w-4 ml-auto" />}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleViewChange("town")}>
           Town View
+          {currentView === "town" && <Check className="h-4 w-4 ml-auto" />}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleViewChange("local")}>
           Local Area
+          {currentView === "local" && <Check className="h-4 w-4 ml-auto" />}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Layers, Moon, Sun, Map as MapIcon } from "lucide-react";
+import { Check, Layers, Moon, Sun, Map as MapIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,13 +33,25 @@ export function MapControls({
         </DropdownMenuTrigger>
         <DropdownMenuContent className="z-[1000]" align="end">
           <DropdownMenuItem onClick={() => setSelectedMapProvider("dark")}>
-            <Moon className="h-4 w-4" /> Dark
+            <Moon className="h-4 w-4 mr-2" />
+            Dark
+            {selectedMapProvider === "dark" && (
+              <Check className="h-4 w-4 ml-auto" />
+            )}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setSelectedMapProvider("light")}>
-            <Sun className="h-4 w-4" /> Light
+            <Sun className="h-4 w-4 mr-2" />
+            Light
+            {selectedMapProvider === "light" && (
+              <Check className="h-4 w-4 ml-auto" />
+            )}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setSelectedMapProvider("color")}>
-            <MapIcon className="h-4 w-4" /> Color
+            <MapIcon className="h-4 w-4 mr-2" />
+            Color
+            {selectedMapProvider === "color" && (
+              <Check className="h-4 w-4 ml-auto" />
+            )}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
