@@ -1,3 +1,4 @@
+@import "leaflet/dist/leaflet.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -100,4 +101,19 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.leaflet-container {
+  background: transparent !important;
+}
+
+.leaflet-control-container .leaflet-control {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.leaflet-control-attribution {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  padding: 0 5px !important;
+  border-radius: 3px !important;
 }
