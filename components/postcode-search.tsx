@@ -47,9 +47,13 @@ export function PostcodeSearch() {
         placeholder="Enter your postcode"
         value={postcode}
         onChange={(e) => setPostcode(e.target.value)}
-        className="flex-1"
+        className="flex-1 h-10"
       />
-      <Button type="submit" disabled={isLoading}>
+      <Button
+        type="submit"
+        className="h-10 text-base font-medium w-24"
+        disabled={isLoading}
+      >
         {isLoading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
