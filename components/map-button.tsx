@@ -11,7 +11,7 @@ export function MapButton() {
 
   return (
     <Link href="/map">
-      <Button variant="secondary" className="gap-2">
+      <Button variant="secondary" className="gap-2 h-10">
         <Map className="h-4 w-4" />
         {postcodeData ? postcodeData.postcode : "Map"}
       </Button>
