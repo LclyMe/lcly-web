@@ -16,6 +16,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { PostcodeSearch } from "@/components/postcode-search";
 import { MapButton } from "@/components/map-button";
+import { LoginButton } from "@/components/auth/login-button";
 
 export default function Home() {
   return (
@@ -38,8 +39,9 @@ export default function Home() {
             />
             <LclyLogo className="h-6 sm:h-8 w-auto text-black/90 -mb-1.5" />
           </div>
-          <div>
+          <div className="flex items-center gap-2">
             <MapButton />
+            <LoginButton />
           </div>
         </motion.div>
       </header>
