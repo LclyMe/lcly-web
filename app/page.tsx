@@ -11,12 +11,15 @@ import {
   School,
   Heart,
   SquareUserRound,
+  HelpCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { PostcodeSearch } from "@/components/postcode-search";
 import { MapButton } from "@/components/map-button";
 import { LoginButton } from "@/components/auth/login-button";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -27,7 +30,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mx-auto max-w-7xl px-6 lg:px-8 flex items-center justify-between sm:h-9 mb-8 sm:mb-14 gap-4"
+          className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-col sm:flex-row sm:items-center justify-between sm:h-9 mb-8 sm:mb-14 gap-4"
         >
           <div className="flex items-center gap-4">
             <Image
@@ -40,6 +43,11 @@ export default function Home() {
             <LclyLogo className="h-6 sm:h-8 w-auto text-black/90 -mb-1.5" />
           </div>
           <div className="flex items-center gap-2">
+            <Link href="/about">
+              <Button variant="secondary" size="icon">
+                <HelpCircle className="h-4 w-4" />
+              </Button>
+            </Link>
             <MapButton />
             <LoginButton />
           </div>
