@@ -3,14 +3,10 @@
 import { Bell, CheckCircle, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { useAuth } from "@/hooks/use-auth";
-import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function NotificationsPage() {
-  const { user } = useAuth();
-
   const [notifications] = useState([
     {
       id: 1,

@@ -6,11 +6,11 @@ import {
   Loader2,
   MapPin,
   Bell,
-  Shield,
-  Key,
+  Home,
   Building2,
   ArrowLeftIcon,
   Settings,
+  Users,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -42,7 +42,7 @@ const profileSections = [
   {
     title: "My Home",
     description: "Your home and family.",
-    icon: Key,
+    icon: Home,
     comingSoon: true,
   },
   {
@@ -55,7 +55,7 @@ const profileSections = [
   {
     title: "Friends",
     description: "Your friends and local connections.",
-    icon: Shield,
+    icon: Users,
     comingSoon: true,
   },
 
@@ -68,7 +68,7 @@ const profileSections = [
   {
     title: "Settings",
     description: "Manage your account security and privacy preferences",
-    icon: Shield,
+    icon: Settings,
     href: "/settings",
   },
 ];

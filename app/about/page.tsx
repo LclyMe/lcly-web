@@ -4,7 +4,6 @@ import { WorldMap } from "@/components/maps/world-map";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowLeftIcon, GitBranch, Heart, Lock, Server } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 const fadeIn = {
