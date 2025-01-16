@@ -16,8 +16,7 @@ const fadeIn = {
 const features = [
   {
     title: "Open Source",
-    description:
-      "The entire platform is open source, and we will always be open source.",
+    description: "The entire platform is open source, it always will be.",
     icon: GitBranch,
   },
   {
@@ -134,18 +133,18 @@ export default function AboutPage() {
         <motion.div {...fadeIn} className="text-center my-14">
           <div className="flex flex-col gap-8">
             <p className="text-lg text-muted-foreground max-w-4xl mx-auto">
+              We belive that local people should own and help shape the digital
+              infrastructure that runs their communities. Our goal is to build a
+              completely open source platform that real people want to use and
+              developers can use to build things that have an impact.
+            </p>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               There are many great open source projects and initiatives that
               share similar goals to us. Unfortunately, these are usually hard
               to use and understand, or only focus on solving a small slice of
               the solution. We want to try a different approach, we want to
               build a platform focused on ease of use, beautiful design and
               trust.
-            </p>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              We belive the local people should own and help shape the digital
-              infrastructure that runs their communities. Our goal is to build a
-              completely open source platform that real people want to use and
-              developers can use to build things that have an impact.
             </p>
           </div>
         </motion.div>

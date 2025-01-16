@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   Loader2,
   MapPin,
-  Settings,
   Bell,
   Shield,
   Key,
@@ -13,7 +12,6 @@ import {
   ArrowLeftIcon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
@@ -23,6 +21,8 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -32,11 +32,32 @@ const fadeIn = {
 
 const profileSections = [
   {
-    title: "Security Settings",
-    description: "Manage your account security and privacy preferences",
-    icon: Shield,
-    blurred: true,
+    title: "Local Area",
+    description: "See what's going on in your local area.",
+    icon: MapPin,
+    href: "/map",
+    comingSoon: false,
   },
+  {
+    title: "My Home",
+    description: "Your home and family.",
+    icon: Key,
+    comingSoon: true,
+  },
+  {
+    title: "Weekly Newspaper",
+    description:
+      "Your personalised local newspaper covering things local to you.",
+    icon: Building2,
+    comingSoon: true,
+  },
+  {
+    title: "Friends",
+    description: "Your friends and local connections.",
+    icon: Shield,
+    comingSoon: true,
+  },
+
   {
     title: "Notifications",
     description: "Control how you receive updates from your community",
@@ -44,15 +65,9 @@ const profileSections = [
     blurred: true,
   },
   {
-    title: "Connected Accounts",
-    description: "Manage your linked social and community accounts",
-    icon: Key,
-    blurred: true,
-  },
-  {
-    title: "Local Communities",
-    description: "View and manage your community memberships",
-    icon: Building2,
+    title: "Settings",
+    description: "Manage your account security and privacy preferences",
+    icon: Shield,
     blurred: true,
   },
 ];
@@ -126,7 +141,7 @@ export default function ProfilePage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-24"
+          className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6 mb-24"
         >
           {profileSections.map((section, index) => (
             <motion.div
@@ -135,25 +150,38 @@ export default function ProfilePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
             >
-              <Card className="hover:shadow-lg transition-shadow duration-200">
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <div className="rounded-lg bg-primary/10 p-2.5">
-                      <section.icon className="h-6 w-6 text-primary" />
+              <Link
+                href={section.href || "#"}
+                className={section.comingSoon ? "cursor-not-allowed" : ""}
+              >
+                <Card
+                  className={cn(
+                    "hover:shadow-lg transition-shadow duration-200",
+                    section.comingSoon && "opacity-50"
+                  )}
+                >
+                  <CardHeader>
+                    <div className="flex items-center gap-4">
+                      <div className="rounded-lg bg-primary/10 p-2.5">
+                        <section.icon className="h-6 w-6 text-primary" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <CardTitle className="text-xl mb-2">
+                            {section.title}
+                          </CardTitle>
+                          {section.comingSoon && (
+                            <Badge variant="secondary" className="ml-2">
+                              Coming Soon
+                            </Badge>
+                          )}
+                        </div>
+                        <CardDescription>{section.description}</CardDescription>
+                      </div>
                     </div>
-                    <div
-                      className={
-                        section.blurred ? "transition-all duration-200" : ""
-                      }
-                    >
-                      <CardTitle className="text-xl mb-2">
-                        {section.title}
-                      </CardTitle>
-                      <CardDescription>{section.description}</CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-              </Card>
+                  </CardHeader>
+                </Card>
+              </Link>
             </motion.div>
           ))}
         </motion.div>
