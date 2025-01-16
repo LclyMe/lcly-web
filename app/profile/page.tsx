@@ -109,7 +109,7 @@ export default function ProfilePage() {
             <Button
               variant="secondary"
               size="icon"
-              className="rounded-full absolute top-0 left-0"
+              className="rounded-full absolute -top-14 left-0"
             >
               <ArrowLeftIcon className="h-4 w-4" />
             </Button>
