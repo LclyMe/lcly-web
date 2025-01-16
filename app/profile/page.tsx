@@ -2,9 +2,60 @@
 
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import {
+  Loader2,
+  MapPin,
+  Settings,
+  Bell,
+  Shield,
+  Key,
+  Building2,
+  ArrowLeftIcon,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+
+const fadeIn = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5 },
+};
+
+const profileSections = [
+  {
+    title: "Security Settings",
+    description: "Manage your account security and privacy preferences",
+    icon: Shield,
+    blurred: true,
+  },
+  {
+    title: "Notifications",
+    description: "Control how you receive updates from your community",
+    icon: Bell,
+    blurred: true,
+  },
+  {
+    title: "Connected Accounts",
+    description: "Manage your linked social and community accounts",
+    icon: Key,
+    blurred: true,
+  },
+  {
+    title: "Local Communities",
+    description: "View and manage your community memberships",
+    icon: Building2,
+    blurred: true,
+  },
+];
 
 export default function ProfilePage() {
   const { user, loading, signOut } = useAuth();
@@ -27,82 +78,96 @@ export default function ProfilePage() {
     router.push("/login");
     return null;
   }
-  console.log(user);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="bg-white shadow sm:rounded-lg">
-        <div className="px-4 py-5 sm:p-6">
-          <div className="sm:flex sm:items-center sm:justify-between">
-            <div className="sm:flex sm:items-center">
-              {user.user_metadata.avatar_url && (
-                <Image
-                  src={user.user_metadata.avatar_url}
-                  alt={user.user_metadata.full_name || "Profile"}
-                  className="h-20 w-20 rounded-full"
-                  width={80}
-                  height={80}
-                />
+    <div className="min-h-screen bg-background">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="container mx-auto px-4 py-8 max-w-6xl"
+      >
+        {/* Header */}
+        <div className="relative mb-16">
+          <Link href="/">
+            <Button
+              variant="secondary"
+              size="icon"
+              className="rounded-full absolute top-0 left-0"
+            >
+              <ArrowLeftIcon className="h-4 w-4" />
+            </Button>
+          </Link>
+
+          <motion.div {...fadeIn} className="text-center mt-16">
+            <Avatar className="h-24 w-24 mx-auto mb-6">
+              {user.user_metadata.avatar_url ? (
+                <AvatarImage src={user.user_metadata.avatar_url} />
+              ) : (
+                <AvatarFallback>
+                  {user.user_metadata.full_name?.[0] || user.email?.[0]}
+                </AvatarFallback>
               )}
-              <div className="mt-4 sm:ml-4 sm:mt-0">
-                <h1 className="text-xl font-semibold text-gray-900">
-                  {user.user_metadata.full_name || "User"}
-                </h1>
-                <p className="mt-1 text-sm text-gray-600">{user.email}</p>
-              </div>
-            </div>
-            <div className="mt-4 sm:ml-6 sm:mt-0">
-              <Button variant="outline" onClick={handleSignOut}>
-                Sign Out
-              </Button>
-            </div>
-          </div>
+            </Avatar>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 transition-all duration-200">
+              {user.user_metadata.full_name || "User"}
+            </h1>
+            <p className="text-lg text-muted-foreground hover:blur-none blur-sm transition-all duration-200">
+              {user.email}
+            </p>
+            <Button variant="outline" onClick={handleSignOut} className="mt-6">
+              Sign Out
+            </Button>
+          </motion.div>
         </div>
-      </div>
 
-      <div className="mt-8 bg-white shadow sm:rounded-lg">
-        <div className="px-4 py-5 sm:p-6">
-          <h2 className="text-lg font-medium text-gray-900">Account Details</h2>
-          <div className="mt-4 space-y-4">
-            <div>
-              <dt className="text-sm font-medium text-gray-500">Account ID</dt>
-              <dd className="mt-1 text-sm text-gray-900">{user.id}</dd>
-            </div>
-            <div>
-              <dt className="text-sm font-medium text-gray-500">
-                Email verified
-              </dt>
-              <dd className="mt-1 text-sm text-gray-900">
-                {user.email_confirmed_at ? (
-                  <span className="text-green-600">Yes</span>
-                ) : (
-                  <span className="text-red-600">No</span>
-                )}
-              </dd>
-            </div>
-            <div>
-              <dt className="text-sm font-medium text-gray-500">Provider</dt>
-              <dd className="mt-1 text-sm text-gray-900">
-                {user.app_metadata.provider || "Email"}
-              </dd>
-            </div>
-            <div>
-              <dt className="text-sm font-medium text-gray-500">
-                Account created
-              </dt>
-              <dd className="mt-1 text-sm text-gray-900">
-                {new Date(user.created_at).toLocaleDateString()}
-              </dd>
-            </div>
-          </div>
-        </div>
-      </div>
+        {/* Profile Sections Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-24"
+        >
+          {profileSections.map((section, index) => (
+            <motion.div
+              key={section.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+            >
+              <Card className="hover:shadow-lg transition-shadow duration-200">
+                <CardHeader>
+                  <div className="flex items-center gap-4">
+                    <div className="rounded-lg bg-primary/10 p-2.5">
+                      <section.icon className="h-6 w-6 text-primary" />
+                    </div>
+                    <div
+                      className={
+                        section.blurred ? "transition-all duration-200" : ""
+                      }
+                    >
+                      <CardTitle className="text-xl mb-2">
+                        {section.title}
+                      </CardTitle>
+                      <CardDescription>{section.description}</CardDescription>
+                    </div>
+                  </div>
+                </CardHeader>
+              </Card>
+            </motion.div>
+          ))}
+        </motion.div>
 
-      {/* You can add more sections here like:
-          - Saved locations
-          - Preferences
-          - Connected accounts
-          - etc. */}
+        {/* Footer */}
+        <motion.footer
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          className="text-center text-muted-foreground text-sm"
+        >
+          <p>Member since {new Date(user.created_at).toLocaleDateString()}</p>
+        </motion.footer>
+      </motion.div>
     </div>
   );
 }
