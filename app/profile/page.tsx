@@ -10,6 +10,7 @@ import {
   Key,
   Building2,
   ArrowLeftIcon,
+  Settings,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -62,13 +63,13 @@ const profileSections = [
     title: "Notifications",
     description: "Control how you receive updates from your community",
     icon: Bell,
-    blurred: true,
+    href: "/notifications",
   },
   {
     title: "Settings",
     description: "Manage your account security and privacy preferences",
     icon: Shield,
-    blurred: true,
+    href: "/settings",
   },
 ];
 

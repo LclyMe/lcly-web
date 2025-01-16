@@ -30,7 +30,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mx-auto max-w-7xl px-6 lg:px-8 flex items-center justify-between sm:h-9 mb-8 sm:mb-14 gap-4"
+          className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-col sm:flex-row sm:items-center justify-between sm:h-9 mb-8 sm:mb-14 gap-4"
         >
           <div className="flex items-center gap-4">
             <Image
