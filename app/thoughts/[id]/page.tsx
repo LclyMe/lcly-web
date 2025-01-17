@@ -3,12 +3,13 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useThoughts } from "@/hooks/use-thoughts";
 import { ThoughtEditor } from "@/components/thoughts/editor";
 import type { Thought } from "@/types/thoughts";
 
-export default function ThoughtPage({ params }: { params: { id: string } }) {
+export default function ThoughtPage() {
+  const { id } = useParams<{ id: string }>();
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const { getThought, updateThought, isUpdatingThought } = useThoughts();
@@ -21,7 +22,7 @@ export default function ThoughtPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     const loadThought = async () => {
       try {
-        const thought = await getThought(parseInt(params.id));
+        const thought = await getThought(Number(id));
         if (thought) {
           setTitle(thought.title);
           setContent(thought.content);
@@ -37,7 +38,7 @@ export default function ThoughtPage({ params }: { params: { id: string } }) {
     };
 
     loadThought();
-  }, [params.id, router, getThought]);
+  }, [id, router, getThought]);
 
   if (authLoading || isLoading) {
     return (
@@ -63,7 +64,7 @@ export default function ThoughtPage({ params }: { params: { id: string } }) {
 
     try {
       await updateThought({
-        id: parseInt(params.id),
+        id: Number(id),
         updates: {
           title,
           content,

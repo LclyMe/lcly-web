@@ -5,17 +5,18 @@ import { PublicThoughtView } from "@/components/thoughts/public-view";
 import { Thought } from "@/types/thoughts";
 
 interface Props {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
   const supabase = await createClient();
   const { data: thought } = await supabase
     .from("thoughts")
     .select("*")
-    .eq("id", Number(params.id))
+    .eq("id", Number(id))
     .eq("is_public", true)
     .single();
 
@@ -30,11 +31,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PublicThoughtPage({ params }: Props) {
+  const { id } = await params;
   const supabase = await createClient();
   const { data: thought } = await supabase
     .from("thoughts")
     .select("*")
-    .eq("id", Number(params.id))
+    .eq("id", Number(id))
     .eq("is_public", true)
     .single();
 
