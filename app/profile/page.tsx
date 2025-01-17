@@ -11,6 +11,7 @@ import {
   ArrowLeftIcon,
   Settings,
   Users,
+  Notebook,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -58,7 +59,13 @@ const profileSections = [
     icon: Users,
     comingSoon: true,
   },
-
+  {
+    title: "My Thoughts",
+    description: "Write down your thoughts and ideas. Share them if you want.",
+    icon: Notebook,
+    href: "/thoughts",
+    comingSoon: false,
+  },
   {
     title: "Notifications",
     description: "Control how you receive updates from your community",

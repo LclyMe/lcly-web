@@ -439,6 +439,33 @@ export type Database = {
         }
         Relationships: []
       }
+      thoughts: {
+        Row: {
+          content: string
+          created_at: string
+          id: number
+          is_public: boolean
+          title: string | null
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: number
+          is_public?: boolean
+          title?: string | null
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: number
+          is_public?: boolean
+          title?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_reports: {
         Row: {
           created_at: string
