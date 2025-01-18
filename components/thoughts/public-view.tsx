@@ -3,11 +3,35 @@
 import { motion } from "framer-motion";
 import { format } from "date-fns";
 import { MessageCircle } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import type { Thought } from "@/types/thoughts";
 
 interface PublicThoughtViewProps {
   thought: Thought;
 }
+
+const springTransition = {
+  type: "spring",
+  damping: 12,
+  stiffness: 100,
+};
+
+const textAnimation = {
+  initial: {
+    opacity: 0,
+    scale: 0.5,
+    y: 20,
+  },
+  animate: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      ...springTransition,
+      delay: 0.7 + i * 0.1,
+    },
+  }),
+};
 
 export function PublicThoughtView({ thought }: PublicThoughtViewProps) {
   // Determine if we should use large text based on content length
@@ -15,12 +39,31 @@ export function PublicThoughtView({ thought }: PublicThoughtViewProps) {
   const hasNoTitle = !thought.title;
   const useLargeText = isShortContent && hasNoTitle;
 
+  // Split content into segments based on markdown
+  const parseMarkdownSegments = (text: string) => {
+    // Match bold and italic patterns while preserving spaces
+    const segments = text.split(/(\*\*.*?\*\*|\*.*?\*|\s+)/g).filter(Boolean);
+    return segments.map((segment) => {
+      if (segment.match(/^\s+$/)) {
+        // Return space segments as-is
+        return { type: "space", content: segment };
+      } else if (segment.startsWith("**") && segment.endsWith("**")) {
+        return { type: "bold", content: segment.slice(2, -2) };
+      } else if (segment.startsWith("*") && segment.endsWith("*")) {
+        return { type: "italic", content: segment.slice(1, -1) };
+      }
+      return { type: "text", content: segment };
+    });
+  };
+
+  const segments = useLargeText ? parseMarkdownSegments(thought.content) : [];
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
-      className="min-h-screen bg-background flex flex-col w-full"
+      className="min-h-[100dvh] bg-background flex flex-col w-full"
     >
       <div className="mx-auto px-4 py-8 max-w-3xl flex-grow flex flex-col items-center w-full">
         <motion.article
@@ -67,25 +110,62 @@ export function PublicThoughtView({ thought }: PublicThoughtViewProps) {
             </motion.div>
           </motion.header>
           <div
-            className={`flex flex-col items-center justify-center ${
+            className={`flex flex-col items-center justify-center w-full ${
               useLargeText ? "flex-grow" : ""
             }`}
           >
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{
-                duration: 0.5,
-                delay: 0.7,
-              }}
-              className={`whitespace-pre-wrap mb-8 ${
-                useLargeText
-                  ? "text-4xl sm:text-5xl font-medium leading-relaxed text-center justify-center items-center"
-                  : ""
-              }`}
-            >
-              {thought.content}
-            </motion.div>
+            {useLargeText ? (
+              <motion.div className="flex flex-wrap justify-center items-center gap-y-2 text-4xl sm:text-5xl font-medium leading-relaxed text-center">
+                {segments.map((segment, i) => (
+                  <motion.span
+                    key={i}
+                    custom={i}
+                    variants={textAnimation}
+                    initial="initial"
+                    animate="animate"
+                    className={`inline-block ${
+                      segment.type === "bold" ? "font-bold" : ""
+                    } ${segment.type === "italic" ? "italic" : ""} ${
+                      segment.type === "space" ? "w-[0.25em]" : ""
+                    }`}
+                  >
+                    {segment.content}
+                  </motion.span>
+                ))}
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.7,
+                }}
+                className="w-full markup-editor"
+              >
+                <ReactMarkdown
+                  allowedElements={[
+                    "h1",
+                    "h2",
+                    "h3",
+                    "p",
+                    "ul",
+                    "ol",
+                    "li",
+                    "blockquote",
+                    "code",
+                    "em",
+                    "strong",
+                    "a",
+                    "img",
+                    "hr",
+                    "br",
+                  ]}
+                >
+                  {thought.content}
+                </ReactMarkdown>
+              </motion.div>
+            )}
           </div>
         </motion.article>
       </div>

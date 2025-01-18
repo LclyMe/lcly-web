@@ -4,43 +4,80 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { useThoughts } from "@/hooks/use-thoughts";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { ThoughtEditor } from "@/components/thoughts/editor";
+import { createClient } from "@/lib/supabase/client";
 import type { Thought } from "@/types/thoughts";
 
 export default function ThoughtPage() {
   const { id } = useParams<{ id: string }>();
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
-  const { getThought, updateThought, isUpdatingThought } = useThoughts();
+  const queryClient = useQueryClient();
+  const supabase = createClient();
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isPublic, setIsPublic] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [originalThought, setOriginalThought] = useState<Thought | null>(null);
 
+  // Query for fetching the thought
+  const {
+    data: thought,
+    isLoading: isLoadingThought,
+    error,
+  } = useQuery({
+    queryKey: ["thought", id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("thoughts")
+        .select("*")
+        .eq("id", Number(id))
+        .single();
+
+      if (error) throw error;
+      return data as Thought;
+    },
+    enabled: !!id && !!user,
+  });
+
+  // Update mutation
+  const updateThoughtMutation = useMutation({
+    mutationFn: async ({
+      title,
+      content,
+      is_public,
+    }: {
+      title: string;
+      content: string;
+      is_public: boolean;
+    }) => {
+      const { data, error } = await supabase
+        .from("thoughts")
+        .update({ title, content, is_public })
+        .eq("id", Number(id))
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["thoughts"] });
+      queryClient.invalidateQueries({ queryKey: ["thought", id] });
+      router.push("/thoughts");
+    },
+  });
+
+  // Set initial values when thought is loaded
   useEffect(() => {
-    const loadThought = async () => {
-      try {
-        const thought = await getThought(Number(id));
-        if (thought) {
-          setTitle(thought.title);
-          setContent(thought.content);
-          setIsPublic(thought.is_public);
-          setOriginalThought(thought);
-        }
-      } catch (error) {
-        console.error("Failed to load thought:", error);
-        router.push("/thoughts");
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    if (thought) {
+      setTitle(thought.title);
+      setContent(thought.content);
+      setIsPublic(thought.is_public);
+    }
+  }, [thought]);
 
-    loadThought();
-  }, [id, router, getThought]);
-
-  if (authLoading || isLoading) {
+  if (authLoading || isLoadingThought) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
@@ -53,25 +90,27 @@ export default function ThoughtPage() {
     return null;
   }
 
+  if (error) {
+    console.error("Failed to load thought:", error);
+    router.push("/thoughts");
+    return null;
+  }
+
   const hasChanges =
-    originalThought &&
-    (title !== originalThought.title ||
-      content !== originalThought.content ||
-      isPublic !== originalThought.is_public);
+    thought &&
+    (title !== thought.title ||
+      content !== thought.content ||
+      isPublic !== thought.is_public);
 
   const handleUpdate = async () => {
     if (!content.trim()) return;
 
     try {
-      await updateThought({
-        id: Number(id),
-        updates: {
-          title,
-          content,
-          is_public: isPublic,
-        },
+      await updateThoughtMutation.mutateAsync({
+        title,
+        content,
+        is_public: isPublic,
       });
-      router.push("/thoughts");
     } catch (error) {
       console.error("Failed to update thought:", error);
     }
@@ -82,7 +121,7 @@ export default function ThoughtPage() {
       title={title}
       content={content}
       isPublic={isPublic}
-      isLoading={isUpdatingThought}
+      isLoading={updateThoughtMutation.isPending}
       hasChanges={hasChanges ?? false}
       onTitleChange={setTitle}
       onContentChange={setContent}
