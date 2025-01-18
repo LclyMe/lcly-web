@@ -99,7 +99,10 @@ const groupThoughtsByDate = (
                         )}
                         <DropdownMenuItem
                           className="text-destructive focus:text-destructive"
-                          onClick={() => onDelete(thought.id)}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            onDelete(thought.id);
+                          }}
                         >
                           <Trash className="h-4 w-4 mr-2" />
                           Delete

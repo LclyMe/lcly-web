@@ -1,10 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon, Globe, Lock, Loader2 } from "lucide-react";
+import { ArrowLeftIcon, Globe, Lock, Loader2, Eye, Edit } from "lucide-react";
 import Link from "next/link";
-import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 interface ThoughtEditorProps {
   title: string;
@@ -29,6 +30,8 @@ export function ThoughtEditor({
   onPublicChange,
   onSave,
 }: ThoughtEditorProps) {
+  const [isPreview, setIsPreview] = useState(false);
+
   return (
     <div className="min-h-screen bg-background mx-auto max-w-3xl flex flex-col">
       <div className="w-full flex-grow h-full flex flex-col px-4 py-8">
@@ -72,6 +75,24 @@ export function ThoughtEditor({
                 </Button>
               </div>
               <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsPreview(!isPreview)}
+                className="gap-2"
+              >
+                {isPreview ? (
+                  <>
+                    <Edit className="h-4 w-4" />
+                    Edit
+                  </>
+                ) : (
+                  <>
+                    <Eye className="h-4 w-4" />
+                    Preview
+                  </>
+                )}
+              </Button>
+              <Button
                 onClick={onSave}
                 disabled={isLoading || !content.trim() || !hasChanges}
                 size="sm"
@@ -93,7 +114,7 @@ export function ThoughtEditor({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="space-y-2 flex-grow"
+          className="space-y-2 flex flex-col flex-grow"
         >
           <input
             type="text"
@@ -102,12 +123,43 @@ export function ThoughtEditor({
             onChange={(e) => onTitleChange(e.target.value)}
             className="text-4xl outline-none bg-transparent shadow-none font-bold border-none px-0 placeholder:text-muted-foreground/50 focus-visible:ring-0"
           />
-          <Textarea
-            placeholder="Write your thought..."
-            value={content}
-            onChange={(e) => onContentChange(e.target.value)}
-            className="min-h-[calc(100vh-300px)] text-lg resize-none border-none px-0 focus-visible:ring-0 placeholder:text-muted-foreground/50 overflow-y-auto"
-          />
+          {isPreview ? (
+            <div className="prose prose-lg dark:prose-invert max-w-none markup-editor">
+              <ReactMarkdown
+                allowedElements={[
+                  "h1",
+                  "h2",
+                  "h3",
+                  "p",
+                  "ul",
+                  "ol",
+                  "li",
+                  "blockquote",
+                  "code",
+                  "em",
+                  "strong",
+                  "a",
+                  "img",
+                  "hr",
+                  "br",
+                ]}
+              >
+                {content}
+              </ReactMarkdown>
+            </div>
+          ) : (
+            <textarea
+              placeholder="Write your thought... 
+              
+Supports markdown:
+**bold**
+*italic*
+- bullet points"
+              value={content}
+              onChange={(e) => onContentChange(e.target.value)}
+              className="min-h-[calc(100vh-300px)] flex-grow text-lg resize-none border-none px-0 focus-visible:ring-0 placeholder:text-muted-foreground/50 bg-transparent font-mono"
+            />
+          )}
         </motion.div>
       </div>
     </div>
