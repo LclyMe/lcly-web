@@ -13,6 +13,12 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
+const fadeIn = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5 },
+};
+
 export default function SettingsPage() {
   const settingsSections = [
     {
@@ -55,11 +61,7 @@ export default function SettingsPage() {
           </Button>
         </Link>
 
-        <motion.div
-          initial={{ scale: 0.5, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="mb-8 flex flex-col items-center"
-        >
+        <motion.div {...fadeIn} className="mb-8 flex flex-col items-center">
           <div className="rounded-full bg-foreground/10 p-4">
             <Settings className="h-8 w-8 text-foreground" />
           </div>
@@ -67,13 +69,18 @@ export default function SettingsPage() {
         </motion.div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+        className="grid gap-4 md:grid-cols-2"
+      >
         {settingsSections.map((section, index) => (
           <motion.div
             key={section.title}
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: index * 0.1 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
             className="cursor-pointer rounded-lg border p-4 shadow-sm transition-all hover:shadow-md"
           >
             <div className="flex items-center space-x-4">
@@ -82,12 +89,14 @@ export default function SettingsPage() {
               </div>
               <div>
                 <h3 className="font-semibold">{section.title}</h3>
-                <p className="text-sm text-gray-600">{section.description}</p>
+                <p className="text-sm text-muted-foreground">
+                  {section.description}
+                </p>
               </div>
             </div>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -126,7 +126,7 @@ export function ThoughtEditor({
             className="text-4xl outline-none bg-transparent shadow-none font-bold border-none px-0 placeholder:text-muted-foreground/50 focus-visible:ring-0"
           />
           {isPreview ? (
-            <div className="prose prose-lg dark:prose-invert max-w-none markup-editor">
+            <div className="prose dark:prose-invert max-w-none">
               <ReactMarkdown
                 allowedElements={[
                   "h1",

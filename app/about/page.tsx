@@ -40,7 +40,7 @@ const features = [
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -76,12 +76,6 @@ export default function AboutPage() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="relative h-[200px] md:h-[400px] rounded-3xl overflow-hidden mb-14"
         >
-          {/* <Image
-            src="/images/london-map-dark.png"
-            alt="London Map"
-            fill
-            className="object-cover"
-          /> */}
           <WorldMap
             dots={[
               {
@@ -116,17 +110,6 @@ export default function AboutPage() {
               },
             ]}
           />
-          {/* <div className="absolute inset-0 bg-black/20" /> */}
-          {/* <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-white text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Your Local Community Awaits
-              </h2>
-              <p className="text-lg text-white/80 max-w-xl">
-                Join thousands of people discovering their localverse
-              </p>
-            </div>
-          </div> */}
         </motion.div>
 
         <motion.div {...fadeIn} className="text-center my-14">
@@ -161,7 +144,7 @@ export default function AboutPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-              className="bg-gray-50 p-6 rounded-2xl"
+              className="bg-gray-50 dark:bg-white/5 p-6 rounded-2xl"
             >
               <div className="text-4xl mb-4">
                 <feature.icon className="h-8 w-8" />

@@ -72,7 +72,7 @@ export function PublicThoughtView({ thought }: PublicThoughtViewProps) {
           initial={{ y: 20 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="prose prose-lg dark:prose-invert mx-auto flex flex-col items-center flex-grow w-full"
+          className="prose dark:prose-invert max-w-none flex flex-col items-center flex-grow w-full"
         >
           <motion.header
             initial={{ y: 20, opacity: 0 }}
