@@ -49,14 +49,18 @@ export default function NotificationsPage() {
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             className={`rounded-lg border p-4 shadow-sm ${
-              notification.read ? "bg-white" : "bg-blue-50"
+              notification.read
+                ? "bg-white dark:bg-white/5"
+                : "bg-blue-50 dark:bg-blue-50/5"
             }`}
           >
             <div className="flex items-start justify-between">
               <div>
                 <h3 className="font-semibold">{notification.title}</h3>
-                <p className="mt-1 text-gray-600">{notification.message}</p>
-                <span className="mt-2 text-sm text-gray-500">
+                <p className="mt-1 text-muted-foreground">
+                  {notification.message}
+                </p>
+                <span className="mt-2 text-sm text-muted-foreground">
                   {notification.date}
                 </span>
               </div>

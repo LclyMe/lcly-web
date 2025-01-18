@@ -23,7 +23,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <header className="pt-10 md:pt-24">
         <motion.div
@@ -40,7 +40,7 @@ export default function Home() {
               height={48}
               className="h-10 w-10 sm:h-12 sm:w-12 rounded-full"
             />
-            <LclyLogo className="h-6 sm:h-8 w-auto text-black/90 -mb-1.5" />
+            <LclyLogo className="h-6 sm:h-8 w-auto text-black/90 dark:text-white -mb-1.5" />
           </div>
           <div className="flex items-center gap-2">
             <Link href="/about">
@@ -263,13 +263,13 @@ export default function Home() {
             backgroundPosition: "center",
           }}
         >
-          <div className="absolute inset-0 bg-black/20" />
+          <div className="absolute inset-0 bg-black/20 dark:bg-black/50" />
 
           <div className="relative">
-            <h2 className="mx-auto max-w-2xl text-center text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl">
+            <h2 className="mx-auto max-w-2xl text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               Join the UK Localverse
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-center text-lg leading-8 text-primary-foreground/80">
+            <p className="mx-auto mt-4 max-w-xl text-center text-lg leading-8 text-foreground/80">
               Join our waitlist and we'll let you know when we launch in your
               area.
             </p>

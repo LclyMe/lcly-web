@@ -63,7 +63,7 @@ const groupThoughtsByDate = (
               key={thought.id}
               className="block transition-opacity hover:opacity-80"
             >
-              <div className="bg-gray-50 rounded-lg p-4 shadow-sm">
+              <div className="bg-gray-50 dark:bg-white/5 rounded-xl p-4 shadow-sm">
                 <div className="flex justify-between items-start mb-2">
                   <div>
                     <h3 className="font-medium mb-1">{thought.title}</h3>
