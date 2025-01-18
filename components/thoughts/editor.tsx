@@ -1,5 +1,7 @@
 "use client";
 
+import "./editor.css";
+
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, Globe, Lock, Loader2, Eye, Edit } from "lucide-react";
 import Link from "next/link";

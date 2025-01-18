@@ -1,5 +1,7 @@
 "use client";
 
+import "./editor.css";
+
 import { motion } from "framer-motion";
 import { format } from "date-fns";
 import { MessageCircle } from "lucide-react";
