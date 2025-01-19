@@ -44,7 +44,7 @@ export default function NewThoughtPage() {
       const filePath = `${user.id}/${fileName}`;
 
       // Upload to Supabase storage
-      const { data, error } = await supabase.storage
+      const { error } = await supabase.storage
         .from("user-images")
         .upload(filePath, file);
 
@@ -72,13 +72,13 @@ export default function NewThoughtPage() {
       // Get all non-local images (already uploaded ones)
       const existingImages = images.filter((url) => !url.startsWith("blob:"));
 
-      await addThought(
+      await addThought({
         title,
         content,
         isPublic,
-        [...existingImages, ...uploadedUrls],
-        isStoryMode
-      );
+        images: [...existingImages, ...uploadedUrls],
+        isStoryMode,
+      });
       router.push("/thoughts");
     } catch (error) {
       console.error("Failed to create thought:", error);

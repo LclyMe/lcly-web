@@ -36,7 +36,7 @@ export async function uploadImage(file: File) {
     .substring(2)}_${Date.now()}.${fileExt}`;
   const filePath = `${session.session.user.id}/${fileName}`;
 
-  const { data, error } = await supabase.storage
+  const { error } = await supabase.storage
     .from("thought-images")
     .upload(filePath, file);
 

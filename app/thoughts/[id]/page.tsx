@@ -54,7 +54,7 @@ export default function ThoughtPage() {
       const filePath = `${user!.id}/${fileName}`;
 
       // Upload to Supabase storage
-      const { data, error } = await supabase.storage
+      const { error } = await supabase.storage
         .from("user-images")
         .upload(filePath, file);
 

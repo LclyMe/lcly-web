@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 
 interface StoryModeProps {
   content: string;
@@ -95,15 +94,6 @@ export function StoryMode({ content, images = [] }: StoryModeProps) {
       return () => clearTimeout(timer);
     }
   }, [currentSentenceIndex, sentences, images.length]);
-
-  // Update the getRandomPosition function for more central positioning
-  const getRandomPosition = () => {
-    return {
-      top: `${Math.random() * 20 + 40}%`, // 40-60% range for more central vertical positioning
-      left: `${Math.random() * 20 + 40}%`, // 40-60% range for more central horizontal positioning
-      transform: `translate(-50%, -50%) rotate(${Math.random() * 4 - 2}deg)`, // Reduced rotation range
-    };
-  };
 
   return (
     <div className="flex-grow w-full flex items-center justify-center overflow-hidden">
