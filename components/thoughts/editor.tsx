@@ -159,7 +159,7 @@ Supports markdown:
 - bullet points"
               value={content}
               onChange={(e) => onContentChange(e.target.value)}
-              className="min-h-[calc(100vh-300px)] flex-grow text-lg resize-none border-none px-0 focus-visible:ring-0 placeholder:text-muted-foreground/50 bg-transparent font-mono"
+              className="min-h-[calc(100vh-300px)] flex-grow text-lg resize-none border-none px-0 placeholder:text-muted-foreground/50 bg-transparent font-mono outline-none"
             />
           )}
         </motion.div>

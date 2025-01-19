@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { MessageCircle } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import type { Thought } from "@/types/thoughts";
+import { StoryMode } from "./story-mode";
 
 interface PublicThoughtViewProps {
   thought: Thought;
@@ -39,7 +40,7 @@ export function PublicThoughtView({ thought }: PublicThoughtViewProps) {
   // Determine if we should use large text based on content length
   const isShortContent = thought.content.length < 100;
   const hasNoTitle = !thought.title;
-  const useLargeText = isShortContent && hasNoTitle;
+  const useLargeText = isShortContent && hasNoTitle && !thought.is_story_mode;
 
   // Split content into segments based on markdown
   const parseMarkdownSegments = (text: string) => {
@@ -113,10 +114,12 @@ export function PublicThoughtView({ thought }: PublicThoughtViewProps) {
           </motion.header>
           <div
             className={`flex flex-col items-center justify-center w-full ${
-              useLargeText ? "flex-grow" : ""
+              useLargeText || thought.is_story_mode ? "flex-grow" : ""
             }`}
           >
-            {useLargeText ? (
+            {thought.is_story_mode ? (
+              <StoryMode content={thought.content} />
+            ) : useLargeText ? (
               <motion.div className="flex flex-wrap justify-center items-center gap-y-2 text-4xl sm:text-5xl font-medium leading-relaxed text-center">
                 {segments.map((segment, i) => (
                   <motion.span
