@@ -65,11 +65,13 @@ export function useThoughts() {
       title,
       content,
       isPublic,
+      images,
     }: {
       title: string;
       content: string;
       isPublic: boolean;
-    }) => addThought(title, content, isPublic),
+      images?: string[];
+    }) => addThought(title, content, isPublic, images),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [thoughtsKey] });
     },

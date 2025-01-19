@@ -118,7 +118,7 @@ export function PublicThoughtView({ thought }: PublicThoughtViewProps) {
             }`}
           >
             {thought.is_story_mode ? (
-              <StoryMode content={thought.content} />
+              <StoryMode content={thought.content} images={thought.images} />
             ) : useLargeText ? (
               <motion.div className="flex flex-wrap justify-center items-center gap-y-2 text-4xl sm:text-5xl font-medium leading-relaxed text-center">
                 {segments.map((segment, i) => (

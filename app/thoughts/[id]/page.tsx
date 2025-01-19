@@ -19,6 +19,8 @@ export default function ThoughtPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isPublic, setIsPublic] = useState(false);
+  const [images, setImages] = useState<string[]>([]);
+  const [isStoryMode, setIsStoryMode] = useState(false);
 
   // Query for fetching the thought
   const {
@@ -40,20 +42,53 @@ export default function ThoughtPage() {
     enabled: !!id && !!user,
   });
 
+  const uploadImages = async (files: File[]) => {
+    const uploadedUrls = [];
+
+    for (const file of files) {
+      // Create a unique file name
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${Math.random()
+        .toString(36)
+        .substring(2)}_${Date.now()}.${fileExt}`;
+      const filePath = `${user!.id}/${fileName}`;
+
+      // Upload to Supabase storage
+      const { data, error } = await supabase.storage
+        .from("user-images")
+        .upload(filePath, file);
+
+      if (error) throw error;
+
+      // Get the public URL
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("user-images").getPublicUrl(filePath);
+
+      uploadedUrls.push(publicUrl);
+    }
+
+    return uploadedUrls;
+  };
+
   // Update mutation
   const updateThoughtMutation = useMutation({
     mutationFn: async ({
       title,
       content,
       is_public,
+      is_story_mode,
+      images,
     }: {
       title: string;
       content: string;
       is_public: boolean;
+      is_story_mode: boolean;
+      images?: string[];
     }) => {
       const { data, error } = await supabase
         .from("thoughts")
-        .update({ title, content, is_public })
+        .update({ title, content, is_public, is_story_mode, images })
         .eq("id", Number(id))
         .select()
         .single();
@@ -74,6 +109,8 @@ export default function ThoughtPage() {
       setTitle(thought.title);
       setContent(thought.content);
       setIsPublic(thought.is_public);
+      setImages(thought.images || []);
+      setIsStoryMode(thought.is_story_mode || false);
     }
   }, [thought]);
 
@@ -100,16 +137,27 @@ export default function ThoughtPage() {
     thought &&
     (title !== thought.title ||
       content !== thought.content ||
-      isPublic !== thought.is_public);
+      isPublic !== thought.is_public ||
+      isStoryMode !== (thought.is_story_mode || false) ||
+      JSON.stringify(images) !== JSON.stringify(thought.images || []));
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (localImages: File[]) => {
     if (!content.trim()) return;
 
     try {
+      // First, upload any local images
+      const uploadedUrls =
+        localImages.length > 0 ? await uploadImages(localImages) : [];
+
+      // Get all non-local images (already uploaded ones)
+      const existingImages = images.filter((url) => !url.startsWith("blob:"));
+
       await updateThoughtMutation.mutateAsync({
         title,
         content,
         is_public: isPublic,
+        is_story_mode: isStoryMode,
+        images: [...existingImages, ...uploadedUrls],
       });
     } catch (error) {
       console.error("Failed to update thought:", error);
@@ -123,9 +171,14 @@ export default function ThoughtPage() {
       isPublic={isPublic}
       isLoading={updateThoughtMutation.isPending}
       hasChanges={hasChanges ?? false}
+      images={images}
+      isStoryMode={isStoryMode}
+      thoughtId={Number(id)}
       onTitleChange={setTitle}
       onContentChange={setContent}
       onPublicChange={setIsPublic}
+      onImagesChange={setImages}
+      onStoryModeChange={setIsStoryMode}
       onSave={handleUpdate}
     />
   );
