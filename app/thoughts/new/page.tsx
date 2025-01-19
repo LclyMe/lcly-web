@@ -6,14 +6,18 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useThoughts } from "@/hooks/use-thoughts";
 import { ThoughtEditor } from "@/components/thoughts/editor";
+import { createClient } from "@/lib/supabase/client";
 
 export default function NewThoughtPage() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const { addThought, isAddingThought } = useThoughts();
+  const supabase = createClient();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isPublic, setIsPublic] = useState(false);
+  const [images, setImages] = useState<string[]>([]);
+  const [isStoryMode, setIsStoryMode] = useState(false);
 
   if (authLoading) {
     return (
@@ -28,18 +32,56 @@ export default function NewThoughtPage() {
     return null;
   }
 
-  const handleSubmit = async () => {
+  const uploadImages = async (files: File[]) => {
+    const uploadedUrls = [];
+
+    for (const file of files) {
+      // Create a unique file name
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${Math.random()
+        .toString(36)
+        .substring(2)}_${Date.now()}.${fileExt}`;
+      const filePath = `${user.id}/${fileName}`;
+
+      // Upload to Supabase storage
+      const { error } = await supabase.storage
+        .from("user-images")
+        .upload(filePath, file);
+
+      if (error) throw error;
+
+      // Get the public URL
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("user-images").getPublicUrl(filePath);
+
+      uploadedUrls.push(publicUrl);
+    }
+
+    return uploadedUrls;
+  };
+
+  const handleSave = async (localImages: File[]) => {
     if (!content.trim()) return;
 
     try {
+      // First, upload any local images
+      const uploadedUrls =
+        localImages.length > 0 ? await uploadImages(localImages) : [];
+
+      // Get all non-local images (already uploaded ones)
+      const existingImages = images.filter((url) => !url.startsWith("blob:"));
+
       await addThought({
         title,
         content,
         isPublic,
+        images: [...existingImages, ...uploadedUrls],
+        isStoryMode,
       });
       router.push("/thoughts");
     } catch (error) {
-      console.error("Failed to add thought:", error);
+      console.error("Failed to create thought:", error);
     }
   };
 
@@ -49,11 +91,14 @@ export default function NewThoughtPage() {
       content={content}
       isPublic={isPublic}
       isLoading={isAddingThought}
-      hasChanges={content.trim() !== ""}
+      images={images}
+      isStoryMode={isStoryMode}
       onTitleChange={setTitle}
       onContentChange={setContent}
       onPublicChange={setIsPublic}
-      onSave={handleSubmit}
+      onImagesChange={setImages}
+      onStoryModeChange={setIsStoryMode}
+      onSave={handleSave}
     />
   );
 }
