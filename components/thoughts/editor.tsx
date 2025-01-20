@@ -142,54 +142,6 @@ export function ThoughtEditor({
               </Button>
             </Link>
             <div className="flex items-center gap-2">
-              <div className="relative flex bg-muted p-1 rounded-full">
-                <div
-                  className={`absolute inset-y-1 transition-all duration-200 ease-in-out rounded-full bg-background ${
-                    isPublic ? "translate-x-full" : "translate-x-0"
-                  }`}
-                  style={{ width: "calc(50% - 4px)" }}
-                />
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => onPublicChange(false)}
-                  className={`relative z-10 gap-2 px-3 bg-transparent hover:bg-transparent ${
-                    !isPublic ? "text-primary" : "text-muted-foreground"
-                  }`}
-                >
-                  <Lock className="h-4 w-4" />
-                  Private
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => onPublicChange(true)}
-                  className={`relative z-10 gap-2 px-3 bg-transparent hover:bg-transparent ${
-                    isPublic ? "text-primary" : "text-muted-foreground"
-                  }`}
-                >
-                  <Globe className="h-4 w-4" />
-                  Public
-                </Button>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsPreview(!isPreview)}
-                className="gap-2"
-              >
-                {isPreview ? (
-                  <>
-                    <Edit className="h-4 w-4" />
-                    Edit
-                  </>
-                ) : (
-                  <>
-                    <Eye className="h-4 w-4" />
-                    Preview
-                  </>
-                )}
-              </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="rounded-full">
@@ -198,12 +150,46 @@ export function ThoughtEditor({
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem
-                    onClick={() => onStoryModeChange?.(!isStoryMode)}
+                    onClick={() => onPublicChange(!isPublic)}
                     className="gap-2"
                   >
-                    <Book className="h-4 w-4" />
-                    {isStoryMode ? "Disable Story Mode" : "Enable Story Mode"}
+                    {isPublic ? (
+                      <>
+                        <Lock className="h-4 w-4" />
+                        Make Private
+                      </>
+                    ) : (
+                      <>
+                        <Globe className="h-4 w-4" />
+                        Make Public
+                      </>
+                    )}
                   </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => setIsPreview(!isPreview)}
+                    className="gap-2"
+                  >
+                    {isPreview ? (
+                      <>
+                        <Edit className="h-4 w-4" />
+                        Edit
+                      </>
+                    ) : (
+                      <>
+                        <Eye className="h-4 w-4" />
+                        Preview
+                      </>
+                    )}
+                  </DropdownMenuItem>
+                  {isPublic && (
+                    <DropdownMenuItem
+                      onClick={() => onStoryModeChange?.(!isStoryMode)}
+                      className="gap-2"
+                    >
+                      <Book className="h-4 w-4" />
+                      {isStoryMode ? "Disable Story Mode" : "Enable Story Mode"}
+                    </DropdownMenuItem>
+                  )}
                   {thoughtId && (
                     <DropdownMenuItem asChild>
                       <Link
