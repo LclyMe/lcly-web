@@ -7,6 +7,11 @@ export interface Thought {
   is_public: boolean;
   is_story_mode?: boolean;
   images?: string[];
+  location?: {
+    latitude: number;
+    longitude: number;
+    name?: string;
+  };
   user?: {
     name: string;
   };

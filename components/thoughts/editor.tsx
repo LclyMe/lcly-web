@@ -26,6 +26,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { LocationPicker } from "@/components/thoughts/location-picker";
 
 interface ThoughtEditorProps {
   title: string;
@@ -36,10 +37,14 @@ interface ThoughtEditorProps {
   images?: string[];
   isStoryMode?: boolean;
   thoughtId?: number;
+  location?: { latitude: number; longitude: number };
   onTitleChange: (value: string) => void;
   onContentChange: (value: string) => void;
   onPublicChange: (value: boolean) => void;
   onImagesChange: (images: string[]) => void;
+  onLocationChange?: (
+    location: { latitude: number; longitude: number } | undefined
+  ) => void;
   onStoryModeChange?: (value: boolean) => void;
   onSave: (localImages: File[]) => void;
 }
@@ -53,10 +58,12 @@ export function ThoughtEditor({
   images = [],
   isStoryMode = false,
   thoughtId,
+  location,
   onTitleChange,
   onContentChange,
   onPublicChange,
   onImagesChange,
+  onLocationChange,
   onStoryModeChange,
   onSave,
 }: ThoughtEditorProps) {
@@ -203,6 +210,12 @@ export function ThoughtEditor({
                   )}
                 </DropdownMenuContent>
               </DropdownMenu>
+              {onLocationChange && (
+                <LocationPicker
+                  selectedLocation={location}
+                  onLocationSelect={onLocationChange}
+                />
+              )}
               <Button
                 onClick={handleSave}
                 disabled={isLoading || !content.trim() || !hasChanges}

@@ -1,60 +1,97 @@
-import { Button } from "@/components/ui/button";
-import { Check, Layers, Moon, Sun, Map as MapIcon } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+"use client";
 
-type MapProvider = "dark" | "light" | "color";
+import { Button } from "@/components/ui/button";
+import { Sun, Moon, Palette, PenLine, Users, Home } from "lucide-react";
+import type { DataType } from "@/hooks/use-map-data";
+
+interface MapControlsProps {
+  selectedMapProvider: "dark" | "light" | "color";
+  setSelectedMapProvider: (provider: "dark" | "light" | "color") => void;
+  enabledDataTypes: DataType[];
+  onToggleDataType: (type: DataType) => void;
+}
+
+const dataTypeConfig = {
+  thoughts: {
+    icon: PenLine,
+    label: "Thoughts",
+  },
+  people: {
+    icon: Users,
+    label: "People",
+  },
+  homes: {
+    icon: Home,
+    label: "Homes",
+  },
+} as const;
 
 export function MapControls({
   selectedMapProvider,
   setSelectedMapProvider,
-}: {
-  selectedMapProvider: MapProvider;
-  setSelectedMapProvider: (provider: MapProvider) => void;
-}) {
-  const isDark = selectedMapProvider === "dark";
-  const buttonVariant = isDark ? "secondary" : "default";
-
+  enabledDataTypes,
+  onToggleDataType,
+}: MapControlsProps) {
   return (
-    <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-[1000]">
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+    <div className="absolute top-1/2 -translate-y-1/2 right-4 flex flex-col gap-2 bg-background/80 backdrop-blur-sm p-2 rounded-lg shadow-lg z-[1000]">
+      <div className="w-full h-px bg-border mb-1" />
+      <Button
+        size="icon"
+        variant={selectedMapProvider === "dark" ? "default" : "ghost"}
+        onClick={() => setSelectedMapProvider("dark")}
+        className="relative group"
+      >
+        <Moon className="h-4 w-4" />
+        <span className="sr-only">Dark Map</span>
+        <div className="absolute right-full mr-2 px-2 py-1 rounded bg-background/80 backdrop-blur-sm text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+          Dark Map
+        </div>
+      </Button>
+      <Button
+        size="icon"
+        variant={selectedMapProvider === "light" ? "default" : "ghost"}
+        onClick={() => setSelectedMapProvider("light")}
+        className="relative group"
+      >
+        <Sun className="h-4 w-4" />
+        <span className="sr-only">Light Map</span>
+        <div className="absolute right-full mr-2 px-2 py-1 rounded bg-background/80 backdrop-blur-sm text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+          Light Map
+        </div>
+      </Button>
+      <Button
+        size="icon"
+        variant={selectedMapProvider === "color" ? "default" : "ghost"}
+        onClick={() => setSelectedMapProvider("color")}
+        className="relative group"
+      >
+        <Palette className="h-4 w-4" />
+        <span className="sr-only">Color Map</span>
+        <div className="absolute right-full mr-2 px-2 py-1 rounded bg-background/80 backdrop-blur-sm text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+          Color Map
+        </div>
+      </Button>
+      <div className="w-full h-px bg-border my-1" />
+      {(Object.keys(dataTypeConfig) as DataType[]).map((type) => {
+        const { icon: Icon, label } = dataTypeConfig[type];
+        const isEnabled = enabledDataTypes.includes(type);
+
+        return (
           <Button
-            variant={buttonVariant}
+            key={type}
             size="icon"
-            className="h-10 w-10 rounded-full shadow-lg"
+            variant={isEnabled ? "default" : "ghost"}
+            className="relative group"
+            onClick={() => onToggleDataType(type)}
           >
-            <Layers className="h-4 w-4" />
+            <Icon className="h-4 w-4" />
+            <span className="sr-only">{label}</span>
+            <div className="absolute right-full mr-2 px-2 py-1 rounded bg-background/80 backdrop-blur-sm text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+              {label}
+            </div>
           </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="z-[1000]" align="end">
-          <DropdownMenuItem onClick={() => setSelectedMapProvider("dark")}>
-            <Moon className="h-4 w-4 mr-2" />
-            Dark
-            {selectedMapProvider === "dark" && (
-              <Check className="h-4 w-4 ml-auto" />
-            )}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setSelectedMapProvider("light")}>
-            <Sun className="h-4 w-4 mr-2" />
-            Light
-            {selectedMapProvider === "light" && (
-              <Check className="h-4 w-4 ml-auto" />
-            )}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setSelectedMapProvider("color")}>
-            <MapIcon className="h-4 w-4 mr-2" />
-            Color
-            {selectedMapProvider === "color" && (
-              <Check className="h-4 w-4 ml-auto" />
-            )}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+        );
+      })}
     </div>
   );
 }

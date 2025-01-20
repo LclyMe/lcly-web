@@ -444,7 +444,10 @@ export type Database = {
           content: string
           created_at: string
           id: number
+          images: string[] | null
           is_public: boolean
+          is_story_mode: boolean
+          location: unknown | null
           title: string | null
           user_id: string
         }
@@ -452,7 +455,10 @@ export type Database = {
           content: string
           created_at?: string
           id?: number
+          images?: string[] | null
           is_public?: boolean
+          is_story_mode?: boolean
+          location?: unknown | null
           title?: string | null
           user_id: string
         }
@@ -460,7 +466,10 @@ export type Database = {
           content?: string
           created_at?: string
           id?: number
+          images?: string[] | null
           is_public?: boolean
+          is_story_mode?: boolean
+          location?: unknown | null
           title?: string | null
           user_id?: string
         }
@@ -1656,6 +1665,23 @@ export type Database = {
           "": number
         }
         Returns: string
+      }
+      get_thoughts_in_bounds: {
+        Args: {
+          west: number
+          south: number
+          east: number
+          north: number
+        }
+        Returns: {
+          id: number
+          title: string
+          content: string
+          latitude: number
+          longitude: number
+          created_at: string
+          is_public: boolean
+        }[]
       }
       get_user_by_username: {
         Args: {

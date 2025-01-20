@@ -21,6 +21,10 @@ export default function ThoughtPage() {
   const [isPublic, setIsPublic] = useState(false);
   const [images, setImages] = useState<string[]>([]);
   const [isStoryMode, setIsStoryMode] = useState(false);
+  const [location, setLocation] = useState<{
+    latitude: number;
+    longitude: number;
+  }>();
 
   // Query for fetching the thought
   const {
@@ -79,16 +83,27 @@ export default function ThoughtPage() {
       is_public,
       is_story_mode,
       images,
+      location,
     }: {
       title: string;
       content: string;
       is_public: boolean;
       is_story_mode: boolean;
       images?: string[];
+      location?: { latitude: number; longitude: number };
     }) => {
       const { data, error } = await supabase
         .from("thoughts")
-        .update({ title, content, is_public, is_story_mode, images })
+        .update({
+          title,
+          content,
+          is_public,
+          is_story_mode,
+          images,
+          location: location
+            ? `POINT(${location.longitude} ${location.latitude})`
+            : null,
+        })
         .eq("id", Number(id))
         .select()
         .single();
@@ -111,6 +126,7 @@ export default function ThoughtPage() {
       setIsPublic(thought.is_public);
       setImages(thought.images || []);
       setIsStoryMode(thought.is_story_mode || false);
+      setLocation(thought.location);
     }
   }, [thought]);
 
@@ -139,7 +155,8 @@ export default function ThoughtPage() {
       content !== thought.content ||
       isPublic !== thought.is_public ||
       isStoryMode !== (thought.is_story_mode || false) ||
-      JSON.stringify(images) !== JSON.stringify(thought.images || []));
+      JSON.stringify(images) !== JSON.stringify(thought.images || []) ||
+      JSON.stringify(location) !== JSON.stringify(thought.location));
 
   const handleUpdate = async (localImages: File[]) => {
     if (!content.trim()) return;
@@ -158,6 +175,7 @@ export default function ThoughtPage() {
         is_public: isPublic,
         is_story_mode: isStoryMode,
         images: [...existingImages, ...uploadedUrls],
+        location,
       });
     } catch (error) {
       console.error("Failed to update thought:", error);
@@ -173,11 +191,13 @@ export default function ThoughtPage() {
       hasChanges={hasChanges ?? false}
       images={images}
       isStoryMode={isStoryMode}
+      location={location}
       thoughtId={Number(id)}
       onTitleChange={setTitle}
       onContentChange={setContent}
       onPublicChange={setIsPublic}
       onImagesChange={setImages}
+      onLocationChange={setLocation}
       onStoryModeChange={setIsStoryMode}
       onSave={handleUpdate}
     />

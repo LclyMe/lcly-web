@@ -55,7 +55,8 @@ export async function addThought(
   content: string,
   isPublic: boolean,
   images?: string[],
-  isStoryMode?: boolean
+  isStoryMode?: boolean,
+  location?: { latitude: number; longitude: number }
 ) {
   const supabase = await createClient();
   const { data: session } = await supabase.auth.getSession();
@@ -74,6 +75,9 @@ export async function addThought(
         is_public: isPublic,
         images,
         is_story_mode: isStoryMode,
+        location: location
+          ? `POINT(${location.longitude} ${location.latitude})`
+          : null,
       },
     ])
     .select()

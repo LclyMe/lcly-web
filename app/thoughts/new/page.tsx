@@ -18,6 +18,10 @@ export default function NewThoughtPage() {
   const [isPublic, setIsPublic] = useState(false);
   const [images, setImages] = useState<string[]>([]);
   const [isStoryMode, setIsStoryMode] = useState(false);
+  const [location, setLocation] = useState<{
+    latitude: number;
+    longitude: number;
+  }>();
 
   if (authLoading) {
     return (
@@ -78,6 +82,7 @@ export default function NewThoughtPage() {
         isPublic,
         images: [...existingImages, ...uploadedUrls],
         isStoryMode,
+        location,
       });
       router.push("/thoughts");
     } catch (error) {
@@ -93,10 +98,12 @@ export default function NewThoughtPage() {
       isLoading={isAddingThought}
       images={images}
       isStoryMode={isStoryMode}
+      location={location}
       onTitleChange={setTitle}
       onContentChange={setContent}
       onPublicChange={setIsPublic}
       onImagesChange={setImages}
+      onLocationChange={setLocation}
       onStoryModeChange={setIsStoryMode}
       onSave={handleSave}
     />
