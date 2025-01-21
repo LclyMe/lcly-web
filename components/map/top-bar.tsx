@@ -1,6 +1,9 @@
 import { Location, usePostcode } from "@/hooks/use-postcode";
 import { MapViews } from "./map-views";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { Button } from "../ui/button";
+import { ArrowLeft } from "lucide-react";
 
 export function TopBar({
   selectedMapProvider,
@@ -13,7 +16,19 @@ export function TopBar({
   const isDark = selectedMapProvider === "dark";
 
   return (
-    <div className="absolute left-4 top-4 z-[1000] flex gap-2">
+    <div className="absolute left-4 top-4 z-[1000] flex gap-2 items-center">
+      <Link href="/">
+        <Button
+          variant="ghost"
+          size="icon"
+          className={cn("", {
+            "bg-white/80 text-black": isDark,
+            "bg-background/80 backdrop-blur-sm text-white": !isDark,
+          })}
+        >
+          <ArrowLeft className="h-4 w-4" />
+        </Button>
+      </Link>
       <MapViews savedLocation={savedLocation} isDark={isDark} />
       {savedLocation && (
         <div
@@ -23,8 +38,8 @@ export function TopBar({
           })}
         >
           <span>
-            {savedLocation.name} - {postcodeData?.postcode} (
-            {savedLocation.latitude}, {savedLocation.longitude})
+            {savedLocation.name} - {postcodeData?.postcode}
+            {/* ({savedLocation.latitude}, {savedLocation.longitude}) */}
           </span>
         </div>
       )}

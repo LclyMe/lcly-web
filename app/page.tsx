@@ -266,10 +266,10 @@ export default function Home() {
           <div className="absolute inset-0 bg-black/20 dark:bg-black/50" />
 
           <div className="relative">
-            <h2 className="mx-auto max-w-2xl text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            <h2 className="mx-auto max-w-2xl text-center text-3xl font-bold tracking-tight text-white sm:text-4xl">
               Join the UK Localverse
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-center text-lg leading-8 text-foreground/80">
+            <p className="mx-auto mt-4 max-w-xl text-center text-lg leading-8 text-white/80">
               Join our waitlist and we'll let you know when we launch in your
               area.
             </p>

@@ -92,7 +92,9 @@ function DataLayer({
       (thought) => {
         const marker = L.marker([thought.latitude, thought.longitude], {
           icon: L.divIcon({
-            className: "bg-primary rounded-full w-2 h-2",
+            className:
+              "rounded-full w-2 h-2 " +
+              (selectedMapProvider === "dark" ? "bg-white" : "bg-black"),
             iconSize: [8, 8],
           }),
         }).addTo(map);
@@ -117,7 +119,7 @@ function DataLayer({
     return () => {
       newMarkers.forEach((marker) => marker.remove());
     };
-  }, [data, map]);
+  }, [data, map, selectedMapProvider]);
 
   return (
     <MapControls
