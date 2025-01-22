@@ -64,12 +64,13 @@ function DataLayer({
   const [markers, setMarkers] = useState<L.Marker[]>([]);
 
   const bounds = map.getBounds();
+  const mapZoom = map.getZoom();
   const currentView = useMemo(() => {
     return Object.entries(MAP_VIEWS).find(([key, view]) => {
       console.log("Current map view:", key);
-      return view.zoom === map.getZoom();
+      return view.zoom === mapZoom;
     })?.[0] as MapViewName | undefined;
-  }, [map.getZoom()]);
+  }, [mapZoom]);
 
   const { data } = useMapData(
     bounds,

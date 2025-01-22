@@ -7,7 +7,6 @@ import { useParams, useRouter } from "next/navigation";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { ThoughtEditor } from "@/components/thoughts/editor";
 import { createClient } from "@/lib/supabase/client";
-import type { Thought } from "@/types/thoughts";
 
 export default function ThoughtPage() {
   const { id } = useParams<{ id: string }>();
