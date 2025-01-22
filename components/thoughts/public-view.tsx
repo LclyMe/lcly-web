@@ -8,7 +8,6 @@ import { MessageCircle, MapPin } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import type { Thought } from "@/types/thoughts";
 import { StoryMode } from "./story-mode";
-import { LocationView } from "./location-view";
 
 interface PublicThoughtViewProps {
   thought: Thought;
@@ -111,29 +110,23 @@ export function PublicThoughtView({ thought }: PublicThoughtViewProps) {
               <time dateTime={thought.created_at}>
                 {format(new Date(thought.created_at), "MMMM d, yyyy")}
               </time>
-              {thought.location && (
+              {!!thought.location && (
                 <div className="flex items-center gap-1">
                   <MapPin className="h-4 w-4" />
-                  <span>
-                    {thought.location.latitude.toFixed(2)},{" "}
-                    {thought.location.longitude.toFixed(2)}
-                  </span>
                 </div>
               )}
             </motion.div>
           </motion.header>
-          {thought.location && (
-            <div className="w-full mb-8">
-              <LocationView location={thought.location} />
-            </div>
-          )}
           <div
             className={`flex flex-col items-center justify-center w-full ${
               useLargeText || thought.is_story_mode ? "flex-grow" : ""
             }`}
           >
             {thought.is_story_mode ? (
-              <StoryMode content={thought.content} images={thought.images} />
+              <StoryMode
+                content={thought.content}
+                images={thought.images || []}
+              />
             ) : useLargeText ? (
               <motion.div className="flex flex-wrap justify-center items-center gap-y-2 text-4xl sm:text-5xl font-medium leading-relaxed text-center">
                 {segments.map((segment, i) => (
