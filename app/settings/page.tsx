@@ -75,8 +75,11 @@ export default function SettingsPage() {
         transition={{ duration: 0.5, delay: 0.4 }}
         className="grid gap-4 md:grid-cols-2"
       >
-        {settingsSections.map((section, index) => (
-          <div className="cursor-pointer rounded-lg border p-4 shadow-sm transition-all hover:shadow-md">
+        {settingsSections.map((section) => (
+          <div
+            key={section.title}
+            className="cursor-pointer rounded-lg border p-4 shadow-sm transition-all hover:shadow-md"
+          >
             <div className="flex items-center space-x-4">
               <div className="rounded-full bg-gray-100 p-2">
                 <section.icon className="h-5 w-5 text-gray-600" />

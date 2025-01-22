@@ -3,13 +3,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { MapPin, Loader2 } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
 interface LocationPickerProps {
   onLocationSelect: (location: { latitude: number; longitude: number }) => void;
@@ -21,7 +14,6 @@ export function LocationPicker({
   selectedLocation,
 }: LocationPickerProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [isMapOpen, setIsMapOpen] = useState(false);
 
   const getCurrentLocation = () => {
     setIsLoading(true);
@@ -45,11 +37,6 @@ export function LocationPicker({
     }
   };
 
-  const handleMapClick = (lat: number, lng: number) => {
-    onLocationSelect({ latitude: lat, longitude: lng });
-    setIsMapOpen(false);
-  };
-
   return (
     <div className="flex items-center gap-2">
       <Button
@@ -65,26 +52,6 @@ export function LocationPicker({
         )}
         Use Current Location
       </Button>
-
-      {/* <Dialog open={isMapOpen} onOpenChange={setIsMapOpen}>
-        <DialogTrigger asChild>
-          <Button variant="outline" size="sm">
-            <MapPin className="h-4 w-4 mr-2" />
-            Pick on Map
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="max-w-3xl">
-          <DialogHeader>
-            <DialogTitle>Select Location</DialogTitle>
-          </DialogHeader>
-          <div className="h-[500px]">
-            <InteractiveMap
-              onLocationSelect={handleMapClick}
-              initialLocation={selectedLocation}
-            />
-          </div>
-        </DialogContent>
-      </Dialog> */}
 
       {selectedLocation && (
         <span className="text-sm text-muted-foreground">

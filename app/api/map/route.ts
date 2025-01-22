@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 import type { MapViewName } from "@/hooks/use-map-data";
+import { Database } from "@/types/database.types";
 
 export interface MapBounds {
   north: number;
@@ -17,11 +18,13 @@ export interface MapQueryParams {
 
 export async function POST(request: Request) {
   try {
-    const { bounds, viewName, dataTypes } =
-      (await request.json()) as MapQueryParams;
+    const { bounds, dataTypes } = (await request.json()) as MapQueryParams;
     const supabase = await createClient();
 
-    const results: Record<string, any[]> = {};
+    const results: Record<
+      string,
+      Database["public"]["Functions"]["get_thoughts_in_bounds"]["Returns"]
+    > = {};
 
     if (dataTypes.includes("thoughts")) {
       const { data: thoughts, error } = await supabase.rpc(

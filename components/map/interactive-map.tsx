@@ -64,9 +64,10 @@ function DataLayer({
   const [markers, setMarkers] = useState<L.Marker[]>([]);
 
   const bounds = map.getBounds();
-  const currentView = Object.entries(MAP_VIEWS).find(
-    ([_, view]) => view.zoom === map.getZoom()
-  )?.[0] as MapViewName | undefined;
+  const currentView = Object.entries(MAP_VIEWS).find(([key, view]) => {
+    console.log("Current map view:", key);
+    return view.zoom === map.getZoom();
+  })?.[0] as MapViewName | undefined;
 
   const { data } = useMapData(
     bounds,
@@ -119,7 +120,7 @@ function DataLayer({
     return () => {
       newMarkers.forEach((marker) => marker.remove());
     };
-  }, [data, map, selectedMapProvider]);
+  }, [data, map, selectedMapProvider, markers]);
 
   return (
     <MapControls

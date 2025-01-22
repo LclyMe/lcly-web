@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Sun, Moon, Palette, PenLine, Users, Home } from "lucide-react";
+import { Sun, Moon, Palette, PenLine } from "lucide-react";
 import type { DataType } from "@/hooks/use-map-data";
 
 interface MapControlsProps {
@@ -16,14 +16,14 @@ const dataTypeConfig = {
     icon: PenLine,
     label: "Thoughts",
   },
-  people: {
-    icon: Users,
-    label: "People",
-  },
-  homes: {
-    icon: Home,
-    label: "Homes",
-  },
+  // people: {
+  //   icon: Users,
+  //   label: "People",
+  // },
+  // homes: {
+  //   icon: Home,
+  //   label: "Homes",
+  // },
 } as const;
 
 export function MapControls({
