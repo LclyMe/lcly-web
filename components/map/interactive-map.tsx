@@ -3,7 +3,7 @@
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
 import { Location } from "@/hooks/use-postcode";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { MapControls } from "@/components/map/map-controls";
 import { MAP_VIEWS } from "@/components/map/map-views";
 import { TopBar } from "./top-bar";
@@ -64,10 +64,12 @@ function DataLayer({
   const [markers, setMarkers] = useState<L.Marker[]>([]);
 
   const bounds = map.getBounds();
-  const currentView = Object.entries(MAP_VIEWS).find(([key, view]) => {
-    console.log("Current map view:", key);
-    return view.zoom === map.getZoom();
-  })?.[0] as MapViewName | undefined;
+  const currentView = useMemo(() => {
+    return Object.entries(MAP_VIEWS).find(([key, view]) => {
+      console.log("Current map view:", key);
+      return view.zoom === map.getZoom();
+    })?.[0] as MapViewName | undefined;
+  }, [map.getZoom()]);
 
   const { data } = useMapData(
     bounds,
@@ -101,7 +103,7 @@ function DataLayer({
         }).addTo(map);
 
         marker.bindPopup(`
-        <div class="p-2">
+        <div class="p-2 z-[1000]">
           <h3 class="font-medium">${thought.title}</h3>
           <p class="text-sm text-muted-foreground">${thought.content.substring(
             0,
@@ -120,7 +122,7 @@ function DataLayer({
     return () => {
       newMarkers.forEach((marker) => marker.remove());
     };
-  }, [data, map, selectedMapProvider, markers]);
+  }, [data, map, selectedMapProvider]);
 
   return (
     <MapControls
