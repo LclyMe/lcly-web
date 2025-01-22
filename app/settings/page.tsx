@@ -75,12 +75,9 @@ export default function SettingsPage() {
         transition={{ duration: 0.5, delay: 0.4 }}
         className="grid gap-4 md:grid-cols-2"
       >
-        {settingsSections.map((section, index) => (
-          <motion.div
+        {settingsSections.map((section) => (
+          <div
             key={section.title}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
             className="cursor-pointer rounded-lg border p-4 shadow-sm transition-all hover:shadow-md"
           >
             <div className="flex items-center space-x-4">
@@ -94,7 +91,7 @@ export default function SettingsPage() {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
         ))}
       </motion.div>
     </div>

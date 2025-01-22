@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import * as React from "react";
+import { cn } from "@/lib/utils";
 
 export const MAP_VIEWS = {
   country: {
@@ -60,7 +61,10 @@ export function MapViews({
       <DropdownMenuTrigger asChild>
         <Button
           variant={isDark ? "secondary" : "default"}
-          className="rounded-full shadow-lg h-10 w-10 sm:w-auto"
+          className={cn("rounded-full shadow-lg h-10 w-10 sm:w-auto", {
+            "bg-white/80 text-black hover:bg-white/90": isDark,
+            "text-white bg-background/80 backdrop-blur-sm": !isDark,
+          })}
         >
           <MapIcon className={"h-4 w-4 sm:mr-1"} />{" "}
           <span className="hidden sm:block">

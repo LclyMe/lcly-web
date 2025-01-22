@@ -10,6 +10,7 @@ import {
   Lock,
   MoreVertical,
   Trash,
+  MapPin,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -67,9 +68,16 @@ const groupThoughtsByDate = (
                 <div className="flex justify-between items-start mb-2">
                   <div>
                     <h3 className="font-medium mb-1">{thought.title}</h3>
-                    <span className="text-sm text-muted-foreground">
-                      {new Date(thought.created_at).toLocaleTimeString()}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-muted-foreground">
+                        {new Date(thought.created_at).toLocaleTimeString()}
+                      </span>
+                      {thought.location && (
+                        <span className="text-sm text-muted-foreground flex items-center gap-1">
+                          <MapPin className="h-3 w-3" />
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge

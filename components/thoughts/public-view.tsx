@@ -4,10 +4,11 @@ import "./editor.css";
 
 import { motion } from "framer-motion";
 import { format } from "date-fns";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, MapPin } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import type { Thought } from "@/types/thoughts";
 import { StoryMode } from "./story-mode";
+import { LocationView } from "./location-view";
 
 interface PublicThoughtViewProps {
   thought: Thought;
@@ -105,13 +106,27 @@ export function PublicThoughtView({ thought }: PublicThoughtViewProps) {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}
-              className="flex justify-center items-center gap-4 text-muted-foreground"
+              className="flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-4 text-muted-foreground"
             >
               <time dateTime={thought.created_at}>
                 {format(new Date(thought.created_at), "MMMM d, yyyy")}
               </time>
+              {thought.location && (
+                <div className="flex items-center gap-1">
+                  <MapPin className="h-4 w-4" />
+                  <span>
+                    {thought.location.latitude.toFixed(2)},{" "}
+                    {thought.location.longitude.toFixed(2)}
+                  </span>
+                </div>
+              )}
             </motion.div>
           </motion.header>
+          {thought.location && (
+            <div className="w-full mb-8">
+              <LocationView location={thought.location} />
+            </div>
+          )}
           <div
             className={`flex flex-col items-center justify-center w-full ${
               useLargeText || thought.is_story_mode ? "flex-grow" : ""

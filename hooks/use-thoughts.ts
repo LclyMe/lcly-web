@@ -67,13 +67,15 @@ export function useThoughts() {
       isPublic,
       images,
       isStoryMode,
+      location,
     }: {
       title: string;
       content: string;
       isPublic: boolean;
       images?: string[];
       isStoryMode?: boolean;
-    }) => addThought(title, content, isPublic, images, isStoryMode),
+      location?: { latitude: number; longitude: number };
+    }) => addThought(title, content, isPublic, images, isStoryMode, location),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [thoughtsKey] });
     },
