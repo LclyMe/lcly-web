@@ -18,10 +18,13 @@ export default function NewThoughtPage() {
   const [isPublic, setIsPublic] = useState(false);
   const [images, setImages] = useState<string[]>([]);
   const [isStoryMode, setIsStoryMode] = useState(false);
-  const [location, setLocation] = useState<{
-    latitude: number;
-    longitude: number;
-  }>();
+  const [location, setLocation] = useState<
+    | {
+        latitude: number;
+        longitude: number;
+      }
+    | undefined
+  >(undefined);
 
   if (authLoading) {
     return (
@@ -106,6 +109,7 @@ export default function NewThoughtPage() {
       onLocationChange={setLocation}
       onStoryModeChange={setIsStoryMode}
       onSave={handleSave}
+      hasChanges={true}
     />
   );
 }

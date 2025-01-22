@@ -21,10 +21,13 @@ export default function ThoughtPage() {
   const [isPublic, setIsPublic] = useState(false);
   const [images, setImages] = useState<string[]>([]);
   const [isStoryMode, setIsStoryMode] = useState(false);
-  const [location, setLocation] = useState<{
-    latitude: number;
-    longitude: number;
-  }>();
+  const [location, setLocation] = useState<
+    | {
+        latitude: number;
+        longitude: number;
+      }
+    | undefined
+  >(undefined);
 
   // Query for fetching the thought
   const {
@@ -35,13 +38,10 @@ export default function ThoughtPage() {
     queryKey: ["thought", id],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("thoughts")
-        .select("*")
-        .eq("id", Number(id))
+        .rpc("get_thought", { thought_id: Number(id) })
         .single();
-
       if (error) throw error;
-      return data as Thought;
+      return data;
     },
     enabled: !!id && !!user,
   });
@@ -126,7 +126,14 @@ export default function ThoughtPage() {
       setIsPublic(thought.is_public);
       setImages(thought.images || []);
       setIsStoryMode(thought.is_story_mode || false);
-      setLocation(thought.location);
+      setLocation(
+        thought.lat && thought.lng
+          ? {
+              latitude: thought.lat,
+              longitude: thought.lng,
+            }
+          : undefined
+      );
     }
   }, [thought]);
 
@@ -156,7 +163,15 @@ export default function ThoughtPage() {
       isPublic !== thought.is_public ||
       isStoryMode !== (thought.is_story_mode || false) ||
       JSON.stringify(images) !== JSON.stringify(thought.images || []) ||
-      JSON.stringify(location) !== JSON.stringify(thought.location));
+      JSON.stringify(location) !==
+        JSON.stringify(
+          thought.lat && thought.lng
+            ? {
+                latitude: thought.lat,
+                longitude: thought.lng,
+              }
+            : undefined
+        ));
 
   const handleUpdate = async (localImages: File[]) => {
     if (!content.trim()) return;
@@ -175,7 +190,7 @@ export default function ThoughtPage() {
         is_public: isPublic,
         is_story_mode: isStoryMode,
         images: [...existingImages, ...uploadedUrls],
-        location,
+        location: location ? location : undefined,
       });
     } catch (error) {
       console.error("Failed to update thought:", error);

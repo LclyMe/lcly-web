@@ -1666,6 +1666,24 @@ export type Database = {
         }
         Returns: string
       }
+      get_thought: {
+        Args: {
+          thought_id: number
+        }
+        Returns: {
+          id: number
+          content: string
+          created_at: string
+          user_id: string
+          is_public: boolean
+          title: string
+          is_story_mode: boolean
+          images: string[]
+          location: unknown
+          lat: number
+          lng: number
+        }[]
+      }
       get_thoughts_in_bounds: {
         Args: {
           west: number

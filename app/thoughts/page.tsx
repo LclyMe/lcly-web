@@ -72,7 +72,7 @@ const groupThoughtsByDate = (
                       <span className="text-sm text-muted-foreground">
                         {new Date(thought.created_at).toLocaleTimeString()}
                       </span>
-                      {thought.location && (
+                      {!!thought.location && (
                         <span className="text-sm text-muted-foreground flex items-center gap-1">
                           <MapPin className="h-3 w-3" />
                         </span>

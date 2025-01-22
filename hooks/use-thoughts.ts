@@ -27,7 +27,11 @@ export function useThoughts() {
 
       const { data, error } = await supabase
         .from("thoughts")
-        .select("*")
+        .select(
+          `
+          *
+        `
+        )
         .or(`user_id.eq.${session.session.user.id},is_public.eq.true`)
         .order("created_at", { ascending: false });
 
@@ -102,12 +106,18 @@ export function useThoughts() {
 
     const { data, error } = await supabase
       .from("thoughts")
-      .select("*")
+      .select(
+        `
+          *,
+          latitude:ST_Y(location::geometry),
+          longitude:ST_X(location::geometry)
+        `
+      )
       .eq("id", id)
       .single();
 
     if (error) throw error;
-    return data as Thought;
+    return data;
   };
 
   return {
