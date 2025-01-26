@@ -16,7 +16,7 @@ export default function LoginPage() {
   const [activeTab, setActiveTab] = useState<"login" | "signup">("login");
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen sm:p-4">
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}

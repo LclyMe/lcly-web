@@ -558,9 +558,11 @@ export type Database = {
           avatar: string | null
           bio: string | null
           display_name: string | null
+          dob: string | null
           id: string
           noticeboard_layout_web: Json | null
           noticeboard_widgets: Json[] | null
+          postcode: string | null
           status: Database["public"]["Enums"]["user_status"] | null
           username: string | null
         }
@@ -568,9 +570,11 @@ export type Database = {
           avatar?: string | null
           bio?: string | null
           display_name?: string | null
+          dob?: string | null
           id: string
           noticeboard_layout_web?: Json | null
           noticeboard_widgets?: Json[] | null
+          postcode?: string | null
           status?: Database["public"]["Enums"]["user_status"] | null
           username?: string | null
         }
@@ -578,9 +582,11 @@ export type Database = {
           avatar?: string | null
           bio?: string | null
           display_name?: string | null
+          dob?: string | null
           id?: string
           noticeboard_layout_web?: Json | null
           noticeboard_widgets?: Json[] | null
+          postcode?: string | null
           status?: Database["public"]["Enums"]["user_status"] | null
           username?: string | null
         }
