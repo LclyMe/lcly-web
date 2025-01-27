@@ -6,12 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { motion, AnimatePresence } from "framer-motion";
-import { useToast } from "@/components/ui/use-toast";
 import { Icons } from "@/components/icons";
 import { useDebouncedCallback } from "use-debounce";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useProfile } from "@/hooks/use-profile";
 import { createClient } from "@/lib/supabase/client";
+import { usePostcode } from "@/hooks/use-postcode";
 
 const steps = [
   {
@@ -44,12 +44,12 @@ const steps = [
     description: "Help us personalize your experience",
     icon: Icons.calendar,
   },
-  {
-    id: "invite",
-    title: "Invite others",
-    description: "Share Lcly with your friends and family",
-    icon: Icons.users,
-  },
+  //   {
+  //     id: "invite",
+  //     title: "Invite others",
+  //     description: "Share Lcly with your friends and family",
+  //     icon: Icons.users,
+  //   },
 ];
 
 export default function OnboardingPage() {
@@ -72,6 +72,12 @@ export default function OnboardingPage() {
   const router = useRouter();
   const supabase = createClient();
   const { profile, updateProfile, uploadAvatar } = useProfile();
+  const {
+    location,
+    isLoading: isValidatingPostcode,
+    error: postcodeError,
+    isValid: isPostcodeValid,
+  } = usePostcode(formData.postcode);
 
   // Initialize form data from profile
   useEffect(() => {
@@ -183,7 +189,7 @@ export default function OnboardingPage() {
       case "avatar":
         return true; // Avatar is optional
       case "postcode":
-        return formData.postcode.length >= 5;
+        return isPostcodeValid;
       case "dob":
         return formData.dob.length >= 8;
       case "invite":
@@ -267,23 +273,47 @@ export default function OnboardingPage() {
                   </AvatarFallback>
                 )}
               </Avatar>
-              <Input
-                id="avatar"
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    setAvatarFile(file);
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                      setAvatarPreview(reader.result as string);
-                    };
-                    reader.readAsDataURL(file);
+              <div className="flex flex-col items-center gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() =>
+                    document.getElementById("avatar-upload")?.click()
                   }
-                }}
-                className="max-w-[250px]"
-              />
+                  className="w-[250px]"
+                >
+                  <Icons.upload className="mr-2 h-4 w-4" />
+                  Choose Photo
+                </Button>
+                {avatarPreview && (
+                  <Button
+                    variant="ghost"
+                    onClick={() => {
+                      setAvatarFile(null);
+                      setAvatarPreview(null);
+                    }}
+                    className="text-sm text-muted-foreground"
+                  >
+                    Remove Photo
+                  </Button>
+                )}
+                <Input
+                  id="avatar-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setAvatarFile(file);
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setAvatarPreview(reader.result as string);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                  className="hidden"
+                />
+              </div>
             </div>
           </div>
         );
@@ -291,17 +321,63 @@ export default function OnboardingPage() {
         return (
           <div className="space-y-4">
             <Label htmlFor="postcode">Postcode</Label>
-            <Input
-              id="postcode"
-              value={formData.postcode}
-              onChange={(e) =>
-                setFormData({ ...formData, postcode: e.target.value })
-              }
-              placeholder="Enter your postcode"
-            />
+            <div className="relative">
+              <Input
+                id="postcode"
+                value={formData.postcode}
+                onChange={(e) => {
+                  const value = e.target.value.toUpperCase();
+                  // Remove any characters that aren't letters or numbers
+                  const cleaned = value.replace(/[^A-Z0-9]/g, "");
+                  // Apply postcode format (e.g., AA9A 9AA)
+                  let formatted = cleaned;
+                  if (cleaned.length > 4) {
+                    formatted = cleaned.slice(0, -3) + " " + cleaned.slice(-3);
+                  }
+                  setFormData({ ...formData, postcode: formatted });
+                }}
+                placeholder="e.g. SW1A 1AA"
+                maxLength={8}
+                className={
+                  isPostcodeValid
+                    ? "pr-10 border-green-500"
+                    : postcodeError
+                    ? "pr-10 border-red-500"
+                    : ""
+                }
+              />
+              {isValidatingPostcode && (
+                <Icons.spinner className="absolute right-3 top-3 h-4 w-4 animate-spin text-muted-foreground" />
+              )}
+              {!isValidatingPostcode && isPostcodeValid && (
+                <span className="absolute right-3 top-3 text-sm text-green-500">
+                  Valid postcode
+                </span>
+              )}
+              {!isValidatingPostcode && postcodeError && (
+                <span className="absolute right-3 top-3 text-sm text-red-500">
+                  Invalid postcode
+                </span>
+              )}
+              {location && (
+                <div className="mt-2 text-sm text-muted-foreground">
+                  {location.region}, {location.country}
+                </div>
+              )}
+            </div>
           </div>
         );
       case "dob":
+        // Calculate max date (13 years ago from today)
+        const today = new Date();
+        const maxDate = new Date(
+          today.getFullYear() - 13,
+          today.getMonth(),
+          today.getDate()
+        )
+          .toISOString()
+          .split("T")[0];
+
         return (
           <div className="space-y-4">
             <Label htmlFor="dob">Date of Birth</Label>
@@ -309,10 +385,14 @@ export default function OnboardingPage() {
               id="dob"
               type="date"
               value={formData.dob}
+              max={maxDate}
               onChange={(e) =>
                 setFormData({ ...formData, dob: e.target.value })
               }
             />
+            <p className="text-sm text-muted-foreground">
+              You must be at least 13 years old to use Lcly
+            </p>
           </div>
         );
       case "invite":

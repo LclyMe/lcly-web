@@ -397,6 +397,45 @@ export type Database = {
           },
         ]
       }
+      postcode_locations: {
+        Row: {
+          admin_district: string
+          admin_ward: string
+          country: string
+          created_at: string
+          id: string
+          latitude: number
+          longitude: number
+          parliamentary_constituency: string
+          postcode: string
+          region: string
+        }
+        Insert: {
+          admin_district: string
+          admin_ward: string
+          country: string
+          created_at?: string
+          id?: string
+          latitude: number
+          longitude: number
+          parliamentary_constituency: string
+          postcode: string
+          region: string
+        }
+        Update: {
+          admin_district?: string
+          admin_ward?: string
+          country?: string
+          created_at?: string
+          id?: string
+          latitude?: number
+          longitude?: number
+          parliamentary_constituency?: string
+          postcode?: string
+          region?: string
+        }
+        Relationships: []
+      }
       role_permissions: {
         Row: {
           id: number

@@ -1,46 +1,57 @@
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
+import { useDebounce } from "./use-debounce";
+import { useQuery } from "@tanstack/react-query";
+import { PostcodeLocation } from "@/lib/client/postcode";
+import { LocalPostcodeData } from "@/types/location";
 
-export type Location = {
-  latitude: number;
-  longitude: number;
-  name: string;
-};
+export function usePostcode(initialPostcode?: string) {
+  const [error, setError] = useState<string>();
+  const debouncedPostcode = useDebounce(initialPostcode, 500);
 
-export type PostcodeData = {
-  postcode: string;
-  latitude: number;
-  longitude: number;
-  admin_district: string;
-  region: string;
-  country: string;
-  parliamentary_constituency: string;
-  admin_ward: string;
-};
-
-export function usePostcode() {
-  const [postcodeData, setPostcodeData] = useState<PostcodeData | null>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("postcodeData");
-      return saved ? JSON.parse(saved) : null;
+  // For storing local data
+  const [postcodeData, setPostcodeData] = useState<LocalPostcodeData | null>(
+    () => {
+      if (typeof window !== "undefined") {
+        const saved = localStorage.getItem("postcodeData");
+        return saved ? JSON.parse(saved) : null;
+      }
+      return null;
     }
-    return null;
+  );
+
+  // Real-time validation
+  const validatePostcode = useCallback(async (postcode: string) => {
+    const response = await fetch(
+      `/api/postcode?postcode=${encodeURIComponent(postcode)}`
+    );
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || "Failed to validate postcode");
+    }
+    return response.json() as Promise<PostcodeLocation>;
+  }, []);
+
+  const query = useQuery({
+    queryKey: ["postcode", debouncedPostcode],
+    queryFn: () => validatePostcode(debouncedPostcode || ""),
+    enabled: !!debouncedPostcode,
+    retry: false,
+    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
   });
 
-  const [savedLocation, setSavedLocation] = useState<Location | null>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("savedLocation");
-      return saved ? JSON.parse(saved) : null;
+  // Handle validation errors in an effect
+  useEffect(() => {
+    if (query.error instanceof Error) {
+      setError(query.error.message);
+    } else if (query.data) {
+      setError(undefined);
     }
-    return null;
-  });
+  }, [query.error, query.data]);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
+  // Full postcode info fetching
   const getPostcodeInfo = async (postcode: string) => {
     try {
-      setIsLoading(true);
-      setError(null);
+      setError(undefined);
       const response = await fetch(
         `https://api.postcodes.io/postcodes/${postcode}`
       );
@@ -55,7 +66,7 @@ export function usePostcode() {
         throw new Error("Postcode not found");
       }
 
-      const newPostcodeData: PostcodeData = {
+      const newPostcodeData: LocalPostcodeData = {
         postcode: data.result.postcode,
         latitude: data.result.latitude,
         longitude: data.result.longitude,
@@ -69,37 +80,31 @@ export function usePostcode() {
       setPostcodeData(newPostcodeData);
       localStorage.setItem("postcodeData", JSON.stringify(newPostcodeData));
 
-      const newLocation: Location = {
-        latitude: data.result.latitude,
-        longitude: data.result.longitude,
-        name: data.result.admin_ward || data.result.admin_district,
-      };
-      setSavedLocation(newLocation);
-      localStorage.setItem("savedLocation", JSON.stringify(newLocation));
-
       return newPostcodeData;
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to fetch postcode data"
-      );
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to fetch postcode data";
+      setError(errorMessage);
       throw err;
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const clearPostcode = () => {
     setPostcodeData(null);
-    setSavedLocation(null);
     localStorage.removeItem("postcodeData");
-    localStorage.removeItem("savedLocation");
   };
 
   return {
-    postcodeData,
-    savedLocation,
-    isLoading,
+    // Real-time validation results
+    location: query.data,
+    isLoading: query.isLoading,
     error,
+    isValid: !!query.data && !error,
+
+    // Stored postcode data
+    postcodeData,
+
+    // Actions
     getPostcodeInfo,
     clearPostcode,
   };

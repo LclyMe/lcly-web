@@ -1,18 +1,17 @@
-import { Location, usePostcode } from "@/hooks/use-postcode";
 import { MapViews } from "./map-views";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { ArrowLeft } from "lucide-react";
+import { PostcodeData } from "@/types/location";
 
 export function TopBar({
   selectedMapProvider,
   savedLocation,
 }: {
   selectedMapProvider: "dark" | "light" | "color";
-  savedLocation: Location | null;
+  savedLocation: PostcodeData | null;
 }) {
-  const { postcodeData } = usePostcode();
   const isDark = selectedMapProvider === "dark";
 
   return (
@@ -38,7 +37,8 @@ export function TopBar({
           })}
         >
           <span>
-            {savedLocation.name} - {postcodeData?.postcode}
+            {savedLocation.admin_ward || savedLocation.admin_district} -{" "}
+            {savedLocation.postcode}
             {/* ({savedLocation.latitude}, {savedLocation.longitude}) */}
           </span>
         </div>

@@ -2,12 +2,13 @@
 
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import L from "leaflet";
-import { Location } from "@/hooks/use-postcode";
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { MapControls } from "@/components/map/map-controls";
 import { MAP_VIEWS } from "@/components/map/map-views";
 import { TopBar } from "./top-bar";
 import { useMapData, DataType, MapViewName } from "@/hooks/use-map-data";
+import { PostcodeData } from "@/types/location";
+import { motion } from "framer-motion";
 
 interface ThoughtMarker {
   id: number;
@@ -45,7 +46,7 @@ const mapProviders = {
 };
 
 interface InteractiveMapProps {
-  savedLocation: Location | null;
+  savedLocation: PostcodeData | null;
 }
 
 interface DataLayerProps {
@@ -149,30 +150,36 @@ export default function InteractiveMap({ savedLocation }: InteractiveMapProps) {
     : MAP_VIEWS.country.zoom;
 
   return (
-    <MapContainer
-      center={initialCenter}
-      zoom={initialZoom}
-      className="h-full w-full"
-      maxBounds={[
-        [UK_BOUNDS.south, UK_BOUNDS.west],
-        [UK_BOUNDS.north, UK_BOUNDS.east],
-      ]}
-      minZoom={5}
-      zoomControl={false}
-      dragging={false}
-      scrollWheelZoom={false}
-      touchZoom={false}
-      doubleClickZoom={false}
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="relative h-full w-full overflow-hidden"
     >
-      <TopBar
-        selectedMapProvider={selectedMapProvider}
-        savedLocation={savedLocation}
-      />
-      <TileLayer url={mapProviders[selectedMapProvider].url} />
-      <DataLayer
-        selectedMapProvider={selectedMapProvider}
-        setSelectedMapProvider={setSelectedMapProvider}
-      />
-    </MapContainer>
+      <MapContainer
+        center={initialCenter}
+        zoom={initialZoom}
+        className="h-full w-full"
+        maxBounds={[
+          [UK_BOUNDS.south, UK_BOUNDS.west],
+          [UK_BOUNDS.north, UK_BOUNDS.east],
+        ]}
+        minZoom={5}
+        zoomControl={false}
+        dragging={false}
+        scrollWheelZoom={false}
+        touchZoom={false}
+        doubleClickZoom={false}
+      >
+        <TopBar
+          selectedMapProvider={selectedMapProvider}
+          savedLocation={savedLocation}
+        />
+        <TileLayer url={mapProviders[selectedMapProvider].url} />
+        <DataLayer
+          selectedMapProvider={selectedMapProvider}
+          setSelectedMapProvider={setSelectedMapProvider}
+        />
+      </MapContainer>
+    </motion.div>
   );
 }

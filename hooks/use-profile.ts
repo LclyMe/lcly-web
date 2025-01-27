@@ -4,7 +4,7 @@ import {
   updateProfile,
   uploadAvatar,
   type Profile,
-} from "@/lib/api/profile";
+} from "@/lib/client/profile";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/components/ui/use-toast";
 
