@@ -1,13 +1,14 @@
 "use client";
 
-import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
-import { Location } from "@/hooks/use-postcode";
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { MapControls } from "@/components/map/map-controls";
 import { MAP_VIEWS } from "@/components/map/map-views";
 import { TopBar } from "./top-bar";
 import { useMapData, DataType, MapViewName } from "@/hooks/use-map-data";
+import { PostcodeData } from "@/types/location";
+import { motion } from "framer-motion";
 
 interface ThoughtMarker {
   id: number;
@@ -45,7 +46,9 @@ const mapProviders = {
 };
 
 interface InteractiveMapProps {
-  savedLocation: Location | null;
+  savedLocation: PostcodeData | null;
+  isTemporary?: boolean;
+  profileLocation?: PostcodeData | null;
 }
 
 interface DataLayerProps {
@@ -67,7 +70,6 @@ function DataLayer({
   const mapZoom = map.getZoom();
   const currentView = useMemo(() => {
     return Object.entries(MAP_VIEWS).find(([key, view]) => {
-      console.log("Current map view:", key);
       return view.zoom === mapZoom;
     })?.[0] as MapViewName | undefined;
   }, [mapZoom]);
@@ -135,7 +137,32 @@ function DataLayer({
   );
 }
 
-export default function InteractiveMap({ savedLocation }: InteractiveMapProps) {
+function TemporaryMarker({ location }: { location: PostcodeData }) {
+  return (
+    <Marker
+      position={[location.latitude, location.longitude]}
+      icon={L.divIcon({
+        className: "rounded-full w-2 h-2 bg-red-500",
+        iconSize: [8, 8],
+      })}
+    >
+      <Popup>
+        <div className="p-2">
+          <h3 className="font-medium">Temporary Location</h3>
+          <p className="text-sm text-muted-foreground">
+            {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
+          </p>
+        </div>
+      </Popup>
+    </Marker>
+  );
+}
+
+export default function InteractiveMap({
+  savedLocation,
+  isTemporary,
+  profileLocation,
+}: InteractiveMapProps) {
   const [selectedMapProvider, setSelectedMapProvider] = useState<
     "dark" | "light" | "color"
   >("dark");
@@ -149,30 +176,41 @@ export default function InteractiveMap({ savedLocation }: InteractiveMapProps) {
     : MAP_VIEWS.country.zoom;
 
   return (
-    <MapContainer
-      center={initialCenter}
-      zoom={initialZoom}
-      className="h-full w-full"
-      maxBounds={[
-        [UK_BOUNDS.south, UK_BOUNDS.west],
-        [UK_BOUNDS.north, UK_BOUNDS.east],
-      ]}
-      minZoom={5}
-      zoomControl={false}
-      dragging={false}
-      scrollWheelZoom={false}
-      touchZoom={false}
-      doubleClickZoom={false}
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="relative h-full w-full overflow-hidden"
     >
-      <TopBar
-        selectedMapProvider={selectedMapProvider}
-        savedLocation={savedLocation}
-      />
-      <TileLayer url={mapProviders[selectedMapProvider].url} />
-      <DataLayer
-        selectedMapProvider={selectedMapProvider}
-        setSelectedMapProvider={setSelectedMapProvider}
-      />
-    </MapContainer>
+      <MapContainer
+        center={initialCenter}
+        zoom={initialZoom}
+        className="h-full w-full"
+        maxBounds={[
+          [UK_BOUNDS.south, UK_BOUNDS.west],
+          [UK_BOUNDS.north, UK_BOUNDS.east],
+        ]}
+        minZoom={5}
+        zoomControl={false}
+        dragging={false}
+        scrollWheelZoom={false}
+        touchZoom={false}
+        doubleClickZoom={false}
+      >
+        <TopBar
+          selectedMapProvider={selectedMapProvider}
+          savedLocation={savedLocation}
+          isTemporary={isTemporary}
+          profileLocation={profileLocation}
+        />
+        <TileLayer url={mapProviders[selectedMapProvider].url} />
+        {isTemporary && savedLocation && (
+          <TemporaryMarker location={savedLocation} />
+        )}
+        <DataLayer
+          selectedMapProvider={selectedMapProvider}
+          setSelectedMapProvider={setSelectedMapProvider}
+        />
+      </MapContainer>
+    </motion.div>
   );
 }

@@ -8,7 +8,25 @@ export async function GET(request: Request) {
   if (code) {
     const supabase = await createClient();
     await supabase.auth.exchangeCodeForSession(code);
+
+    console.log("code", code);
+
+    // Check if user has completed onboarding
+    const { data: user } = await supabase
+      .from("users")
+      .select("username")
+      .single();
+
+    console.log(user);
+    // If no username, redirect to onboarding
+    if (!user?.username) {
+      return NextResponse.redirect(requestUrl.origin + "/onboarding");
+    }
+
+    // If has username, redirect to map
+    return NextResponse.redirect(requestUrl.origin + "/profile");
   }
 
-  return NextResponse.redirect(requestUrl.origin);
+  // If no code, redirect to login
+  return NextResponse.redirect(requestUrl.origin + "/login");
 }

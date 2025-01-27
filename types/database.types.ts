@@ -397,6 +397,45 @@ export type Database = {
           },
         ]
       }
+      postcode_locations: {
+        Row: {
+          admin_district: string
+          admin_ward: string
+          country: string
+          created_at: string
+          id: string
+          latitude: number
+          longitude: number
+          parliamentary_constituency: string
+          postcode: string
+          region: string
+        }
+        Insert: {
+          admin_district: string
+          admin_ward: string
+          country: string
+          created_at?: string
+          id?: string
+          latitude: number
+          longitude: number
+          parliamentary_constituency: string
+          postcode: string
+          region: string
+        }
+        Update: {
+          admin_district?: string
+          admin_ward?: string
+          country?: string
+          created_at?: string
+          id?: string
+          latitude?: number
+          longitude?: number
+          parliamentary_constituency?: string
+          postcode?: string
+          region?: string
+        }
+        Relationships: []
+      }
       role_permissions: {
         Row: {
           id: number
@@ -558,9 +597,11 @@ export type Database = {
           avatar: string | null
           bio: string | null
           display_name: string | null
+          dob: string | null
           id: string
           noticeboard_layout_web: Json | null
           noticeboard_widgets: Json[] | null
+          postcode: string | null
           status: Database["public"]["Enums"]["user_status"] | null
           username: string | null
         }
@@ -568,9 +609,11 @@ export type Database = {
           avatar?: string | null
           bio?: string | null
           display_name?: string | null
+          dob?: string | null
           id: string
           noticeboard_layout_web?: Json | null
           noticeboard_widgets?: Json[] | null
+          postcode?: string | null
           status?: Database["public"]["Enums"]["user_status"] | null
           username?: string | null
         }
@@ -578,9 +621,11 @@ export type Database = {
           avatar?: string | null
           bio?: string | null
           display_name?: string | null
+          dob?: string | null
           id?: string
           noticeboard_layout_web?: Json | null
           noticeboard_widgets?: Json[] | null
+          postcode?: string | null
           status?: Database["public"]["Enums"]["user_status"] | null
           username?: string | null
         }

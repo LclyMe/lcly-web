@@ -8,7 +8,7 @@ export async function middleware(req: NextRequest) {
   const session = await supabase.auth.getSession();
 
   // Add paths that require authentication
-  const protectedPaths = ["/profile"];
+  const protectedPaths = ["/profile", "/onboarding"];
   const isProtectedPath = protectedPaths.some((path) =>
     req.nextUrl.pathname.startsWith(path)
   );

@@ -22,9 +22,10 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useProfile } from "@/hooks/use-profile";
+import { UserAvatar } from "@/components/user-avatar";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -83,13 +84,14 @@ const profileSections = [
 export default function ProfilePage() {
   const { user, loading, signOut } = useAuth();
   const router = useRouter();
+  const { profile, isLoading } = useProfile();
 
   const handleSignOut = async () => {
     await signOut();
     router.push("/");
   };
 
-  if (loading) {
+  if (loading || isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
@@ -123,20 +125,14 @@ export default function ProfilePage() {
           </Link>
 
           <motion.div {...fadeIn} className="text-center mt-16">
-            <Avatar className="h-24 w-24 mx-auto mb-6">
-              {user.user_metadata.avatar_url ? (
-                <AvatarImage src={user.user_metadata.avatar_url} />
-              ) : (
-                <AvatarFallback>
-                  {user.user_metadata.full_name?.[0] || user.email?.[0]}
-                </AvatarFallback>
-              )}
-            </Avatar>
+            <UserAvatar className="h-24 w-24 mx-auto mb-6" />
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4 transition-all duration-200">
-              {user.user_metadata.full_name || "User"}
+              {profile?.display_name || user.user_metadata.full_name || "User"}
             </h1>
-            <p className="text-lg text-muted-foreground hover:blur-none blur-sm transition-all duration-200">
-              {user.email}
+
+            <p className="text-lg text-muted-foreground mt-2">
+              {profile?.username && `@${profile.username}`} |{" "}
+              {profile?.postcode && profile.postcode}
             </p>
             <Button variant="outline" onClick={handleSignOut} className="mt-6">
               Sign Out

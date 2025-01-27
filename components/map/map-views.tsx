@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Location } from "@/hooks/use-postcode";
+import { PostcodeData } from "@/types/location";
 import { Map as MapIcon, Check } from "lucide-react";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
@@ -32,7 +32,7 @@ export function MapViews({
   savedLocation,
   isDark,
 }: {
-  savedLocation: Location | null;
+  savedLocation: PostcodeData | null;
   isDark: boolean;
 }) {
   const map = useMap();

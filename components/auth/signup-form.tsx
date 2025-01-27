@@ -41,7 +41,8 @@ export function SignUpForm() {
     setIsLoading(true);
     try {
       await signUp(values.email, values.password);
-      router.push("/");
+      console.log("signup success");
+      router.push("/onboarding");
     } catch (error) {
       console.error(error);
     } finally {

@@ -1,7 +1,7 @@
 import { useAuth } from "@/hooks/use-auth";
 import { LockIcon } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
+import { UserAvatar } from "@/components/user-avatar";
 
 export function LoginButton() {
   const { user } = useAuth();
@@ -9,16 +9,8 @@ export function LoginButton() {
   if (user) {
     return (
       <Link href="/profile">
-        <button className="flex items-center gap-2 rounded-full bg-gray-800 px-4 py-2 text-sm text-white hover:bg-gray-700">
-          {user.user_metadata.avatar_url && (
-            <Image
-              src={user.user_metadata.avatar_url}
-              alt={user.user_metadata.full_name}
-              className="h-6 w-6 rounded-full"
-              width={24}
-              height={24}
-            />
-          )}
+        <button className="flex items-center gap-2 rounded-full bg-gray-800 px-3 py-1 h-10 text-sm text-white hover:bg-gray-700">
+          <UserAvatar className="h-7 w-7" />
           My Profile
         </button>
       </Link>
