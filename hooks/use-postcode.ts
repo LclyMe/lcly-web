@@ -1,8 +1,7 @@
 import { useCallback, useState, useEffect } from "react";
 import { useDebounce } from "./use-debounce";
 import { useQuery } from "@tanstack/react-query";
-import { PostcodeLocation } from "@/lib/client/postcode";
-import { LocalPostcodeData } from "@/types/location";
+import { LocalPostcodeData, PostcodeData } from "@/types/location";
 
 export function usePostcode(initialPostcode?: string) {
   const [error, setError] = useState<string>();
@@ -28,7 +27,7 @@ export function usePostcode(initialPostcode?: string) {
       const error = await response.json();
       throw new Error(error.error || "Failed to validate postcode");
     }
-    return response.json() as Promise<PostcodeLocation>;
+    return response.json() as Promise<PostcodeData>;
   }, []);
 
   const query = useQuery({

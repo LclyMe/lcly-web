@@ -111,7 +111,7 @@ export default function OnboardingPage() {
 
     setCheckingUsername(true);
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("users")
         .select("username")
         .eq("username", username)

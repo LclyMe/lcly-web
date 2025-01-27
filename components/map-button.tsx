@@ -1,7 +1,6 @@
 import { Map } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { usePostcode } from "@/hooks/use-postcode";
 import { useProfile } from "@/hooks/use-profile";
 
 export function MapButton() {

@@ -13,23 +13,24 @@ interface SearchParams {
 export default async function MapPage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }) {
+  const { postcode, lat, lng } = await searchParams;
   const profile = await getCurrentProfile();
   const location = profile?.postcode_location;
 
   let tempLocation: PostcodeData | null = null;
 
-  if (searchParams.postcode) {
+  if (postcode) {
     try {
-      tempLocation = await getPostcodeLocation(searchParams.postcode);
+      tempLocation = await getPostcodeLocation(postcode);
     } catch (error) {
       console.error("Error fetching postcode:", error);
     }
-  } else if (searchParams.lat && searchParams.lng) {
+  } else if (lat && lng) {
     tempLocation = {
-      latitude: parseFloat(searchParams.lat),
-      longitude: parseFloat(searchParams.lng),
+      latitude: parseFloat(lat),
+      longitude: parseFloat(lng),
       postcode: "Temporary Location",
       admin_district: "Temporary District",
       admin_ward: "Temporary Ward",
@@ -41,8 +42,7 @@ export default async function MapPage({
     } as PostcodeData;
   }
 
-  const isSearching =
-    !!searchParams.postcode || (!!searchParams.lat && !!searchParams.lng);
+  const isSearching = !!postcode || (!!lat && !!lng);
   const isTemporary = !!tempLocation;
   const displayLocation = tempLocation || location;
 

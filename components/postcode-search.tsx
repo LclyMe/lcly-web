@@ -23,7 +23,7 @@ export function PostcodeSearch({
   buttonClassName,
 }: PostcodeSearchProps) {
   const [postcode, setPostcode] = useState("");
-  const { getPostcodeInfo, isLoading } = usePostcode();
+  const { isLoading } = usePostcode();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -70,7 +70,6 @@ function DataLayer({
   const mapZoom = map.getZoom();
   const currentView = useMemo(() => {
     return Object.entries(MAP_VIEWS).find(([key, view]) => {
-      console.log("Current map view:", key);
       return view.zoom === mapZoom;
     })?.[0] as MapViewName | undefined;
   }, [mapZoom]);
