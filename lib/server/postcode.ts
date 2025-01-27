@@ -1,4 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
+import { PostcodeData } from "@/types/location";
+
+const POSTCODE_API_URL = "https://api.postcodes.io/postcodes";
 
 export interface PostcodeLocation {
   id: string;
@@ -20,58 +23,74 @@ export interface PostcodeResponse {
 
 export async function getPostcodeLocation(
   postcode: string
-): Promise<PostcodeResponse> {
+): Promise<PostcodeData> {
   const supabase = await createClient();
-  const cleanPostcode = postcode.replace(/\s/g, "").toUpperCase();
 
-  // First check our database
-  const { data: existingLocation } = await supabase
-    .from("postcode_locations")
-    .select("*")
-    .eq("postcode", cleanPostcode)
-    .single();
-
-  if (existingLocation) {
-    return {
-      postcode: existingLocation.postcode,
-      latitude: existingLocation.latitude,
-      longitude: existingLocation.longitude,
-      region: existingLocation.region,
-      country: existingLocation.country,
-    };
-  }
-
-  // If not found, fetch from API
-  const response = await fetch(
-    `https://api.postcodes.io/postcodes/${cleanPostcode}`
+  // Format postcode for comparison: remove spaces and convert to uppercase
+  const formattedPostcode = postcode.replace(/\s+/g, "").toUpperCase();
+  const formattedWithSpace = formattedPostcode.replace(
+    /^(.+?)([A-Z0-9]{3})$/,
+    "$1 $2"
   );
 
-  if (!response.ok) {
+  // Check if we have the postcode cached
+  const { data: cachedLocation, error: cachedLocationError } = await supabase
+    .from("postcode_locations")
+    .select()
+    .eq("postcode", formattedWithSpace)
+    .single();
+
+  if (cachedLocationError) {
+    console.error("Error fetching cached location:", cachedLocationError);
+  }
+
+  if (cachedLocation) {
+    console.log("Cached location found");
+    return cachedLocation;
+  }
+
+  // If not cached, fetch from postcodes.io
+  const response = await fetch(
+    `${POSTCODE_API_URL}/${encodeURIComponent(formattedWithSpace)}`
+  );
+  const data = await response.json();
+
+  if (!data.result) {
     throw new Error("Invalid postcode");
   }
 
-  const data = await response.json();
-  const location = {
-    postcode: cleanPostcode,
-    latitude: data.result.latitude,
-    longitude: data.result.longitude,
-    region: data.result.region,
-    country: data.result.country,
-  };
-
-  // Save to our database
-  await supabase.from("postcode_locations").insert([
-    {
-      postcode: location.postcode,
-      latitude: location.latitude,
-      longitude: location.longitude,
-      region: location.region,
-      country: location.country,
+  // Cache the result
+  const { data: newLocation, error } = await supabase
+    .from("postcode_locations")
+    .insert({
+      postcode: data.result.postcode,
+      latitude: data.result.latitude,
+      longitude: data.result.longitude,
+      region: data.result.region,
+      country: data.result.country,
       admin_district: data.result.admin_district,
-      admin_ward: data.result.admin_ward,
       parliamentary_constituency: data.result.parliamentary_constituency,
-    },
-  ]);
+      admin_ward: data.result.admin_ward,
+    })
+    .select()
+    .single();
 
-  return location;
+  if (error) {
+    console.error("Error caching postcode:", error);
+    // Return the data anyway even if caching failed
+    return {
+      id: "temp",
+      created_at: new Date().toISOString(),
+      postcode: data.result.postcode,
+      latitude: data.result.latitude,
+      longitude: data.result.longitude,
+      region: data.result.region,
+      country: data.result.country,
+      admin_district: data.result.admin_district,
+      parliamentary_constituency: data.result.parliamentary_constituency,
+      admin_ward: data.result.admin_ward,
+    } as PostcodeData;
+  }
+
+  return newLocation;
 }

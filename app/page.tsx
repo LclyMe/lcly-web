@@ -39,6 +39,7 @@ export default function Home() {
               width={48}
               height={48}
               className="h-10 w-10 sm:h-12 sm:w-12 rounded-full"
+              priority
             />
             <LclyLogo className="h-6 sm:h-8 w-auto text-black/90 dark:text-white -mb-1.5" />
           </div>
@@ -66,7 +67,7 @@ export default function Home() {
             Join the UK Localverse
           </h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Everything you need to engage with your local community
+            Your Local Community Hub
           </p>
           <p className="mt-2 text-lg leading-8 text-muted-foreground">
             Lcly is an Open Source project building digital infrastructure for

@@ -1,6 +1,6 @@
 "use client";
 
-import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { MapControls } from "@/components/map/map-controls";
@@ -47,6 +47,8 @@ const mapProviders = {
 
 interface InteractiveMapProps {
   savedLocation: PostcodeData | null;
+  isTemporary?: boolean;
+  profileLocation?: PostcodeData | null;
 }
 
 interface DataLayerProps {
@@ -136,7 +138,32 @@ function DataLayer({
   );
 }
 
-export default function InteractiveMap({ savedLocation }: InteractiveMapProps) {
+function TemporaryMarker({ location }: { location: PostcodeData }) {
+  return (
+    <Marker
+      position={[location.latitude, location.longitude]}
+      icon={L.divIcon({
+        className: "rounded-full w-2 h-2 bg-red-500",
+        iconSize: [8, 8],
+      })}
+    >
+      <Popup>
+        <div className="p-2">
+          <h3 className="font-medium">Temporary Location</h3>
+          <p className="text-sm text-muted-foreground">
+            {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
+          </p>
+        </div>
+      </Popup>
+    </Marker>
+  );
+}
+
+export default function InteractiveMap({
+  savedLocation,
+  isTemporary,
+  profileLocation,
+}: InteractiveMapProps) {
   const [selectedMapProvider, setSelectedMapProvider] = useState<
     "dark" | "light" | "color"
   >("dark");
@@ -173,8 +200,13 @@ export default function InteractiveMap({ savedLocation }: InteractiveMapProps) {
         <TopBar
           selectedMapProvider={selectedMapProvider}
           savedLocation={savedLocation}
+          isTemporary={isTemporary}
+          profileLocation={profileLocation}
         />
         <TileLayer url={mapProviders[selectedMapProvider].url} />
+        {isTemporary && savedLocation && (
+          <TemporaryMarker location={savedLocation} />
+        )}
         <DataLayer
           selectedMapProvider={selectedMapProvider}
           setSelectedMapProvider={setSelectedMapProvider}

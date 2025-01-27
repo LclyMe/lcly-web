@@ -53,34 +53,20 @@ export function usePostcode(initialPostcode?: string) {
     try {
       setError(undefined);
       const response = await fetch(
-        `https://api.postcodes.io/postcodes/${postcode}`
+        `/api/postcode?postcode=${encodeURIComponent(postcode)}`
       );
 
       if (!response.ok) {
-        throw new Error("Invalid postcode");
+        const error = await response.json();
+        throw new Error(error.error || "Invalid postcode");
       }
 
       const data = await response.json();
 
-      if (!data.result) {
-        throw new Error("Postcode not found");
-      }
+      setPostcodeData(data);
+      localStorage.setItem("postcodeData", JSON.stringify(data));
 
-      const newPostcodeData: LocalPostcodeData = {
-        postcode: data.result.postcode,
-        latitude: data.result.latitude,
-        longitude: data.result.longitude,
-        admin_district: data.result.admin_district,
-        region: data.result.region,
-        country: data.result.country,
-        parliamentary_constituency: data.result.parliamentary_constituency,
-        admin_ward: data.result.admin_ward,
-      };
-
-      setPostcodeData(newPostcodeData);
-      localStorage.setItem("postcodeData", JSON.stringify(newPostcodeData));
-
-      return newPostcodeData;
+      return data;
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to fetch postcode data";

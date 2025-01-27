@@ -9,7 +9,7 @@ export function LoginButton() {
   if (user) {
     return (
       <Link href="/profile">
-        <button className="flex items-center gap-2 rounded-full bg-gray-800 px-2 py-1 text-sm text-white hover:bg-gray-700">
+        <button className="flex items-center gap-2 rounded-full bg-gray-800 px-3 py-1 h-10 text-sm text-white hover:bg-gray-700">
           <UserAvatar className="h-7 w-7" />
           My Profile
         </button>
