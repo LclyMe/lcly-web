@@ -4,7 +4,7 @@ import { PostcodeSearch } from "@/components/postcode-search";
 import { useRouter } from "next/navigation";
 import { Map } from "lucide-react";
 
-export function NoLocation() {
+export function NoLocationAuth() {
   const router = useRouter();
 
   return (
@@ -16,10 +16,10 @@ export function NoLocation() {
           </div>
         </div>
         <h1 className="text-2xl font-semibold text-white mb-2">
-          Location Not Found
+          No Location Set
         </h1>
         <p className="text-white/80 mb-8">
-          We couldn't find that location. Try searching for another postcode:
+          Sign in to save your location or search for a postcode:
         </p>
         <div className="max-w-sm mx-auto">
           <PostcodeSearch
@@ -33,9 +33,10 @@ export function NoLocation() {
         </div>
         <p className="text-white/60 text-sm mt-4">
           Or{" "}
-          <a href="/map" className="underline hover:text-white">
-            return to your saved location
-          </a>
+          <a href="/auth/login" className="underline hover:text-white">
+            login/signup
+          </a>{" "}
+          to save your location
         </p>
       </div>
     </div>
