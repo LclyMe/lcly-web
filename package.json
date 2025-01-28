@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate-map": "ts-node scripts/generate-map.ts",
-    "generate-uk-map": "ts-node scripts/generate-uk-map.ts"
+    "generate-map": "ts-node scripts/generate-map.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

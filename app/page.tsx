@@ -88,7 +88,7 @@ export default function Home() {
               UK Localverse
             </h2>
             <p
-              className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+              className="mt-6 text-5xl font-bold tracking-tight text-foreground sm:text-4xl"
               style={{ fontSize: "2.5rem" }}
             >
               Your Local Community Hub
