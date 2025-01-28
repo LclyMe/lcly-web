@@ -9,15 +9,12 @@ export async function GET(request: Request) {
     const supabase = await createClient();
     await supabase.auth.exchangeCodeForSession(code);
 
-    console.log("code", code);
-
     // Check if user has completed onboarding
     const { data: user } = await supabase
       .from("users")
       .select("username")
       .single();
 
-    console.log(user);
     // If no username, redirect to onboarding
     if (!user?.username) {
       return NextResponse.redirect(requestUrl.origin + "/onboarding");

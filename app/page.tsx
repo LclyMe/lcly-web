@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import LclyLogo from "@/components/logos/LclyLogo";
 import { WaitlistForm } from "@/components/waitlist-form";
 import {
@@ -20,28 +21,46 @@ import { MapButton } from "@/components/map-button";
 import { LoginButton } from "@/components/auth/login-button";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { UKMap } from "@/components/maps/uk-map";
 
 export default function Home() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <header className="pt-10 md:pt-24">
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
+          scrolled
+            ? "bg-background/60 backdrop-blur-md shadow-sm pt-4"
+            : "pt-10"
+        }`}
+      >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-col sm:flex-row sm:items-center justify-between sm:h-9 mb-8 sm:mb-14 gap-4"
+          className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-row items-center justify-between sm:h-9 mb-4 gap-4"
         >
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
             <Image
               src="/union-flag.png"
               alt="Union Flag"
               width={48}
               height={48}
-              className="h-10 w-10 sm:h-12 sm:w-12 rounded-full"
+              className="h-8 w-8 sm:h-9 sm:w-9 rounded-full"
               priority
             />
-            <LclyLogo className="h-6 sm:h-8 w-auto text-black/90 dark:text-white -mb-1.5" />
+            <LclyLogo className="h-5 sm:h-7 w-auto text-black/90 dark:text-white -mb-1.5" />
           </div>
           <div className="flex items-center gap-2">
             <Link href="/about">
@@ -61,28 +80,68 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="max-w-2xl"
+          className="max-w-2xl flex flex-col lg:flex-row lg:max-w-none lg:items-center lg:justify-between lg:gap-8 mt-16 lg:mt-0 h-[75dvh] lg:h-[100dvh]"
         >
-          <h2 className="text-base font-semibold leading-7 text-primary/60">
-            Join the UK Localverse
-          </h2>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Your Local Community Hub
-          </p>
-          <p className="mt-2 text-lg leading-8 text-muted-foreground">
-            Lcly is an Open Source project building digital infrastructure for
-            local communities. Join the waitlist or if you&apos;re a developer
-            come build Lcly with us (
-            <a className="underline" href="https://github.com/lcly/contribute">
-              Github
-            </a>
-            ).
-          </p>
-          <div className="mt-6">
-            <PostcodeSearch />
+          <div className="flex-1 flex flex-col justify-center">
+            <h2 className="flex items-center gap-2 text-xs leading-7 bg-primary/5 font-semibold text-primary px-3 rounded-full self-start border border-primary/10 text-foreground/60">
+              <div className="w-2 h-2 bg-[#0ea5e9]/75 rounded-full" /> Join the
+              UK Localverse
+            </h2>
+            <p
+              className="mt-6 text-5xl font-bold tracking-tight text-foreground sm:text-4xl"
+              style={{ fontSize: "2.5rem" }}
+            >
+              Your Local Community Hub
+            </p>
+            <p className="mt-2 text-lg leading-8 text-muted-foreground">
+              Lcly is an Free &amp; Open Source project, building digital
+              infrastructure for local communities. Find your local community or
+              if you&apos;re a developer come build Lcly with us (
+              <a
+                className="underline"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://github.com/LclyMe/lcly-web"
+              >
+                Github
+              </a>
+              ).
+            </p>
+            <div className="mt-6">
+              <PostcodeSearch />
+              <div className="mt-6 flex items-center gap-2">
+                <div className="flex -space-x-2">
+                  {[
+                    "/avatars/amy.png",
+                    "/avatars/callum.png",
+                    "/avatars/beth.png",
+                    "/avatars/seth.png",
+                  ].map((url) => (
+                    <div
+                      key={url}
+                      className="inline-block h-9 w-9 rounded-full ring-2 ring-background"
+                    >
+                      <Image
+                        src={url}
+                        alt={`Community member`}
+                        width={38}
+                        height={38}
+                        className="h-full w-full rounded-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Join 1000s building their local community
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="hidden lg:block lg:w-[45%]">
+            <UKMap />
           </div>
         </motion.div>
-        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
+        <div className="mx-auto max-w-2xl sm:mt-20 lg:max-w-none">
           <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-6 sm:gap-y-10 lg:max-w-none lg:grid-cols-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -293,7 +352,13 @@ export default function Home() {
           <div className="border-t border-border pt-8">
             <p className="text-sm leading-5 text-muted-foreground">
               &copy; {new Date().getFullYear()} Lcly. Build Lcly with us (
-              <a href="https://github.com/lcly/contribute">Github</a>
+              <a
+                href="https://github.com/LclyMe/lcly-web"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Github
+              </a>
               ).
             </p>
           </div>

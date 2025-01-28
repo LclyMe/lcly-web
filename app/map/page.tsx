@@ -3,6 +3,7 @@ import { getCurrentProfile } from "@/lib/server/profile";
 import { PostcodeData } from "@/types/location";
 import { getPostcodeLocation } from "@/lib/server/postcode";
 import { NoLocation } from "@/components/map/no-location";
+import { NoLocationAuth } from "@/components/map/no-location-auth";
 
 interface SearchParams {
   lat?: string;
@@ -51,7 +52,7 @@ export default async function MapPage({
   }
 
   if (!displayLocation) {
-    return <div>No location found</div>;
+    return <NoLocationAuth />;
   }
 
   return (
