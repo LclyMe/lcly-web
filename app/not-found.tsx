@@ -1,4 +1,6 @@
-import { Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Home, Search } from "lucide-react";
+import Link from "next/link";
 
 export default function NotFound() {
   return (
@@ -16,21 +18,16 @@ export default function NotFound() {
           We couldn't find the page you're looking for. The page might have been
           removed, renamed, or doesn't exist.
         </p>
-        <div className="space-y-4">
-          <button
-            onClick={() => window.history.back()}
-            className="inline-block px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-md w-full max-w-[200px] transition-colors"
-          >
+        <div className="flex items-center justify-center gap-2">
+          <Button variant="secondary" onClick={() => window.history.back()}>
             Go back
-          </button>
-          <div className="block">
-            <a
-              href="/"
-              className="inline-block px-4 py-2 bg-white text-black hover:bg-white/90 rounded-md w-full max-w-[200px] transition-colors"
-            >
+          </Button>
+          <Link href="/">
+            <Button variant="outline">
+              <Home className="h-4 w-4" />
               Go home
-            </a>
-          </div>
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

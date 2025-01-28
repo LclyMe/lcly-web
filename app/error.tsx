@@ -1,6 +1,8 @@
 "use client";
 
-import { AlertCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { AlertCircle, Home } from "lucide-react";
+import Link from "next/link";
 import { useEffect } from "react";
 
 export default function Error({
@@ -30,21 +32,16 @@ export default function Error({
           An error occurred while loading this page. We've been notified and are
           looking into it.
         </p>
-        <div className="space-y-4">
-          <button
-            onClick={() => reset()}
-            className="inline-block px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-md w-full max-w-[200px] transition-colors"
-          >
+        <div className="flex items-center justify-center gap-2">
+          <Button variant="secondary" onClick={() => reset()}>
             Try again
-          </button>
-          <div className="block">
-            <a
-              href="/"
-              className="inline-block px-4 py-2 bg-white text-black hover:bg-white/90 rounded-md w-full max-w-[200px] transition-colors"
-            >
+          </Button>
+          <Link href="/">
+            <Button variant="outline">
+              <Home className="h-4 w-4" />
               Go home
-            </a>
-          </div>
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
