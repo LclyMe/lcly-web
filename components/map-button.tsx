@@ -12,9 +12,9 @@ export function MapButton() {
 
   return (
     <Link href="/map">
-      <Button variant="secondary" className="gap-2 h-10">
+      <Button variant="secondary" className="gap-2 h-10 w-10 md:w-auto">
         <Map className="h-4 w-4" />
-        {postcode || "Map"}
+        <span className="hidden md:block">{postcode || "Map"}</span>
       </Button>
     </Link>
   );

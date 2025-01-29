@@ -13,6 +13,8 @@ import {
   Heart,
   SquareUserRound,
   HelpCircle,
+  Rocket,
+  FileText,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -62,7 +64,7 @@ export default function Home() {
             />
             <LclyLogo className="h-5 sm:h-7 w-auto text-black/90 dark:text-white -mb-1.5" />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3 md:gap-2">
             <Link href="/about">
               <Button variant="secondary" size="icon">
                 <HelpCircle className="h-4 w-4" />
@@ -80,7 +82,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="max-w-2xl flex flex-col lg:flex-row lg:max-w-none lg:items-center lg:justify-between lg:gap-8 mt-16 lg:mt-0 h-[75dvh] lg:h-[100dvh]"
+          className="max-w-2xl flex flex-col lg:flex-row lg:max-w-none lg:items-center lg:justify-between lg:gap-8 mt-16 lg:mt-0 h-[100dvh]"
         >
           <div className="flex-1 flex flex-col justify-center">
             <h2 className="flex items-center gap-2 text-xs leading-7 bg-primary/5 font-semibold text-primary px-3 rounded-full self-start border border-primary/10 text-foreground/60">
@@ -94,7 +96,7 @@ export default function Home() {
               Your Local Community Hub
             </p>
             <p className="mt-2 text-lg leading-8 text-muted-foreground">
-              Lcly is an Free &amp; Open Source project, building digital
+              Lcly is an Free &amp; Open Source project building digital
               infrastructure for local communities. Find your local community or
               if you&apos;re a developer come build Lcly with us (
               <a
@@ -107,9 +109,9 @@ export default function Home() {
               </a>
               ).
             </p>
-            <div className="mt-6">
+            <div className="mt-10">
               <PostcodeSearch />
-              <div className="mt-6 flex items-center gap-2">
+              <div className="mt-8 flex items-center gap-2">
                 <div className="flex -space-x-2">
                   {[
                     "/avatars/amy.png",
@@ -134,6 +136,28 @@ export default function Home() {
                 <p className="text-sm text-muted-foreground">
                   Join 1000s building their local community
                 </p>
+              </div>
+
+              {/* New Documentation Links */}
+              <div className="mt-6 flex flex-row gap-3 text-foreground/70">
+                <Link href="/roadmap">
+                  <Button
+                    variant="outline"
+                    className="w-full sm:w-auto group hover:border-primary/20 hover:bg-primary/5"
+                  >
+                    <Rocket className="mr-2 h-4 w-4 group-hover:animate-pulse" />
+                    Our Roadmap
+                  </Button>
+                </Link>
+                <Link href="/whitepaper">
+                  <Button
+                    variant="outline"
+                    className="w-full sm:w-auto group hover:border-primary/20 hover:bg-primary/5"
+                  >
+                    <FileText className="mr-2 h-4 w-4 group-hover:animate-pulse" />
+                    Read the Whitepaper
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -349,7 +373,7 @@ export default function Home() {
         className="mt-32 sm:mt-40"
       >
         <div className="mx-auto max-w-7xl px-6 pb-8 lg:px-8">
-          <div className="border-t border-border pt-8">
+          <div className="border-t border-border pt-8 flex flex-row items-center justify-between">
             <p className="text-sm leading-5 text-muted-foreground">
               &copy; {new Date().getFullYear()} Lcly. Build Lcly with us (
               <a
