@@ -4,11 +4,22 @@ import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
 import { BookOpen, BookOpenText } from "lucide-react";
+import type { Components } from "react-markdown";
 
 interface WhitepaperContentProps {
   source: string;
   eli5Source: string;
 }
+
+type HeadingProps = React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLHeadingElement>,
+  HTMLHeadingElement
+>;
+
+type AnchorProps = React.DetailedHTMLProps<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  HTMLAnchorElement
+>;
 
 export function WhitepaperContent({
   source,
@@ -16,8 +27,8 @@ export function WhitepaperContent({
 }: WhitepaperContentProps) {
   const [isEli5Mode, setIsEli5Mode] = useState(false);
 
-  const markdownComponents = {
-    h1: ({ node, ...props }: any) => {
+  const markdownComponents: Components = {
+    h1: (props: HeadingProps) => {
       const id = props.children
         ?.toString()
         .toLowerCase()
@@ -25,7 +36,7 @@ export function WhitepaperContent({
         .replace(/(^-|-$)/g, "");
       return <h1 id={id} {...props} />;
     },
-    h2: ({ node, ...props }: any) => {
+    h2: (props: HeadingProps) => {
       const id = props.children
         ?.toString()
         .toLowerCase()
@@ -33,7 +44,7 @@ export function WhitepaperContent({
         .replace(/(^-|-$)/g, "");
       return <h2 id={id} {...props} />;
     },
-    h3: ({ node, ...props }: any) => {
+    h3: (props: HeadingProps) => {
       const id = props.children
         ?.toString()
         .toLowerCase()
@@ -41,7 +52,7 @@ export function WhitepaperContent({
         .replace(/(^-|-$)/g, "");
       return <h3 id={id} {...props} />;
     },
-    h4: ({ node, ...props }: any) => {
+    h4: (props: HeadingProps) => {
       const id = props.children
         ?.toString()
         .toLowerCase()
@@ -49,7 +60,7 @@ export function WhitepaperContent({
         .replace(/(^-|-$)/g, "");
       return <h4 id={id} {...props} />;
     },
-    a: ({ node, ...props }: any) => (
+    a: (props: AnchorProps) => (
       <a target="_blank" rel="noopener noreferrer" {...props} />
     ),
   };
