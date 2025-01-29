@@ -111,7 +111,7 @@ export default function Home() {
             </p>
             <div className="mt-10">
               <PostcodeSearch />
-              <div className="mt-8 flex items-center gap-2">
+              <div className="mt-5 flex items-center gap-2">
                 <div className="flex -space-x-2">
                   {[
                     "/avatars/amy.png",
@@ -139,7 +139,7 @@ export default function Home() {
               </div>
 
               {/* New Documentation Links */}
-              <div className="mt-6 flex flex-row gap-3 text-foreground/70">
+              <div className="mt-8 flex flex-row gap-3 text-foreground/70">
                 <Link href="/roadmap">
                   <Button
                     variant="outline"
