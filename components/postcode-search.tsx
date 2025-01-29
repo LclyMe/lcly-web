@@ -56,7 +56,7 @@ export function PostcodeSearch({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex w-full max-w-sm gap-2 items-center"
+      className="flex w-full max-w-md gap-2 items-center"
     >
       <Input
         type="text"

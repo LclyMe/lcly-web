@@ -9,9 +9,9 @@ export function LoginButton() {
   if (user) {
     return (
       <Link href="/profile">
-        <button className="flex items-center gap-2 rounded-full bg-gray-800 px-3 py-1 h-10 text-sm text-white hover:bg-gray-700">
-          <UserAvatar className="h-7 w-7" />
-          My Profile
+        <button className="flex items-center gap-2 rounded-full bg-black p-0 md:px-3 md:py-1 h-10 w-10 md:w-auto text-sm text-white hover:bg-gray-900">
+          <UserAvatar className="h-10 w-10 md:h-7 md:w-7" />
+          <span className="hidden md:block">My Profile</span>
         </button>
       </Link>
     );
