@@ -56,7 +56,7 @@ export function CommunityGrid({ communities }: CommunityGridProps) {
                   </Badge>
                 )}
                 <div className="absolute bottom-0 left-0 right-0">
-                  <div className="flex items-center justify-between p-4 backdrop-blur-sm bg-background/40">
+                  <div className="flex items-center justify-between px-4 py-2 md:py-4 backdrop-blur-sm bg-background/40">
                     <h3 className="text-xl font-semibold tracking-tight text-foreground">
                       {community.name}
                     </h3>

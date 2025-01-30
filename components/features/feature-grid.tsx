@@ -64,7 +64,7 @@ function FeatureGrid() {
                     ].map((flag) => (
                       <div
                         key={flag.src}
-                        className="inline-block h-10 w-10 rounded-full ring-2 ring-gray-900"
+                        className="inline-block h-10 w-10 rounded-full ring-2 dark:ring-gray-900 ring-gray-100"
                       >
                         <img
                           src={flag.src}
@@ -138,7 +138,7 @@ function FeatureGrid() {
               </div>
             </Link>
 
-            <div className="hover:bg-muted bg-primary/5 rounded-2xl h-full lg:col-span-2 p-8 flex justify-between flex-col transition-all duration-300 relative overflow-hidden">
+            <div className="hover:bg-muted bg-primary/5 rounded-2xl h-full lg:col-span-2 p-8 flex justify-between flex-col transition-all duration-300 relative md:overflow-hidden">
               <div className="absolute inset-0 opacity-30 dark:opacity-100">
                 <FlickeringGrid
                   color="rgb(var(--primary))"
