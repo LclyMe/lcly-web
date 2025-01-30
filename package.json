@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@tailwindcss/typography": "^0.5.16",
     "@types/leaflet": "^1.9.16",
     "@types/node": "^20",
     "@types/react": "^19",
