@@ -9,6 +9,7 @@ import { useDebounce } from "@/hooks/use-debounce";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
 
 async function fetchCommunities(search?: string, type?: string) {
   const params = new URLSearchParams();
@@ -20,6 +21,20 @@ async function fetchCommunities(search?: string, type?: string) {
     throw new Error("Failed to fetch communities");
   }
   return response.json() as Promise<Community[]>;
+}
+
+function CommunitySkeletons() {
+  return (
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {[1, 2, 3, 4, 5, 6].map((i) => (
+        <div key={i}>
+          <div className="overflow-hidden rounded-3xl">
+            <Skeleton className="aspect-[5/2] md:aspect-[16/9] w-full" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default function CommunitiesPage() {
@@ -53,9 +68,7 @@ export default function CommunitiesPage() {
       />
       <div className="h-8" />
       {isLoading ? (
-        <div className="text-center text-muted-foreground">
-          Loading communities...
-        </div>
+        <CommunitySkeletons />
       ) : (
         <CommunityGrid communities={communities} />
       )}

@@ -24,6 +24,7 @@ import { LoginButton } from "@/components/auth/login-button";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { UKMap } from "@/components/maps/uk-map";
+import { FeatureGrid } from "@/components/features/feature-grid";
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -90,7 +91,7 @@ export default function Home() {
               UK Localverse
             </h2>
             <p
-              className="mt-6 text-5xl font-bold tracking-tight text-foreground sm:text-4xl"
+              className="mt-6 text-3xl md:text-5xl tracking-tighter max-w-xl font-regular text-left text-foreground"
               style={{ fontSize: "2.5rem" }}
             >
               Your Local Community Hub
@@ -165,170 +166,174 @@ export default function Home() {
             <UKMap />
           </div>
         </motion.div>
-        <div className="mx-auto max-w-2xl sm:mt-20 lg:max-w-none">
-          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-6 sm:gap-y-10 lg:max-w-none lg:grid-cols-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="flex flex-col items-start"
-            >
-              <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-0">
-                <div className="rounded-lg bg-primary/10 p-2 flex-shrink-0">
-                  <Users2 className="h-6 w-6 text-primary" />
-                </div>
-                <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
-                  Connect with Neighbours
-                </dt>
-              </div>
-              <dd className="mt-2 leading-7 text-muted-foreground">
-                Build meaningful connections with people in your area, organize
-                local events, and help each other out.
-              </dd>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex flex-col items-start"
-            >
-              <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-0">
-                <div className="rounded-lg bg-primary/10 p-2 flex-shrink-0">
-                  <Newspaper className="h-6 w-6 text-primary" />
-                </div>
-                <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
-                  Local News
-                </dt>
-              </div>
-              <dd className="mt-2 leading-7 text-muted-foreground">
-                Get updates on what's happening in your area, from community
-                events to important local developments.
-              </dd>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-col items-start"
-            >
-              <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-0">
-                <div className="rounded-lg bg-primary/10 p-2 flex-shrink-0">
-                  <SquareUserRound className="h-6 w-6 text-primary" />
-                </div>
-                <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
-                  Community Leadership
-                </dt>
-              </div>
-              <dd className="mt-2 leading-7 text-muted-foreground">
-                Become a community leader and help shape the future of your
-                local community.
-              </dd>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className="flex flex-col items-start"
-            >
-              <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-0">
-                <div className="rounded-lg bg-primary/10 p-2 flex-shrink-0">
-                  <Vote className="h-6 w-6 text-primary" />
-                </div>
-                <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
-                  Local Democracy
-                </dt>
-              </div>
-              <dd className="mt-2 leading-7 text-muted-foreground">
-                Stay informed about local elections, participate in community
-                decisions, and make your voice heard.
-              </dd>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              className="flex flex-col items-start"
-            >
-              <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-0">
-                <div className="rounded-lg bg-primary/10 p-2 flex-shrink-0">
-                  <Building2 className="h-6 w-6 text-primary" />
-                </div>
-                <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
-                  Community Projects
-                </dt>
-              </div>
-              <dd className="mt-2 leading-7 text-muted-foreground">
-                Start or join in with local improvement projects, from
-                neighborhood clean-ups to community gardens.
-              </dd>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 1 }}
-              className="flex flex-col items-start"
-            >
-              <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-0">
-                <div className="rounded-lg bg-primary/10 p-2 flex-shrink-0">
-                  <Shield className="h-6 w-6 text-primary" />
-                </div>
-                <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
-                  Community Safety
-                </dt>
-              </div>
-              <dd className="mt-2 leading-7 text-muted-foreground">
-                Stay safe and informed with crime alerts, emergency resources,
-                or start a community protection group.
-              </dd>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 1.2 }}
-              className="flex flex-col items-start"
-            >
-              <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-0">
-                <div className="rounded-lg bg-primary/10 p-2 flex-shrink-0">
-                  <School className="h-6 w-6 text-primary" />
-                </div>
-                <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
-                  Local Education
-                </dt>
-              </div>
-              <dd className="mt-2 leading-7 text-muted-foreground">
-                Find local learning resources, activities, or start a community
-                home schooling group.
-              </dd>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 1.4 }}
-              className="flex flex-col items-start"
-            >
-              <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-0">
-                <div className="rounded-lg bg-primary/10 p-2 flex-shrink-0">
-                  <Heart className="h-6 w-6 text-primary" />
-                </div>
-                <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
-                  Local Charity
-                </dt>
-              </div>
-              <dd className="mt-2 leading-7 text-muted-foreground">
-                Find help or volunteer at local charities and community support
-                groups.
-              </dd>
-            </motion.div>
-          </dl>
+        <div className="mx-auto max-w-2xl lg:max-w-none">
+          <FeatureGrid />
         </div>
+      </div>
+
+      <div className="mx-auto mt-12 max-w-7xl sm:mt-40 px-6 lg:px-8">
+        <dl className="grid max-w-xl mt-20 lg:mt-20 grid-cols-1 gap-x-8 gap-y-6 sm:gap-y-10 lg:max-w-none lg:grid-cols-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col items-start"
+          >
+            <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-0">
+              <div className="rounded-lg bg-primary/10 p-2 flex-shrink-0">
+                <Users2 className="h-6 w-6 text-primary" />
+              </div>
+              <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
+                Connect with Neighbours
+              </dt>
+            </div>
+            <dd className="mt-2 leading-7 text-muted-foreground">
+              Build meaningful connections with people in your area, organize
+              local events, and help each other out.
+            </dd>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex flex-col items-start"
+          >
+            <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-0">
+              <div className="rounded-lg bg-primary/10 p-2 flex-shrink-0">
+                <Newspaper className="h-6 w-6 text-primary" />
+              </div>
+              <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
+                Local News
+              </dt>
+            </div>
+            <dd className="mt-2 leading-7 text-muted-foreground">
+              Get updates on what's happening in your area, from community
+              events to important local developments.
+            </dd>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex flex-col items-start"
+          >
+            <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-0">
+              <div className="rounded-lg bg-primary/10 p-2 flex-shrink-0">
+                <SquareUserRound className="h-6 w-6 text-primary" />
+              </div>
+              <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
+                Community Leadership
+              </dt>
+            </div>
+            <dd className="mt-2 leading-7 text-muted-foreground">
+              Become a community leader and help shape the future of your local
+              community.
+            </dd>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="flex flex-col items-start"
+          >
+            <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-0">
+              <div className="rounded-lg bg-primary/10 p-2 flex-shrink-0">
+                <Vote className="h-6 w-6 text-primary" />
+              </div>
+              <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
+                Local Democracy
+              </dt>
+            </div>
+            <dd className="mt-2 leading-7 text-muted-foreground">
+              Stay informed about local elections, participate in community
+              decisions, and make your voice heard.
+            </dd>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+            className="flex flex-col items-start"
+          >
+            <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-0">
+              <div className="rounded-lg bg-primary/10 p-2 flex-shrink-0">
+                <Building2 className="h-6 w-6 text-primary" />
+              </div>
+              <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
+                Community Projects
+              </dt>
+            </div>
+            <dd className="mt-2 leading-7 text-muted-foreground">
+              Start or join in with local improvement projects, from
+              neighborhood clean-ups to community gardens.
+            </dd>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 1 }}
+            className="flex flex-col items-start"
+          >
+            <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-0">
+              <div className="rounded-lg bg-primary/10 p-2 flex-shrink-0">
+                <Shield className="h-6 w-6 text-primary" />
+              </div>
+              <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
+                Community Safety
+              </dt>
+            </div>
+            <dd className="mt-2 leading-7 text-muted-foreground">
+              Stay safe and informed with crime alerts, emergency resources, or
+              start a community protection group.
+            </dd>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 1.2 }}
+            className="flex flex-col items-start"
+          >
+            <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-0">
+              <div className="rounded-lg bg-primary/10 p-2 flex-shrink-0">
+                <School className="h-6 w-6 text-primary" />
+              </div>
+              <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
+                Local Education
+              </dt>
+            </div>
+            <dd className="mt-2 leading-7 text-muted-foreground">
+              Find local learning resources, activities, or start a community
+              home schooling group.
+            </dd>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 1.4 }}
+            className="flex flex-col items-start"
+          >
+            <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-0">
+              <div className="rounded-lg bg-primary/10 p-2 flex-shrink-0">
+                <Heart className="h-6 w-6 text-primary" />
+              </div>
+              <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
+                Local Charity
+              </dt>
+            </div>
+            <dd className="mt-2 leading-7 text-muted-foreground">
+              Find help or volunteer at local charities and community support
+              groups.
+            </dd>
+          </motion.div>
+        </dl>
       </div>
 
       {/* CTA Section */}
@@ -337,7 +342,7 @@ export default function Home() {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="mx-auto mt-12 max-w-7xl sm:mt-40 px-6 lg:px-8"
+        className="mx-auto mt-8 max-w-7xl sm:mt-40 px-6 lg:px-8"
       >
         <div
           className="relative isolate overflow-hidden bg-primary px-6 py-24 shadow-2xl rounded-3xl sm:px-24"

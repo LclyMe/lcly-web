@@ -80,3 +80,50 @@ export async function uploadAvatar(userId: string, file: File) {
 
   return publicUrl;
 }
+
+export async function checkCommunityMembership(
+  userId: string,
+  communityId: string
+) {
+  const supabase = await createClient();
+
+  const { data: member } = await supabase
+    .from("community_members")
+    .select("*")
+    .eq("communityid", communityId)
+    .eq("user_id", userId)
+    .single();
+
+  return !!member;
+}
+
+export async function getUserFirstCommunity(userId: string) {
+  const supabase = await createClient();
+
+  const { data: membership } = await supabase
+    .from("community_members")
+    .select(
+      `
+      community:communities (
+        id,
+        name,
+        slug,
+        type,
+        avatar,
+        wikipedia_data
+      )
+    `
+    )
+    .eq("user_id", userId)
+    .order("createdat", { ascending: false })
+    .limit(1)
+    .single();
+
+  if (!membership?.community) return null;
+
+  const isMember = await checkCommunityMembership(
+    userId,
+    membership.community.id
+  );
+  return { ...membership.community, isMember };
+}

@@ -1,3 +1,5 @@
+"use client";
+
 import { getSupabaseStorageUrl } from "@/lib/utils";
 import { Community } from "@/lib/server/communities";
 import { Button } from "@/components/ui/button";
@@ -8,15 +10,36 @@ import {
   CalendarDays,
   MessageSquare,
   ArrowLeft,
+  Cloud,
+  Home,
+  Flag,
+  UserCheck,
+  CircleUserRound,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 import { ShareButton } from "@/components/share-button";
+import { weatherCodes } from "@/lib/utils/weather";
+import { useJoinCommunity } from "@/hooks/use-join-community";
+
+interface ExtendedCommunity extends Community {
+  weather?: {
+    temperature_2m: number;
+    weather_code: number;
+    time: string;
+  };
+  isMember: boolean;
+}
 
 interface CommunityHeaderProps {
-  community: Community;
+  community: ExtendedCommunity;
 }
 
 export function CommunityHeader({ community }: CommunityHeaderProps) {
+  const { joinCommunity, leaveCommunity, isLoading } = useJoinCommunity(
+    community.id,
+    community.isMember
+  );
   const getCommunityAvatarUrl = (path: string): string =>
     getSupabaseStorageUrl("community-avatars", path);
 
@@ -25,10 +48,22 @@ export function CommunityHeader({ community }: CommunityHeaderProps) {
     ? getCommunityAvatarUrl(community.avatar)
     : page?.thumbnail?.source;
 
+  const weatherInfo = community.weather
+    ? weatherCodes[community.weather.weather_code]
+    : null;
+
+  const handleMembershipAction = () => {
+    if (community.isMember) {
+      leaveCommunity();
+    } else {
+      joinCommunity();
+    }
+  };
+
   return (
-    <div className="relative container mx-auto px-4 h-full min-h-[80vh] flex flex-col items-center justify-center">
+    <div className="relative container mx-auto px-6 h-full min-h-[80vh] flex flex-col items-center justify-center">
       {/* Back Button */}
-      <div className="absolute left-4 top-4 z-10">
+      <div className="absolute left-4 top-8 z-10">
         <Link href="/communities">
           <Button variant="secondary" size="icon" className="h-8 w-8">
             <ArrowLeft className="h-4 w-4" />
@@ -38,7 +73,7 @@ export function CommunityHeader({ community }: CommunityHeaderProps) {
 
       <div className="flex flex-col items-center pb-6 pt-12">
         {/* Image */}
-        <div className="relative mb-6 h-32 w-32 overflow-hidden rounded-3xl border-4 border-background shadow-xl sm:h-40 sm:w-40">
+        <div className="relative mb-6 h-32 w-32 overflow-hidden rounded-3xl border-4 border-background shadow-xl sm:h-40 sm:w-40 animate-wobble">
           <img
             src={imageUrl || "/placeholder-community.jpg"}
             alt={community.name}
@@ -69,50 +104,112 @@ export function CommunityHeader({ community }: CommunityHeaderProps) {
             title={`Join ${community.name} on Lcly`}
             text={`Check out the ${community.name} community on Lcly!`}
           />
-          <Button size="lg" className="gap-2">
-            <Users className="h-4 w-4" />
-            Join Community
+          <Button
+            size="lg"
+            className="gap-2 min-w-[140px]"
+            onClick={handleMembershipAction}
+            disabled={isLoading}
+            variant={community.isMember ? "outline" : "default"}
+          >
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : community.isMember ? (
+              <UserCheck className="h-4 w-4" />
+            ) : (
+              <Users className="h-4 w-4" />
+            )}
+            {isLoading
+              ? community.isMember
+                ? "Leaving..."
+                : "Joining..."
+              : community.isMember
+              ? "Leave Community"
+              : "Join Community"}
           </Button>
         </div>
 
         {/* Stats */}
-        <div className="mx-auto mt-8 grid w-full max-w-3xl grid-cols-2 gap-4 px-4 sm:grid-cols-4">
+        <div className="mx-auto mt-8 grid w-full max-w-3xl grid-cols-2 gap-4 sm:grid-cols-4">
           <div className="p-4 bg-gray-100 dark:bg-white/5 border-none rounded-2xl py-5">
-            <div className="flex flex-col items-center gap-2 text-center">
-              <Users className="h-5 w-5 text-primary" />
+            <div className="flex flex-col items-center gap-2 text-center h-full">
+              <div className="flex-grow flex items-center justify-center">
+                <CircleUserRound className="h-6 w-6 text-primary" />
+              </div>
               <div>
-                <div className="text-2xl font-bold">2.4k</div>
+                <div className="text-2xl font-bold">0</div>
                 <div className="text-xs text-muted-foreground">Members</div>
               </div>
             </div>
           </div>
           <div className="p-4 bg-gray-100 dark:bg-white/5 border-none rounded-2xl py-5">
-            <div className="flex flex-col items-center gap-2 text-center">
-              <MapPin className="h-5 w-5 text-primary" />
+            <div className="flex flex-col items-center gap-2 text-center h-full">
+              <div className="flex-grow flex items-center justify-center">
+                <Users className="h-6 w-6 text-primary" />
+              </div>
               <div>
                 <div className="text-2xl font-bold">
-                  {community.population?.toLocaleString() || "N/A"}
+                  {community.population && community.population !== 0
+                    ? community.population?.toLocaleString()
+                    : "?"}
                 </div>
                 <div className="text-xs text-muted-foreground">Population</div>
               </div>
             </div>
           </div>
           <div className="p-4 bg-gray-100 dark:bg-white/5 border-none rounded-2xl py-5">
-            <div className="flex flex-col items-center gap-2 text-center">
-              <CalendarDays className="h-5 w-5 text-primary" />
+            <div className="flex flex-col items-center gap-2 text-center h-full">
+              <div className="flex-grow flex items-center justify-center">
+                <Flag className="h-6 w-6 text-primary" />
+              </div>
               <div>
-                <div className="text-2xl font-bold">12</div>
-                <div className="text-xs text-muted-foreground">Events</div>
+                {community.parent_name ? (
+                  <>
+                    <Link
+                      href={`/c/${community.parent_slug}`}
+                      className="text-lg font-semibold hover:underline line-clamp-1"
+                    >
+                      {community.parent_name}
+                    </Link>
+                    <div className="text-xs text-muted-foreground">Part of</div>
+                  </>
+                ) : (
+                  <>
+                    <div className="text-lg font-semibold">Independent</div>
+                    <div className="text-xs text-muted-foreground">Status</div>
+                  </>
+                )}
               </div>
             </div>
           </div>
           <div className="p-4 bg-gray-100 dark:bg-white/5 border-none rounded-2xl py-5">
             <div className="flex flex-col items-center gap-2 text-center">
-              <MessageSquare className="h-5 w-5 text-primary" />
-              <div>
-                <div className="text-2xl font-bold">Active</div>
-                <div className="text-xs text-muted-foreground">Discussions</div>
-              </div>
+              {community.weather ? (
+                <>
+                  <div
+                    className="text-4xl"
+                    role="img"
+                    aria-label={weatherInfo?.label}
+                  >
+                    {weatherInfo?.icon}
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold">
+                      {Math.round(community.weather.temperature_2m)}°C
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {weatherInfo?.label}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Cloud className="h-5 w-5 text-primary" />
+                  <div>
+                    <div className="text-2xl font-bold">--°C</div>
+                    <div className="text-xs text-muted-foreground">Weather</div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

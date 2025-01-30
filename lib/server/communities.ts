@@ -1,7 +1,14 @@
 import { createClient } from "@/lib/supabase/server";
 import { Database } from "@/types/database.types";
 
-export type Community = Database["public"]["Tables"]["communities"]["Row"];
+export type Community =
+  Database["public"]["Functions"]["get_community"]["Returns"][0] & {
+    weather?: {
+      temperature_2m: number;
+      weather_code: number;
+      time: string;
+    };
+  };
 
 interface GetCommunitiesOptions {
   search?: string;
@@ -20,7 +27,8 @@ export async function getCommunities({
     .or("avatar.neq.null,wikipedia_data->thumbnail->>source.neq.null")
     .neq("type", "country")
     .neq("type", "continent")
-    .neq("type", "union");
+    .neq("type", "union")
+    .neq("type", "local");
 
   if (search) {
     query = query.ilike("name", `%${search}%`);

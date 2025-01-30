@@ -18,7 +18,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="h-screen w-full bg-black flex items-center justify-center">
+    <div className="h-screen w-full flex items-center justify-center">
       <div className="max-w-lg w-full mx-auto p-6 text-center">
         <div className="mb-6 flex justify-center">
           <div className="rounded-full bg-red-500/10 p-4">

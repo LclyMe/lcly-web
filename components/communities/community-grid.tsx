@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
 
-type Community = Database["public"]["Tables"]["communities"]["Row"];
+type Community = Database["public"]["Functions"]["get_community"]["Returns"][0];
 
 interface CommunityGridProps {
   communities: Community[];
