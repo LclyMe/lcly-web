@@ -11,6 +11,13 @@ import {
   MapPin,
 } from "lucide-react";
 
+interface WikipediaData {
+  extract?: string;
+  thumbnail?: {
+    source: string;
+  };
+}
+
 interface CommunityContentProps {
   community: Community;
 }
@@ -125,9 +132,9 @@ export function CommunityContent({ community }: CommunityContentProps) {
           </h2>
           <Card className="p-6">
             <div className="prose dark:prose-invert max-w-none">
-              {(community.wikipedia_data as any)?.extract ? (
+              {(community.wikipedia_data as WikipediaData)?.extract ? (
                 <>
-                  <p>{(community.wikipedia_data as any).extract}</p>
+                  <p>{(community.wikipedia_data as WikipediaData).extract}</p>
                   <h3>Quick Facts</h3>
                   <ul>
                     <li>

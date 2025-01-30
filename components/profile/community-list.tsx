@@ -7,6 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Users, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
+import { type Json } from "@/types/database.types";
+
+interface Community {
+  id: string;
+  name: string;
+  slug: string;
+  type: string;
+  avatar: string | null;
+  wikipedia_data: Json;
+}
 
 async function fetchUserCommunities() {
   const supabase = createClient();
@@ -91,7 +101,7 @@ export function CommunityList() {
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2">
-          {communities.map((community: any) => (
+          {communities.map((community: Community) => (
             <Link
               key={community.id}
               href={`/c/${community.slug}`}

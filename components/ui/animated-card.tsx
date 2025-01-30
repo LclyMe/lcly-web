@@ -67,13 +67,15 @@ function AnimatedImages({ images }: { images: AnimatedCardProps["images"] }) {
     `.image-${index + 1}`,
     { scale, transform },
     { duration: 0.4 },
-  ]) as any;
+  ]) as Array<
+    [string, { scale: number[]; transform: string[] }, { duration: number }]
+  >;
 
   useEffect(() => {
     animate(sequence, {
       repeat: Infinity,
       repeatDelay: 0,
-    } as any);
+    });
   }, [sequence]);
 
   return (

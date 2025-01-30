@@ -10,6 +10,13 @@ interface CommunityPageProps {
   }>;
 }
 
+interface WikipediaData {
+  extract?: string;
+  thumbnail?: {
+    source: string;
+  };
+}
+
 async function getCommunityBySlug(slug: string) {
   const supabase = await createClient();
 
@@ -69,7 +76,7 @@ export async function generateMetadata({
   return {
     title: `${community.name} | Lcly`,
     description:
-      (community.wikipedia_data as any)?.extract ||
+      (community.wikipedia_data as WikipediaData)?.extract ||
       `Join ${community.name} on Lcly to connect with locals and stay updated with what's happening.`,
   };
 }

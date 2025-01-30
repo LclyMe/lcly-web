@@ -84,7 +84,10 @@ function FeatureGrid() {
                 </div>
               </div>
             </Link>
-            <div className="hover:bg-muted bg-primary/5 rounded-2xl sm:aspect-square p-8 flex justify-between flex-col transition-all duration-300">
+            <Link
+              href={`/c/${locationData?.community.slug}`}
+              className="hover:bg-muted bg-primary/5 rounded-2xl sm:aspect-square p-8 flex justify-between flex-col transition-all duration-300"
+            >
               <Users2 className="w-8 h-8 stroke-1.5 text-primary mb-6" />
               <div className="flex flex-col mt-auto">
                 <h3 className="text-xl tracking-tight font-semibold">
@@ -112,7 +115,7 @@ function FeatureGrid() {
                   )}
                 </p>
               </div>
-            </div>
+            </Link>
 
             <Link
               href="https://github.com/LclyMe/lcly-web"

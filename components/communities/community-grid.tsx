@@ -9,6 +9,13 @@ import { Button } from "../ui/button";
 
 type Community = Database["public"]["Functions"]["get_community"]["Returns"][0];
 
+interface WikipediaData {
+  extract?: string;
+  thumbnail?: {
+    source: string;
+  };
+}
+
 interface CommunityGridProps {
   communities: Community[];
 }
@@ -24,7 +31,7 @@ export function CommunityGrid({ communities }: CommunityGridProps) {
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {communities.map((community) => {
         const isNew = +oneMonthAgo < +new Date(community.created_at);
-        const page = community.wikipedia_data as any;
+        const page = community.wikipedia_data as WikipediaData;
 
         return (
           <Link

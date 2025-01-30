@@ -31,6 +31,13 @@ interface ExtendedCommunity extends Community {
   isMember: boolean;
 }
 
+interface WikipediaData {
+  extract?: string;
+  thumbnail?: {
+    source: string;
+  };
+}
+
 interface CommunityHeaderProps {
   community: ExtendedCommunity;
 }
@@ -43,7 +50,7 @@ export function CommunityHeader({ community }: CommunityHeaderProps) {
   const getCommunityAvatarUrl = (path: string): string =>
     getSupabaseStorageUrl("community-avatars", path);
 
-  const page = community.wikipedia_data as any;
+  const page = community.wikipedia_data as WikipediaData;
   const imageUrl = community.avatar
     ? getCommunityAvatarUrl(community.avatar)
     : page?.thumbnail?.source;
