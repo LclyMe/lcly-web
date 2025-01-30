@@ -15,6 +15,11 @@ import {
   HelpCircle,
   Rocket,
   FileText,
+  Twitter,
+  Github as GithubIcon,
+  Instagram as InstagramIcon,
+  // Youtube as YoutubeIcon,
+  // Video,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -390,6 +395,48 @@ export default function Home() {
               </a>
               ).
             </p>
+            <div className="flex items-center space-x-4">
+              <a
+                href="https://twitter.com/LclyMe"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <Twitter className="h-5 w-5" />
+              </a>
+              <a
+                href="https://github.com/LclyMe"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <GithubIcon className="h-5 w-5" />
+              </a>
+              <a
+                href="https://instagram.com/lcly.me"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <InstagramIcon className="h-5 w-5" />
+              </a>
+              {/* <a
+                href="https://tiktok.com/@LclyMe"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <Video className="h-5 w-5" />
+              </a>
+              <a
+                href="https://youtube.com/@LclyMe"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <YoutubeIcon className="h-5 w-5" />
+              </a> */}
+            </div>
           </div>
         </div>
       </motion.footer>
