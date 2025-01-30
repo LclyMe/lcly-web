@@ -138,11 +138,11 @@ export function UKMap() {
           const { x, y } = projectPoint(point.lat, point.lng);
           return (
             <g key={`point-${i}`}>
-              <circle cx={x} cy={y} r="10" fill={lineColor} opacity="0.5">
+              <circle cx={x} cy={y} r="14" fill={lineColor} opacity="0.5">
                 <animate
                   attributeName="r"
-                  from="12"
-                  to="26"
+                  from="16"
+                  to="46"
                   dur="1.5s"
                   begin="0s"
                   repeatCount="indefinite"

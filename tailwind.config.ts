@@ -9,6 +9,32 @@ export default {
   ],
   theme: {
     extend: {
+      keyframes: {
+        wobble: {
+          "0%": { transform: "rotate(-2deg) scale(0.97)" },
+          "20%": { transform: "rotate(4deg) scale(1.04)" },
+          "40%": { transform: "rotate(-4deg) scale(1.05)" },
+          "60%": { transform: "rotate(3deg) scale(1.03)" },
+          "100%": { transform: "rotate(0deg) scale(1)" },
+        },
+        move: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(100vw)" },
+        },
+        meteor: {
+          "0%": { transform: "rotate(215deg) translateX(0)", opacity: "1" },
+          "70%": { opacity: "1" },
+          "100%": {
+            transform: "rotate(215deg) translateX(-500px)",
+            opacity: "0",
+          },
+        },
+      },
+      animation: {
+        wobble: "wobble 1.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
+        move: "move 8s linear infinite 0.4s",
+        "meteor-effect": "meteor 5s linear infinite",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -68,5 +94,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;
