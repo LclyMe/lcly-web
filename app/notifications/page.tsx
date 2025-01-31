@@ -5,6 +5,11 @@ import { subscribeUser, unsubscribeUser, sendNotification } from "../actions";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+// Add proper type for window with MSStream
+interface WindowWithMSStream extends Window {
+  MSStream?: unknown;
+}
+
 function urlBase64ToUint8Array(base64String: string) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
@@ -123,7 +128,8 @@ function InstallPrompt() {
 
   useEffect(() => {
     setIsIOS(
-      /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
+      /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+        !(window as WindowWithMSStream).MSStream
     );
 
     setIsStandalone(window.matchMedia("(display-mode: standalone)").matches);
@@ -140,12 +146,10 @@ function InstallPrompt() {
         <p>
           To install this app on your iOS device, tap the share button
           <span role="img" aria-label="share icon">
-            {" "}
             ⎋{" "}
           </span>
           and then "Add to Home Screen"
           <span role="img" aria-label="plus icon">
-            {" "}
             ➕{" "}
           </span>
           .
