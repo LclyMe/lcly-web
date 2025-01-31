@@ -10,6 +10,15 @@ interface WindowWithMSStream extends Window {
   MSStream?: unknown;
 }
 
+// Define the type that web-push expects
+type WebPushSubscription = {
+  endpoint: string;
+  keys: {
+    p256dh: string;
+    auth: string;
+  };
+};
+
 function urlBase64ToUint8Array(base64String: string) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
@@ -56,7 +65,30 @@ function PushNotificationManager() {
         ),
       });
       setSubscription(sub);
-      await subscribeUser(sub);
+
+      // Get the keys before sending to the server
+      const p256dh = btoa(
+        String.fromCharCode.apply(
+          null,
+          Array.from(new Uint8Array(sub.getKey("p256dh")!))
+        )
+      );
+      const auth = btoa(
+        String.fromCharCode.apply(
+          null,
+          Array.from(new Uint8Array(sub.getKey("auth")!))
+        )
+      );
+
+      const webPushSub: WebPushSubscription = {
+        endpoint: sub.endpoint,
+        keys: {
+          p256dh,
+          auth,
+        },
+      };
+
+      await subscribeUser(webPushSub);
     } catch (error) {
       console.error("Failed to subscribe to push notifications:", error);
     }

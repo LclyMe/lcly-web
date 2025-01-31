@@ -18,7 +18,7 @@ type WebPushSubscription = {
   };
 };
 
-export async function subscribeUser(sub: PushSubscription) {
+export async function subscribeUser(sub: WebPushSubscription) {
   const supabase = await createClient();
 
   // Get current user
@@ -30,23 +30,14 @@ export async function subscribeUser(sub: PushSubscription) {
     throw new Error("User not authenticated");
   }
 
-  // Convert browser's PushSubscription to WebPushSubscription format
-  const webPushSub: WebPushSubscription = {
-    endpoint: sub.endpoint,
-    keys: {
-      p256dh: Buffer.from(sub.getKey("p256dh")!).toString("base64"),
-      auth: Buffer.from(sub.getKey("auth")!).toString("base64"),
-    },
-  };
-
   // Store in database
   const { error } = await supabase
     .from("push_subscriptions")
     .upsert({
       user_id: user.id,
-      endpoint: webPushSub.endpoint,
-      p256dh: webPushSub.keys.p256dh,
-      auth: webPushSub.keys.auth,
+      endpoint: sub.endpoint,
+      p256dh: sub.keys.p256dh,
+      auth: sub.keys.auth,
     })
     .select()
     .single();
