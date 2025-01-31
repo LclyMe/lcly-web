@@ -1,6 +1,7 @@
 "use server";
 
 import webpush from "web-push";
+import { createClient } from "@/lib/supabase/server";
 
 webpush.setVapidDetails(
   "mailto:notifications@lcly.me", // Replace with your email
@@ -17,10 +18,19 @@ type WebPushSubscription = {
   };
 };
 
-let subscription: WebPushSubscription | null = null;
-
 export async function subscribeUser(sub: PushSubscription) {
-  // Convert browser's PushSubscription to WebPushSubscription
+  const supabase = await createClient();
+
+  // Get current user
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) {
+    throw new Error("User not authenticated");
+  }
+
+  // Convert browser's PushSubscription to WebPushSubscription format
   const webPushSub: WebPushSubscription = {
     endpoint: sub.endpoint,
     keys: {
@@ -29,23 +39,83 @@ export async function subscribeUser(sub: PushSubscription) {
     },
   };
 
-  subscription = webPushSub;
-  // In a production environment, you would want to store the subscription in a database
-  // For example: await db.subscriptions.create({ data: webPushSub })
+  // Store in database
+  const { error } = await supabase
+    .from("push_subscriptions")
+    .upsert({
+      user_id: user.id,
+      endpoint: webPushSub.endpoint,
+      p256dh: webPushSub.keys.p256dh,
+      auth: webPushSub.keys.auth,
+    })
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Failed to store push subscription:", error);
+    throw error;
+  }
+
   return { success: true };
 }
 
 export async function unsubscribeUser() {
-  subscription = null;
-  // In a production environment, you would want to remove the subscription from the database
-  // For example: await db.subscriptions.delete({ where: { ... } })
+  const supabase = await createClient();
+
+  // Get current user
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) {
+    throw new Error("User not authenticated");
+  }
+
+  // Remove from database
+  const { error } = await supabase
+    .from("push_subscriptions")
+    .delete()
+    .eq("user_id", user.id);
+
+  if (error) {
+    console.error("Failed to remove push subscription:", error);
+    throw error;
+  }
+
   return { success: true };
 }
 
 export async function sendNotification(message: string) {
-  if (!subscription) {
-    throw new Error("No subscription available");
+  const supabase = await createClient();
+
+  // Get current user
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) {
+    throw new Error("User not authenticated");
   }
+
+  // Get subscription from database
+  const { data: subscriptionData, error: subError } = await supabase
+    .from("push_subscriptions")
+    .select()
+    .eq("user_id", user.id)
+    .single();
+
+  if (subError || !subscriptionData) {
+    throw new Error("No subscription found");
+  }
+
+  // Convert database format back to WebPushSubscription
+  const subscription: WebPushSubscription = {
+    endpoint: subscriptionData.endpoint,
+    keys: {
+      p256dh: subscriptionData.p256dh,
+      auth: subscriptionData.auth,
+    },
+  };
 
   try {
     await webpush.sendNotification(
