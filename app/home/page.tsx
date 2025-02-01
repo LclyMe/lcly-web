@@ -1,64 +1,117 @@
-"use client";
-
+import { getCurrentProfile } from "@/lib/server/profile";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { MapPin, Users, CloudSun, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { MapPin, Bell, User } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { getUserFirstCommunity } from "@/lib/server/profile";
+import { redirect } from "next/navigation";
+import { PageHeader } from "@/components/ui/page-header";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const profile = await getCurrentProfile();
+  if (!profile) redirect("/login");
+
+  const firstCommunity = await getUserFirstCommunity(profile.id);
+
+  const headerTitle = (
+    <>
+      {profile.postcode && (
+        <Button
+          variant="secondary"
+          size="sm"
+          className="font-bold text-lg h-10"
+        >
+          <MapPin className="h-6 w-6" />
+          {profile.postcode}
+        </Button>
+      )}
+    </>
+  );
+
   return (
-    <div className="container mx-auto py-8 px-4">
-      <div className="max-w-md mx-auto space-y-8">
-        {/* Welcome Section */}
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold">Welcome to Lcly</h1>
-          <p className="text-muted-foreground">
-            Your local community, all in one place
-          </p>
-        </div>
+    <div className="container max-w-lg mx-auto">
+      <PageHeader title={headerTitle} showNotifications />
 
-        {/* Main Actions */}
-        <div className="grid gap-4">
-          <Link href="/profile" className="w-full">
-            <Button
-              variant="outline"
-              size="lg"
-              className="w-full justify-start space-x-2"
-            >
-              <User className="h-5 w-5" />
-              <span>Your Profile</span>
-            </Button>
+      {/* Main Cards */}
+      <div className="space-y-4 px-3">
+        {/* Community Card */}
+        {firstCommunity ? (
+          <Link href={`/c/${firstCommunity.slug}`}>
+            <Card className="p-4 hover:bg-muted/50 transition-colors">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h2 className="font-semibold text-lg mb-1">Your Community</h2>
+                  <p className="text-muted-foreground text-sm mb-3">
+                    {firstCommunity.name}
+                  </p>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Users className="h-4 w-4 mr-1" />
+                    <span>View community</span>
+                  </div>
+                </div>
+                <ArrowRight className="h-5 w-5 text-muted-foreground" />
+              </div>
+            </Card>
           </Link>
-
-          <Link href="/notifications" className="w-full">
-            <Button
-              variant="outline"
-              size="lg"
-              className="w-full justify-start space-x-2"
-            >
-              <Bell className="h-5 w-5" />
-              <span>Notifications</span>
+        ) : (
+          <Card className="p-4">
+            <h2 className="font-semibold text-lg mb-2">Find Your Community</h2>
+            <p className="text-muted-foreground text-sm mb-3">
+              Join a local community to connect with people near you.
+            </p>
+            <Button asChild>
+              <Link href="/communities">Explore Communities</Link>
             </Button>
-          </Link>
+          </Card>
+        )}
 
-          <Link href="/" className="w-full">
-            <Button
-              variant="outline"
-              size="lg"
-              className="w-full justify-start space-x-2"
-            >
-              <MapPin className="h-5 w-5" />
-              <span>Explore Area</span>
-            </Button>
-          </Link>
-        </div>
+        {/* Weather Card */}
+        {profile.postcode_location && (
+          <Card className="p-4">
+            <div className="flex items-start justify-between">
+              <div>
+                <h2 className="font-semibold text-lg mb-1">Local Weather</h2>
+                <div className="flex items-center">
+                  <CloudSun className="h-5 w-5 mr-2 text-muted-foreground" />
+                  <span className="text-2xl font-medium">
+                    {/* Add weather data here */}
+                    12°C
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {profile.postcode_location.admin_ward}
+                </p>
+              </div>
+              <Button variant="ghost" size="icon" asChild>
+                <Link href="/map">
+                  <MapPin className="h-5 w-5" />
+                </Link>
+              </Button>
+            </div>
+          </Card>
+        )}
 
-        {/* Quick Info */}
-        <div className="rounded-lg border bg-card p-6 space-y-2">
-          <h2 className="font-semibold">Getting Started</h2>
-          <p className="text-sm text-muted-foreground">
-            Set up your profile and enable notifications to stay connected with
-            your local community.
-          </p>
+        {/* Quick Actions */}
+        <div className="grid grid-cols-2 gap-4">
+          <Link href="/map">
+            <Card className="p-4 hover:bg-muted/50 transition-colors h-full">
+              <MapPin className="h-6 w-6 mb-2 text-muted-foreground" />
+              <h3 className="font-medium">Explore Map</h3>
+              <p className="text-sm text-muted-foreground">
+                Discover your area
+              </p>
+            </Card>
+          </Link>
+          <Link href="/local">
+            <Card className="p-4 hover:bg-muted/50 transition-colors h-full">
+              <Users className="h-6 w-6 mb-2 text-muted-foreground" />
+              <h3 className="font-medium">Local Feed</h3>
+              <p className="text-sm text-muted-foreground">
+                See what's happening
+              </p>
+            </Card>
+          </Link>
         </div>
       </div>
     </div>

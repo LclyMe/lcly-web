@@ -39,7 +39,7 @@ export function CommunityGrid({ communities }: CommunityGridProps) {
             href={`/c/${community.slug}`}
             className="group"
           >
-            <Card className="relative overflow-hidden rounded-3xl transition-all duration-300 hover:shadow-lg dark:hover:shadow-primary/25">
+            <Card className="relative overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-lg dark:hover:shadow-primary/25">
               <div className="aspect-[5/2] md:aspect-[16/9] relative overflow-hidden">
                 <img
                   src={

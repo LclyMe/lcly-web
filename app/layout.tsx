@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/providers";
 import Analytics from "@/components/analytics";
+import { AppLayout } from "@/components/app-layout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-[100dvh] bg-white dark:bg-background transition-colors duration-200`}
       >
         <Providers>
-          {children}
+          <AppLayout>{children}</AppLayout>
           <Analytics />
           <Toaster />
         </Providers>
