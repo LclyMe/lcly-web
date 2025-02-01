@@ -14,9 +14,9 @@ export async function middleware(req: NextRequest) {
   );
 
   // Redirect to home if logged in and on root path
-  if (req.nextUrl.pathname === "/" && session.data.session) {
-    return NextResponse.redirect(new URL("/home", req.url));
-  }
+  // if (req.nextUrl.pathname === "/" && session.data.session) {
+  //   return NextResponse.redirect(new URL("/home", req.url));
+  // }
 
   // Redirect to login if not authenticated and trying to access protected path
   if (isProtectedPath && !session.data.session) {
