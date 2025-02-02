@@ -4,9 +4,9 @@ import { ArrowLeft, MapPin, Link as LinkIcon } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { Database } from "@/types/database.types";
-import { ProfileAvatar } from "./profile-avatar";
 import Image from "next/image";
 import { UserAvatar } from "../user-avatar";
+import { ProfileActions } from "./profile-actions";
 
 type User = Database["public"]["Views"]["public_users"]["Row"];
 
@@ -37,12 +37,15 @@ export function PublicProfileHeader({ profile }: PublicProfileHeaderProps) {
 
       {/* Profile Info */}
       <div className="">
-        <div className="relative -mt-16 ml-4">
+        <div className="relative -mt-16 ml-4 flex items-end gap-2 justify-between">
           <UserAvatar
             src={profile.avatar || undefined}
             name={profile.display_name || undefined}
             className="h-24 w-24 sm:h-32 sm:w-32 border-[5px] border-background rounded-full"
           />
+          <div className="pb-4">
+            <ProfileActions username={profile.username || ""} />
+          </div>
         </div>
 
         <div className="mt-4">

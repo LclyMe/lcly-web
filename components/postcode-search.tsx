@@ -78,7 +78,7 @@ export function PostcodeSearch({
       />
       <Button
         type="submit"
-        className={cn("h-10 text-base font-medium w-24", buttonClassName)}
+        className={cn("h-10 text-base w-24 opacity-90", buttonClassName)}
         disabled={isLoading}
       >
         {isLoading ? (

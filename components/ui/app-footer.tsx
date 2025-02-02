@@ -4,13 +4,14 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Bell, MapPin, User, Newspaper } from "lucide-react";
+import { useProfile } from "@/hooks/use-profile";
 
 interface AppFooterProps {
   className?: string;
   children?: React.ReactNode;
 }
 
-const defaultNavItems = [
+const getNavItems = (username: string | null | undefined) => [
   {
     label: "Home",
     href: "/home",
@@ -28,13 +29,15 @@ const defaultNavItems = [
   },
   {
     label: "Profile",
-    href: "/profile",
+    href: username ? `/u/${username}` : "/profile",
     icon: User,
   },
 ];
 
 export function AppFooter({ className, children }: AppFooterProps) {
   const pathname = usePathname();
+  const { profile } = useProfile();
+  const navItems = getNavItems(profile?.username);
 
   // If children are provided, render those instead of default nav
   //   if (children) {
@@ -68,7 +71,7 @@ export function AppFooter({ className, children }: AppFooterProps) {
       )}
     >
       <nav className="flex items-center justify-around">
-        {defaultNavItems.map((item) => {
+        {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
           return (

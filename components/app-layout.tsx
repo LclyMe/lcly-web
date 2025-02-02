@@ -8,12 +8,13 @@ import { cn } from "@/lib/utils";
 import { Home, Bell, MapPin, User, Newspaper } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
+import { useProfile } from "@/hooks/use-profile";
 
 interface AppLayoutProps {
   children: React.ReactNode;
 }
 
-const navigationItems = [
+const getNavItems = (username: string | null | undefined) => [
   {
     label: "Home",
     href: "/home",
@@ -31,7 +32,7 @@ const navigationItems = [
   },
   {
     label: "Profile",
-    href: "/profile",
+    href: username ? `/u/${username}` : "/profile",
     icon: User,
   },
 ];
@@ -39,15 +40,8 @@ const navigationItems = [
 export function AppLayout({ children }: AppLayoutProps) {
   const pathname = usePathname();
   const { user } = useAuth();
-  //   const [isStandalone, setIsStandalone] = useState(false);
-
-  //   const showMobileNav = isStandalone && !pathname.includes("/auth");
-
-  //   useEffect(() => {
-  //     if (typeof window !== "undefined") {
-  //       setIsStandalone(window.matchMedia("(display-mode: standalone)").matches);
-  //     }
-  //   }, []);
+  const { profile } = useProfile();
+  const navItems = getNavItems(profile?.username);
 
   const showMobileNav = user && pathname !== "/" && !pathname.includes("/auth");
 
@@ -68,7 +62,7 @@ export function AppLayout({ children }: AppLayoutProps) {
         <>
           <div className="hidden md:block fixed bottom-8 left-1/2 -translate-x-1/2 z-[1001]">
             <Dock className="items-end pb-3">
-              {navigationItems.map((item) => {
+              {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = pathname === item.href;
                 return (
@@ -93,7 +87,6 @@ export function AppLayout({ children }: AppLayoutProps) {
           </div>
 
           {/* Mobile Footer - shown on mobile, hidden on md and up */}
-
           <div className="md:hidden">
             <AppFooter />
           </div>
