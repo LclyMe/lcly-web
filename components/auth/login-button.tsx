@@ -1,17 +1,17 @@
 import { useAuth } from "@/hooks/use-auth";
 import { LockIcon } from "lucide-react";
 import Link from "next/link";
-import { UserAvatar } from "@/components/user-avatar";
+import { CurrentUserAvatar } from "../current-user-avatar";
 
 export function LoginButton() {
   const { user } = useAuth();
 
   if (user) {
     return (
-      <Link href="/profile">
+      <Link href="/home">
         <button className="flex items-center gap-2 rounded-full bg-black p-0 md:pl-2 md:pr-3 md:py-1 h-10 w-10 md:w-auto text-sm text-white hover:bg-gray-900">
-          <UserAvatar className="h-10 w-10 md:h-7 md:w-7" />
-          <span className="hidden md:block">My Profile</span>
+          <CurrentUserAvatar className="h-10 w-10 md:h-7 md:w-7" />
+          <span className="hidden md:block">Home</span>
         </button>
       </Link>
     );

@@ -14,7 +14,7 @@ export function LoginForm() {
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await signInWithEmailAndPassword(email, password);
-    router.push("/");
+    router.push("/home");
   };
 
   return (

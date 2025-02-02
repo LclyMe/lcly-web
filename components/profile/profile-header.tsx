@@ -2,11 +2,11 @@
 
 import { Profile } from "@/lib/server/profile";
 import { Button } from "@/components/ui/button";
-import { UserAvatar } from "@/components/user-avatar";
 import { ArrowLeft, Bell } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import { UserAvatar } from "../user-avatar";
 
 interface ProfileHeaderProps {
   profile: Profile;
@@ -37,7 +37,11 @@ export function ProfileHeader({ profile }: ProfileHeaderProps) {
       </div>
 
       <div className="flex flex-col items-center px-4 py-10 md:pt-24">
-        <UserAvatar className="h-20 w-20 md:h-28 md:w-28 mb-4 md:mb-6" />
+        <UserAvatar
+          src={profile.avatar || undefined}
+          name={profile.display_name || undefined}
+          className="h-20 w-20 md:h-28 md:w-28 mb-4 md:mb-6"
+        />
         <h1 className="text-2xl md:text-4xl font-bold tracking-tight md:mb-2">
           {profile.display_name || "User"}
         </h1>

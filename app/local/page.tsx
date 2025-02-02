@@ -1,95 +1,46 @@
-import { Card } from "@/components/ui/card";
-import { UserAvatar } from "@/components/user-avatar";
+import { createClient } from "@/lib/supabase/server";
+import { Database } from "@/types/database.types";
+import { ThoughtCard } from "@/components/thoughts/thought-card";
 
-interface Post {
-  id: number;
-  author: string;
-  title: string;
-  content: string;
-  timestamp: string;
-  likes: number;
+type Thought = Database["public"]["Tables"]["thoughts"]["Row"];
+type PublicUser = Database["public"]["Views"]["public_users"]["Row"];
+
+interface ThoughtWithAuthor extends Thought {
+  author: PublicUser;
 }
 
-// Mock data - in a real app this would come from an API/database
-const mockPosts: Post[] = [
-  {
-    id: 1,
-    author: "Sarah Chen",
-    title: "New Coffee Shop Opening Downtown",
-    content:
-      "Excited to announce that 'Bean There' will be opening next week on Main Street! They'll be serving locally roasted coffee and homemade pastries.",
-    timestamp: "2h",
-    likes: 42,
-  },
-  {
-    id: 2,
-    author: "Mike Rodriguez",
-    title: "Weekend Farmers Market Update",
-    content:
-      "This weekend's farmers market will feature live music from local artists and over 30 vendors! Don't miss out on fresh produce and artisanal goods.",
-    timestamp: "5h",
-    likes: 28,
-  },
-  {
-    id: 3,
-    author: "Emily Watson",
-    title: "Community Clean-up Initiative",
-    content:
-      "Join us this Saturday for our monthly community clean-up event. Meeting point is Central Park at 9 AM. Gloves and bags will be provided!",
-    timestamp: "1d",
-    likes: 89,
-  },
-  // Add more mock posts as needed
-];
+async function getPublicThoughts() {
+  const supabase = await createClient();
 
-export default function LocalPage() {
+  const { data: thoughts } = await supabase
+    .from("public_thoughts")
+    .select()
+    .order("created_at", { ascending: false });
+
+  return (thoughts as ThoughtWithAuthor[]) || [];
+}
+
+export default async function LocalPage() {
+  const thoughts = await getPublicThoughts();
+
   return (
     <div className="container mx-auto max-w-2xl">
-      <h1 className="text-2xl font-bold px-3 py-3">Your Local News</h1>
+      <h1 className="text-2xl font-bold px-3 py-3">Your Local Feed</h1>
 
-      <div className="">
-        {mockPosts.map((post) => (
-          <div
-            key={post.id}
-            className="py-4 px-4 border-t border-border/50 hover:shadow-lg transition-shadow"
-          >
-            <div className="">
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg font-base">{post.title}</h2>
-                <span className="text-sm text-gray-500">{post.timestamp}</span>
-              </div>
-
-              <p className="text-gray-400">{post.content}</p>
-
-              <div className="flex items-center justify-between mt-2">
-                <div className="flex items-center space-x-2">
-                  <UserAvatar className="h-7 w-7" />
-                  <span className="text-sm font-medium">{post.author}</span>
-                </div>
-
-                <div className="flex items-center space-x-2">
-                  <button className="flex items-center space-x-1 text-gray-500 hover:text-gray-700">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                      />
-                    </svg>
-                    <span>{post.likes}</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className="divide-y divide-border/50 mb-16">
+        {thoughts.map((thought) => (
+          <ThoughtCard
+            key={thought.id}
+            thought={thought}
+            author={thought.author}
+            showAuthor={true}
+          />
         ))}
+        {thoughts.length === 0 && (
+          <p className="text-muted-foreground text-center py-8">
+            No thoughts yet
+          </p>
+        )}
       </div>
     </div>
   );

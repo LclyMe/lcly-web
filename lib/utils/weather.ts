@@ -3,12 +3,24 @@ interface WeatherResponse {
     temperature_2m: number;
     weather_code: number;
     time: string;
+    apparent_temperature: number;
+    relative_humidity_2m: number;
+    wind_speed_10m: number;
+    precipitation: number;
   };
 }
 
-export async function getWeather(lat: number, long: number) {
+export async function getWeather(
+  lat: number,
+  long: number,
+  full: boolean = false
+) {
   const response = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=temperature_2m,weather_code`,
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=temperature_2m,weather_code${
+      full
+        ? ",precipitation,wind_speed_10m,weather_code,apparent_temperature,relative_humidity_2m"
+        : ""
+    }`,
     {
       next: {
         revalidate: 3600, // Cache for 1 hour (3600 seconds)

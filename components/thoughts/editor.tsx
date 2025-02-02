@@ -138,7 +138,7 @@ export function ThoughtEditor({
   };
 
   return (
-    <div className="min-h-screen bg-background mx-auto max-w-3xl flex flex-col">
+    <div className="min-h-screen bg-background mx-auto max-w-3xl w-full flex flex-col">
       <div className="w-full flex-grow h-full flex flex-col px-4 py-8">
         {/* Header */}
         <div className="z-50 bg-background/80 backdrop-blur-sm">

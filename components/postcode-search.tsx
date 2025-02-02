@@ -41,7 +41,7 @@ export function PostcodeSearch({
       if (onSelect) {
         onSelect(postcode.trim());
       } else {
-        router.push(`/map?postcode=${encodeURIComponent(postcode.trim())}`);
+        router.push(`/postcode/${encodeURIComponent(postcode.trim())}`);
       }
     } catch (error) {
       console.error(error);

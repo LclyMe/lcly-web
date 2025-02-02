@@ -76,7 +76,7 @@ export default function Home() {
                 <HelpCircle className="h-4 w-4" />
               </Button>
             </Link>
-            <MapButton />
+            {/* <MapButton /> */}
             <LoginButton />
           </div>
         </motion.div>
