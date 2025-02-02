@@ -1,17 +1,8 @@
 "use client";
 
-import {
-  Settings,
-  Moon,
-  Globe,
-  Bell,
-  Shield,
-  User,
-  ArrowLeft,
-} from "lucide-react";
+import { Settings, Moon, Globe, Bell, Shield, User } from "lucide-react";
 import { motion } from "framer-motion";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { PageHeaderWithIcon } from "@/components/ui/page-header-with-icon";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -50,24 +41,7 @@ export default function SettingsPage() {
 
   return (
     <div className="container mx-auto max-w-4xl px-4 py-8">
-      <div className="relative">
-        <Link href="/profile">
-          <Button
-            variant="secondary"
-            size="icon"
-            className="absolute left-0 top-0 rounded-full"
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-
-        <motion.div {...fadeIn} className="mb-8 flex flex-col items-center">
-          <div className="rounded-full bg-foreground/10 p-4">
-            <Settings className="h-8 w-8 text-foreground" />
-          </div>
-          <h1 className="mt-4 text-2xl font-bold">Settings</h1>
-        </motion.div>
-      </div>
+      <PageHeaderWithIcon icon={Settings} title="Settings" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -81,8 +55,8 @@ export default function SettingsPage() {
             className="cursor-pointer rounded-lg border p-4 shadow-sm transition-all hover:shadow-md"
           >
             <div className="flex items-center space-x-4">
-              <div className="rounded-full bg-gray-100 p-2">
-                <section.icon className="h-5 w-5 text-gray-600" />
+              <div className="rounded-full bg-foreground/10 p-2">
+                <section.icon className="h-5 w-5 text-foreground" />
               </div>
               <div>
                 <h3 className="font-semibold">{section.title}</h3>

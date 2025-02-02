@@ -5,7 +5,15 @@ import { AppFooter } from "./ui/app-footer";
 import { Dock, DockIcon, DockItem, DockLabel } from "./ui/dock";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Home, Bell, MapPin, User, Newspaper } from "lucide-react";
+import {
+  Home,
+  Bell,
+  MapPin,
+  User,
+  Newspaper,
+  Grid,
+  LayoutGrid,
+} from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
 import { useProfile } from "@/hooks/use-profile";
@@ -34,6 +42,11 @@ const getNavItems = (username: string | null | undefined) => [
     label: "Profile",
     href: username ? `/u/${username}` : "/profile",
     icon: User,
+  },
+  {
+    label: "Apps",
+    href: "/apps",
+    icon: LayoutGrid,
   },
 ];
 
@@ -88,7 +101,7 @@ export function AppLayout({ children }: AppLayoutProps) {
 
           {/* Mobile Footer - shown on mobile, hidden on md and up */}
           <div className="md:hidden">
-            <AppFooter />
+            <AppFooter navItems={navItems} />
           </div>
         </>
       )}

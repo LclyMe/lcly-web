@@ -20,7 +20,7 @@ export function PageHeader({
   return (
     <div
       className={cn(
-        "relative flex items-center justify-between py-4 px-4 mb-6",
+        "relative flex items-center justify-between py-4 md:pt-8 px-4 mb-6",
         className
       )}
     >

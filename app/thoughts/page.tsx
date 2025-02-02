@@ -182,7 +182,7 @@ export default function ThoughtsPage() {
             animate={{ opacity: 1, y: 0 }}
             className="flex justify-between items-center"
           >
-            <h1 className="text-4xl font-bold">My Thoughts</h1>
+            <h1 className="text-3xl md:text-4xl font-bold">My Thoughts</h1>
             <Link href="/thoughts/new">
               <Button size="icon" className="rounded-full">
                 <Plus className="h-6 w-6" />

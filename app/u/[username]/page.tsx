@@ -50,8 +50,8 @@ export default async function PublicProfilePage({ params }: PageProps) {
   const thoughts = await getProfileThoughts(profile.id);
 
   return (
-    <div className="container max-w-2xl mx-auto pt-8">
-      <div className="flex items-center gap-4 mb-4">
+    <div className="container max-w-2xl w-full mx-auto md:pt-8">
+      <div className="flex items-center gap-4 mb-4 px-3">
         <BackButton />
         <div className="flex flex-col gap-[2px]">
           <span className="text-lg capitalize">@{profile.username}</span>

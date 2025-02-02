@@ -28,7 +28,7 @@ export function ThoughtCard({
 
   return (
     <Link href={thoughtUrl}>
-      <div className="py-4 px-3 border-t border-border/50 hover:bg-muted/50 transition-colors cursor-pointer">
+      <div className="py-4 px-3 border-t border-foreground/10 hover:bg-muted/50 transition-colors cursor-pointer">
         <div>
           <div className="flex items-center justify-between">
             {thought.title && (
@@ -73,7 +73,7 @@ export function ThoughtCard({
                         key={index + 4}
                         src={image}
                         alt={`Thought image ${index + 5}`}
-                        className="w-48 h-48 object-cover rounded-md flex-shrink-0"
+                        className="w-48 h-48 object-cover rounded-xl flex-shrink-0"
                       />
                     ))}
                   </div>

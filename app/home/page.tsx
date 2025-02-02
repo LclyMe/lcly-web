@@ -30,7 +30,7 @@ export default async function HomePage() {
   );
 
   return (
-    <div className="container max-w-lg mx-auto">
+    <div className="container max-w-2xl w-full mx-auto">
       <PageHeader title={headerTitle} showNotifications />
 
       {/* Main Cards */}

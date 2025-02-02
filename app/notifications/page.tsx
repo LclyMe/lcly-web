@@ -4,6 +4,15 @@ import { useState, useEffect } from "react";
 import { subscribeUser, unsubscribeUser, sendNotification } from "../actions";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Bell } from "lucide-react";
+import { motion } from "framer-motion";
+import { PageHeaderWithIcon } from "@/components/ui/page-header-with-icon";
+
+const fadeIn = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5 },
+};
 
 // Add proper type for window with MSStream
 interface WindowWithMSStream extends Window {
@@ -124,7 +133,9 @@ function PushNotificationManager() {
   }
 
   return (
-    <div className="max-w-md mx-auto p-4 space-y-4">
+    <div className="container mx-auto max-w-4xl px-4 py-8">
+      <PageHeaderWithIcon icon={Bell} title="Notifications" />
+
       <h3 className="text-lg font-semibold">Push Notifications</h3>
       {subscription ? (
         <div className="space-y-4">
@@ -154,49 +165,43 @@ function PushNotificationManager() {
   );
 }
 
-function InstallPrompt() {
-  const [isIOS, setIsIOS] = useState(false);
-  const [isStandalone, setIsStandalone] = useState(false);
+// function InstallPrompt() {
+//   const [isIOS, setIsIOS] = useState(false);
+//   const [isStandalone, setIsStandalone] = useState(false);
 
-  useEffect(() => {
-    setIsIOS(
-      /iPad|iPhone|iPod/.test(navigator.userAgent) &&
-        !(window as WindowWithMSStream).MSStream
-    );
+//   useEffect(() => {
+//     setIsIOS(
+//       /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+//         !(window as WindowWithMSStream).MSStream
+//     );
 
-    setIsStandalone(window.matchMedia("(display-mode: standalone)").matches);
-  }, []);
+//     setIsStandalone(window.matchMedia("(display-mode: standalone)").matches);
+//   }, []);
 
-  if (isStandalone) {
-    return null;
-  }
+//   if (isStandalone) {
+//     return null;
+//   }
 
-  return (
-    <div className="max-w-md mx-auto p-4 space-y-4">
-      <h3 className="text-lg font-semibold">Install App</h3>
-      {isIOS && (
-        <p>
-          To install this app on your iOS device, tap the share button
-          <span role="img" aria-label="share icon">
-            ⎋{" "}
-          </span>
-          and then "Add to Home Screen"
-          <span role="img" aria-label="plus icon">
-            ➕{" "}
-          </span>
-          .
-        </p>
-      )}
-    </div>
-  );
-}
+//   return (
+//     <div className="max-w-md mx-auto p-4 space-y-4">
+//       <h3 className="text-lg font-semibold">Install App</h3>
+//       {isIOS && (
+//         <p>
+//           To install this app on your iOS device, tap the share button
+//           <span role="img" aria-label="share icon">
+//             ⎋{" "}
+//           </span>
+//           and then "Add to Home Screen"
+//           <span role="img" aria-label="plus icon">
+//             ➕{" "}
+//           </span>
+//           .
+//         </p>
+//       )}
+//     </div>
+//   );
+// }
 
 export default function NotificationsPage() {
-  return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-2xl font-bold text-center mb-8">Notifications</h1>
-      <PushNotificationManager />
-      <InstallPrompt />
-    </div>
-  );
+  return <PushNotificationManager />;
 }

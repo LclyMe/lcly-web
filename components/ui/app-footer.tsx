@@ -3,62 +3,21 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Bell, MapPin, User, Newspaper } from "lucide-react";
+import { Home, MapPin, User, Newspaper, LayoutGrid } from "lucide-react";
 import { useProfile } from "@/hooks/use-profile";
 
 interface AppFooterProps {
   className?: string;
-  children?: React.ReactNode;
+  navItems: {
+    label: string;
+    href: string;
+    icon: React.ElementType;
+  }[];
 }
 
-const getNavItems = (username: string | null | undefined) => [
-  {
-    label: "Home",
-    href: "/home",
-    icon: Home,
-  },
-  {
-    label: "Map",
-    href: "/map",
-    icon: MapPin,
-  },
-  {
-    label: "Local",
-    href: "/local",
-    icon: Newspaper,
-  },
-  {
-    label: "Profile",
-    href: username ? `/u/${username}` : "/profile",
-    icon: User,
-  },
-];
-
-export function AppFooter({ className, children }: AppFooterProps) {
+export function AppFooter({ className, navItems }: AppFooterProps) {
   const pathname = usePathname();
-  const { profile } = useProfile();
-  const navItems = getNavItems(profile?.username);
 
-  // If children are provided, render those instead of default nav
-  //   if (children) {
-  //     return (
-  //       <footer
-  //         className={cn(
-  //           "fixed bottom-0 left-0 right-0",
-  //           "bg-background/80 backdrop-blur-md",
-  //           "border-t border-border",
-  //           "flex items-center justify-between",
-  //           "px-4 pt-2",
-  //           "pb-[env(safe-area-inset-bottom)]", // iOS safe area support
-  //           className
-  //         )}
-  //       >
-  //         {children}
-  //       </footer>
-  //     );
-  //   }
-
-  // Default navigation footer
   return (
     <footer
       className={cn(

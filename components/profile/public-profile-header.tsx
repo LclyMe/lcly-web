@@ -37,13 +37,13 @@ export function PublicProfileHeader({ profile }: PublicProfileHeaderProps) {
 
       {/* Profile Info */}
       <div className="">
-        <div className="relative -mt-16 ml-4 flex items-end gap-2 justify-between">
+        <div className="relative -mt-11 md:-mt-16 ml-4 flex items-end gap-2 justify-between">
           <UserAvatar
             src={profile.avatar || undefined}
             name={profile.display_name || undefined}
             className="h-24 w-24 sm:h-32 sm:w-32 border-[5px] border-background rounded-full"
           />
-          <div className="pb-4">
+          <div className="pb-2.5 md:pb-4">
             <ProfileActions username={profile.username || ""} />
           </div>
         </div>
