@@ -28,6 +28,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { BackButton } from "@/components/ui/back-button";
 
 // Helper function to group thoughts by date
 type GroupedThoughts = {
@@ -171,18 +172,14 @@ export default function ThoughtsPage() {
     <div className="min-h-screen bg-background">
       <div className="mx-auto px-4 py-8 max-w-5xl">
         {/* Header */}
-        <div className="container mb-8 max-w-3xl mx-auto">
-          <Link href="/profile">
-            <Button variant="ghost" size="icon" className="rounded-full mb-4">
-              <ArrowLeftIcon className="h-4 w-4" />
-            </Button>
-          </Link>
+        <div className="container mb-8 max-w-3xl mx-auto flex flex-col gap-4">
+          <BackButton />
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="flex justify-between items-center"
           >
-            <h1 className="text-4xl font-bold">My Thoughts</h1>
+            <h1 className="text-3xl md:text-4xl font-bold">My Thoughts</h1>
             <Link href="/thoughts/new">
               <Button size="icon" className="rounded-full">
                 <Plus className="h-6 w-6" />

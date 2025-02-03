@@ -154,7 +154,7 @@ export default function OnboardingPage() {
           await updateProfile(updates);
         }
 
-        router.push("/profile");
+        router.push("/home");
       } catch (error) {
         console.error("Error:", error);
       } finally {

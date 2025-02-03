@@ -142,7 +142,7 @@ function TemporaryMarker({ location }: { location: PostcodeData }) {
     <Marker
       position={[location.latitude, location.longitude]}
       icon={L.divIcon({
-        className: "rounded-full w-2 h-2 bg-red-500",
+        className: "rounded-full w-2 h-2",
         iconSize: [8, 8],
       })}
     >
@@ -179,12 +179,12 @@ export default function InteractiveMap({
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="relative h-full w-full overflow-hidden"
+      className="relative h-full w-full overflow-hidden flex-grow flex flex-col"
     >
       <MapContainer
         center={initialCenter}
         zoom={initialZoom}
-        className="h-full w-full"
+        className="h-full w-full flex-grow"
         maxBounds={[
           [UK_BOUNDS.south, UK_BOUNDS.west],
           [UK_BOUNDS.north, UK_BOUNDS.east],

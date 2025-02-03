@@ -33,7 +33,7 @@ export function MapControls({
   onToggleDataType,
 }: MapControlsProps) {
   return (
-    <div className="absolute top-1/2 -translate-y-1/2 right-4 flex flex-col gap-2 bg-background/80 backdrop-blur-sm p-2 rounded-full shadow-lg z-[1000]">
+    <div className="absolute top-1/2 -translate-y-1/2 md:right-4 right-1 flex flex-col gap-2 bg-background/80 dark:border dark:border-border/30 backdrop-blur-sm p-2 rounded-full shadow-lg z-[1000]">
       <Button
         size="icon"
         variant={selectedMapProvider === "dark" ? "default" : "ghost"}

@@ -56,7 +56,7 @@ export default async function MapPage({
   }
 
   return (
-    <div className="h-screen w-full bg-black">
+    <div className="w-full bg-black flex-grow md:h-screen flex flex-col">
       <InteractiveMap
         savedLocation={displayLocation}
         isTemporary={isTemporary}

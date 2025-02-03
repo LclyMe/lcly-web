@@ -37,6 +37,7 @@ const getProfileSections = (
 ) => [
   {
     title: "Local Area",
+    shortDescription: " See what's happening",
     description: "See what's going on in your local area.",
     icon: MapPin,
     href: "/map",
@@ -47,28 +48,32 @@ const getProfileSections = (
     description: firstCommunity
       ? `View and engage with ${firstCommunity.name}`
       : "Find and join a local community",
+    shortDescription: "Your local community",
     icon: Users,
     href: firstCommunity ? `/c/${firstCommunity.slug}` : "/communities",
     comingSoon: false,
   },
-  {
-    title: "Weekly Newspaper",
-    description:
-      "Your personalised local newspaper covering things local to you.",
-    icon: Building2,
-    href: "#",
-    comingSoon: true,
-  },
-  {
-    title: "Friends",
-    description: "Your friends and local connections.",
-    icon: Users,
-    href: "#",
-    comingSoon: true,
-  },
+  //   {
+  //     title: "Weekly Newspaper",
+  //     description:
+  //       "Your personalised local newspaper covering things local to you.",
+  //     shortDescription: "Your local newspaper",
+  //     icon: Building2,
+  //     href: "#",
+  //     comingSoon: true,
+  //   },
+  //   {
+  //     title: "Friends",
+  //     description: "Your friends and local connections.",
+  //     shortDescription: "Your friends",
+  //     icon: Users,
+  //     href: "#",
+  //     comingSoon: true,
+  //   },
   {
     title: "My Thoughts",
     description: "Write down your thoughts and ideas. Share them if you want.",
+    shortDescription: "Your thoughts",
     icon: Notebook,
     href: "/thoughts",
     comingSoon: false,
@@ -82,6 +87,7 @@ const getProfileSections = (
   {
     title: "Settings",
     description: "Manage your account security and privacy preferences",
+    shortDescription: "Your settings",
     icon: Settings,
     href: "/settings",
   },
@@ -91,27 +97,27 @@ export function ProfileMenu({ firstCommunity }: ProfileMenuProps) {
   const profileSections = getProfileSections(firstCommunity);
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4 grid-cols-2 lg:grid-cols-3 px-3">
       {profileSections.map((section) => (
         <motion.div key={section.title} {...fadeIn} className="group relative">
           {section.comingSoon ? (
-            <Card className="relative h-full overflow-hidden bg-muted/50">
-              <CardHeader>
+            <Card className="relative h-full overflow-hidden bg-muted/50 p-4">
+              <CardHeader className="p-0">
                 <section.icon className="h-6 w-6 text-muted-foreground mb-2" />
                 <CardTitle className="flex items-center text-muted-foreground gap-2">
                   {section.title}
                   <Badge variant="secondary">Coming Soon</Badge>
                 </CardTitle>
-                <CardDescription>{section.description}</CardDescription>
+                <CardDescription>{section.shortDescription}</CardDescription>
               </CardHeader>
             </Card>
           ) : (
             <Link href={section.href}>
-              <Card className="overflow-hidden h-full transition-colors hover:bg-muted/50">
-                <CardHeader>
+              <Card className="overflow-hidden h-full transition-colors hover:bg-muted/50 p-4">
+                <CardHeader className="p-0">
                   <section.icon className="h-6 w-6 text-muted-foreground mb-2" />
                   <CardTitle>{section.title}</CardTitle>
-                  <CardDescription>{section.description}</CardDescription>
+                  <CardDescription>{section.shortDescription}</CardDescription>
                 </CardHeader>
               </Card>
             </Link>

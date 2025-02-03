@@ -49,7 +49,7 @@ export default function LoginPage() {
               height={36}
               className="h-6 w-6 sm:h-8 sm:w-8 rounded-full"
             />
-            <LclyLogo className="h-4 sm:h-6 w-auto text-black/90 -mb-1.5" />
+            <LclyLogo className="h-4 sm:h-6 w-auto text-black/90 dark:text-white/90 -mb-1.5" />
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}

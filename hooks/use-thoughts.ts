@@ -32,7 +32,7 @@ export function useThoughts() {
           *
         `
         )
-        .or(`user_id.eq.${session.session.user.id},is_public.eq.true`)
+        .or(`user_id.eq.${session.session.user.id}`)
         .order("created_at", { ascending: false });
 
       if (error) throw error;

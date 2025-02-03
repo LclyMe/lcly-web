@@ -7,11 +7,14 @@ import {
   Bell,
   Shield,
   User,
-  ArrowLeft,
+  LogOut,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { PageHeaderWithIcon } from "@/components/ui/page-header-with-icon";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/use-auth";
+import { useRouter } from "next/navigation";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -20,77 +23,99 @@ const fadeIn = {
 };
 
 export default function SettingsPage() {
+  const { signOut } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await signOut();
+    router.push("/");
+  };
+
   const settingsSections = [
     {
       icon: User,
       title: "Account",
-      description: "Manage your account settings and preferences",
+      description: "Manage your account settings",
+      href: "/settings/account",
     },
     {
       icon: Globe,
-      title: "Language & Region",
-      description: "Set your preferred language and regional settings",
+      title: "Language",
+      description: "Set your preferred language",
+      href: "/settings/language",
     },
     {
       icon: Bell,
       title: "Notifications",
       description: "Configure how you receive notifications",
+      href: "/settings/notifications",
     },
     {
       icon: Shield,
       title: "Privacy & Security",
       description: "Control your privacy and security settings",
+      href: "/settings/privacy",
     },
     {
       icon: Moon,
       title: "Appearance",
-      description: "Customize the look and feel of the application",
+      description: "Customize the look and feel of Lcly",
+      href: "/settings/appearance",
+    },
+    {
+      icon: LogOut,
+      title: "Logout",
+      description: "Logout of your account",
+      onClick: handleLogout,
     },
   ];
 
   return (
     <div className="container mx-auto max-w-4xl px-4 py-8">
-      <div className="relative">
-        <Link href="/profile">
-          <Button
-            variant="secondary"
-            size="icon"
-            className="absolute left-0 top-0 rounded-full"
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
-
-        <motion.div {...fadeIn} className="mb-8 flex flex-col items-center">
-          <div className="rounded-full bg-foreground/10 p-4">
-            <Settings className="h-8 w-8 text-foreground" />
-          </div>
-          <h1 className="mt-4 text-2xl font-bold">Settings</h1>
-        </motion.div>
-      </div>
+      <PageHeaderWithIcon icon={Settings} title="Settings" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.4 }}
-        className="grid gap-4 md:grid-cols-2"
+        className="grid gap-3 md:grid-cols-2"
       >
         {settingsSections.map((section) => (
           <div
             key={section.title}
-            className="cursor-pointer rounded-lg border p-4 shadow-sm transition-all hover:shadow-md"
+            onClick={section.onClick}
+            className={cn(
+              "cursor-pointer p-6 rounded-3xl bg-white/90 dark:bg-black/90 border border-border/50",
+              "backdrop-blur-sm shadow-sm hover:bg-white/95 dark:hover:bg-black/95 transition-colors"
+            )}
           >
-            <div className="flex items-center space-x-4">
-              <div className="rounded-full bg-gray-100 p-2">
-                <section.icon className="h-5 w-5 text-gray-600" />
+            {section.href ? (
+              <Link href={section.href}>
+                <div className="flex items-center space-x-4">
+                  <div className="rounded-full bg-foreground/5 p-3">
+                    <section.icon className="h-5 w-5 text-foreground/80" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-lg">{section.title}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {section.description}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <div className="rounded-full bg-foreground/5 p-3">
+                  <section.icon className="h-5 w-5 text-foreground/80" />
+                </div>
+                <div>
+                  <h3 className="font-medium text-lg">{section.title}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {section.description}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold">{section.title}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {section.description}
-                </p>
-              </div>
-            </div>
+            )}
           </div>
         ))}
       </motion.div>
