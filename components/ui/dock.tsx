@@ -160,7 +160,7 @@ function DockItem({ children, className }: DockItemProps) {
       aria-haspopup="true"
     >
       {Children.map(children, (child) =>
-        // @ts-ignore
+        // @ts-expect-error - ignore the type error
         cloneElement(child as React.ReactElement, { width, isHovered })
       )}
     </motion.div>

@@ -7,15 +7,48 @@ import { Database } from "@/types/database.types";
 import Image from "next/image";
 import { UserAvatar } from "../user-avatar";
 import { ProfileActions } from "./profile-actions";
+import { Button } from "../ui/button";
 
 type User = Database["public"]["Views"]["public_users"]["Row"];
 
 interface PublicProfileHeaderProps {
   profile: User;
+  simple?: boolean;
 }
 
-export function PublicProfileHeader({ profile }: PublicProfileHeaderProps) {
+export function PublicProfileHeader({
+  profile,
+  simple = false,
+}: PublicProfileHeaderProps) {
   const supabase = createClient();
+
+  if (simple) {
+    return (
+      <div className="relative">
+        <div className="flex flex-col items-center px-4 py-6 md:pt-10">
+          <UserAvatar
+            src={profile.avatar || undefined}
+            name={profile.display_name || undefined}
+            className="h-24 w-24 md:h-28 md:w-28 mb-4 md:mb-6"
+          />
+          <h1 className="text-2xl md:text-4xl font-bold tracking-tight md:mb-2">
+            {profile.display_name || "User"}
+          </h1>
+          <div className="flex items-center gap-2 text-muted-foreground text-base md:text-xl">
+            {profile.username && <span>@{profile.username}</span>}
+          </div>
+          {profile.bio && (
+            <p className="mt-4 md:mt-6 text-center text-muted-foreground">
+              {profile.bio}
+            </p>
+          )}
+          <div className="mt-4">
+            <ProfileActions username={profile.username || ""} />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative max-w-2xl mx-auto px-3">

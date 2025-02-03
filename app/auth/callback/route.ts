@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     }
 
     // If has username, redirect to map
-    return NextResponse.redirect(requestUrl.origin + "/profile");
+    return NextResponse.redirect(requestUrl.origin + "/home");
   }
 
   // If no code, redirect to login

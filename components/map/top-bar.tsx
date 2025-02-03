@@ -10,6 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { BackButton } from "../ui/back-button";
 
 export function TopBar({
   selectedMapProvider,
@@ -27,18 +28,12 @@ export function TopBar({
 
   return (
     <div className="absolute left-4 top-4 z-[1000] flex gap-2 items-center">
-      <Link href="/">
-        <Button
-          variant="ghost"
-          size="icon"
-          className={cn("", {
-            "bg-white/80 text-black": isDark,
-            "bg-background/80 backdrop-blur-sm text-white": !isDark,
-          })}
-        >
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
-      </Link>
+      <BackButton
+        className={cn("", {
+          "bg-white/80 text-black": isDark,
+          "bg-background/80 backdrop-blur-sm text-white": !isDark,
+        })}
+      />
       {showHomeButton && (
         <Link href="/map">
           <Button

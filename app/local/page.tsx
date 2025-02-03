@@ -47,7 +47,7 @@ export default async function LocalPage() {
 
       <Link
         href="/thoughts/new"
-        className="fixed bottom-32 md:bottom-12 right-6 bg-primary hover:bg-primary/90 text-primary-foreground w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-colors"
+        className="fixed bottom-32 md:bottom-8 right-6 bg-primary hover:bg-primary/90 text-primary-foreground w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-colors"
       >
         <Plus className="h-8 w-8" />
       </Link>

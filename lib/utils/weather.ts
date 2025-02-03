@@ -8,6 +8,11 @@ interface WeatherResponse {
     wind_speed_10m: number;
     precipitation: number;
   };
+  hourly: {
+    time: string[];
+    temperature_2m: number[];
+    weather_code: number[];
+  };
 }
 
 export async function getWeather(
@@ -20,10 +25,10 @@ export async function getWeather(
       full
         ? ",precipitation,wind_speed_10m,weather_code,apparent_temperature,relative_humidity_2m"
         : ""
-    }`,
+    }&hourly=temperature_2m,weather_code&forecast_hours=24`,
     {
       next: {
-        revalidate: 3600, // Cache for 1 hour (3600 seconds)
+        revalidate: 3600, // Cache for 1 hour
       },
     }
   );
@@ -33,7 +38,14 @@ export async function getWeather(
   }
 
   const data: WeatherResponse = await response.json();
-  return data.current;
+  return {
+    ...data.current,
+    hourly: {
+      time: data.hourly.time,
+      temperature_2m: data.hourly.temperature_2m,
+      weather_code: data.hourly.weather_code,
+    },
+  };
 }
 
 // Weather codes from Open Meteo API

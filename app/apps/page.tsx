@@ -1,12 +1,6 @@
 "use client";
 
 import { PageHeaderWithIcon } from "@/components/ui/page-header-with-icon";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
 import { motion } from "framer-motion";
 import {
   Settings,
@@ -17,6 +11,7 @@ import {
   LayoutGrid,
 } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -68,17 +63,23 @@ export default function AppsPage() {
           return (
             <motion.div key={app.title} {...fadeIn}>
               <Link href={app.href}>
-                <Card className="h-full aspect-square md:aspect-auto hover:bg-muted/50 transition-colors">
-                  <CardHeader className="flex p-4 flex-col items-center md:items-start justify-center h-full">
+                <div
+                  className={cn(
+                    "h-full aspect-square md:aspect-auto",
+                    "p-4 rounded-3xl bg-white/90 dark:bg-black/90 border border-border/50",
+                    "backdrop-blur-sm shadow-sm hover:bg-white/95 dark:hover:bg-black/95 transition-colors"
+                  )}
+                >
+                  <div className="flex flex-col items-center md:items-start justify-center h-full">
                     <Icon className="h-8 w-8 md:h-6 md:w-6 text-muted-foreground mb-2" />
-                    <CardTitle className="text-base text-center md:text-left">
+                    <h3 className="text-base font-medium text-center md:text-left">
                       {app.title}
-                    </CardTitle>
-                    <CardDescription className="text-sm hidden md:block">
+                    </h3>
+                    <p className="text-sm text-muted-foreground hidden md:block">
                       {app.description}
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
+                    </p>
+                  </div>
+                </div>
               </Link>
             </motion.div>
           );

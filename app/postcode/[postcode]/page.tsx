@@ -17,9 +17,9 @@ import { Badge } from "@/components/ui/badge";
 import { getWeather } from "@/lib/utils/weather";
 
 interface PostcodePageProps {
-  params: {
+  params: Promise<{
     postcode: string;
-  };
+  }>;
 }
 
 // Convert weather code to description
@@ -93,7 +93,8 @@ function getWeatherEmoji(code: number): string {
 }
 
 export default async function PostcodePage({ params }: PostcodePageProps) {
-  const decodedPostcode = decodeURIComponent(params.postcode);
+  const { postcode } = await params;
+  const decodedPostcode = decodeURIComponent(postcode);
   const location = await getPostcodeLocation(decodedPostcode);
   const weather = await getWeather(location.latitude, location.longitude, true);
 
