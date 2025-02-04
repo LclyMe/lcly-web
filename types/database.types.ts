@@ -341,19 +341,19 @@ export type Database = {
           created_at: string
           feature_id: string
           id: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
           feature_id: string
           id?: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
           feature_id?: string
           id?: string
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -1774,6 +1774,7 @@ export type Database = {
           image: string
           status: string
           votes_count: number
+          has_voted: boolean
         }[]
       }
       get_my_things: {

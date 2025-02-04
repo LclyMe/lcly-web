@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import {
   Card,
-  CardContent,
   CardHeader,
   CardTitle,
   CardDescription,
@@ -36,11 +34,7 @@ export function FeatureIdeasGrid({ initialFeatures }: FeatureIdeasGridProps) {
         "get_feature_ideas_with_votes"
       );
       if (error) throw error;
-      return data.map((feature: any) => ({
-        ...feature,
-        has_voted: false,
-        votes_count: feature.feature_votes.length,
-      }));
+      return data;
     },
     initialData: initialFeatures,
   });
@@ -54,16 +48,24 @@ export function FeatureIdeasGrid({ initialFeatures }: FeatureIdeasGridProps) {
       featureId: string;
       hasVoted: boolean;
     }) => {
+      console.log(JSON.stringify({ featureId, hasVoted }, null, 2));
       if (hasVoted) {
-        return supabase
+        const { error } = await supabase
           .from("feature_votes")
           .delete()
-          .eq("feature_id", featureId)
-          .eq("user_id", user!.id);
+          .eq("feature_id", featureId);
+
+        console.log(JSON.stringify(error, null, 2));
+
+        if (error) throw error;
       } else {
-        return supabase
+        const { error } = await supabase
           .from("feature_votes")
-          .insert([{ feature_id: featureId, user_id: user!.id }]);
+          .insert([{ feature_id: featureId }]);
+
+        console.log(JSON.stringify(error, null, 2));
+
+        if (error) throw error;
       }
     },
     onMutate: async ({ featureId, hasVoted }) => {
@@ -91,14 +93,12 @@ export function FeatureIdeasGrid({ initialFeatures }: FeatureIdeasGridProps) {
       return { previousFeatures };
     },
     onError: (err, variables, context) => {
-      queryClient.setQueryData(["features"], context?.previousFeatures);
+      console.log(JSON.stringify(err, null, 2));
+      //   queryClient.setQueryData(["features"], context?.previousFeatures);
       toast({
         title: "Failed to register vote",
         description: "Please try again later",
       });
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["features"] });
     },
   });
 
@@ -136,12 +136,9 @@ export function FeatureIdeasGrid({ initialFeatures }: FeatureIdeasGridProps) {
           </CardHeader>
           <CardFooter className="flex justify-between items-center">
             <Button
-              variant="secondary"
+              variant={feature.has_voted ? "default" : "secondary"}
               size="sm"
-              className={cn(
-                "gap-2 hover:bg-primary/10",
-                feature.has_voted && "text-primary"
-              )}
+              className={cn("gap-2")}
               onClick={() => handleVote(feature.id, feature.has_voted)}
             >
               <ArrowBigUp className="h-5 w-5" />
