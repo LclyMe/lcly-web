@@ -309,6 +309,62 @@ export type Database = {
           },
         ]
       }
+      feature_ideas: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          image: string | null
+          status: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          image?: string | null
+          status?: string | null
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          image?: string | null
+          status?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      feature_votes: {
+        Row: {
+          created_at: string
+          feature_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          feature_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          feature_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feature_votes_feature_id_fkey"
+            columns: ["feature_id"]
+            isOneToOne: false
+            referencedRelation: "feature_ideas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       locations: {
         Row: {
           created_at: string
@@ -1706,6 +1762,18 @@ export type Database = {
           creator_id: string
           messages: Json
           members: Json
+        }[]
+      }
+      get_feature_ideas_with_votes: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          created_at: string
+          title: string
+          description: string
+          image: string
+          status: string
+          votes_count: number
         }[]
       }
       get_my_things: {

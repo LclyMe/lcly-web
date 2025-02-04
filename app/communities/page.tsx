@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
+import { BackButton } from "@/components/ui/back-button";
 
 async function fetchCommunities(search?: string, type?: string) {
   const params = new URLSearchParams();
@@ -51,13 +52,11 @@ export default function CommunitiesPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <div className="relative mb-8">
-          <Link href="/">
-            <Button variant="secondary" size="icon" className="">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
+          <BackButton />
         </div>
-        <h1 className="text-4xl font-bold tracking-tight">Communities</h1>
+        <h1 className="text-3xl md:text-4xl tracking-tighter max-w-xl font-regular text-left">
+          Communities
+        </h1>
         <p className="mt-2 text-lg text-muted-foreground">
           Discover and connect with local communities across the UK
         </p>

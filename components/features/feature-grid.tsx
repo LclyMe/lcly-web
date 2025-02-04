@@ -1,14 +1,4 @@
-import {
-  Building2,
-  Users2,
-  Vote,
-  Shield,
-  Heart,
-  Code2,
-  School,
-  Loader2,
-  Flag,
-} from "lucide-react";
+import { Users2, Code2, Loader2, Flag, Lightbulb } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { useLocation } from "@/hooks/use-location";
@@ -46,31 +36,6 @@ function FeatureGrid() {
                   <Flag className="w-8 h-8 stroke-1.5 text-primary mb-6" />
                 </div>
                 <div className="flex flex-col mt-auto">
-                  <div className="flex -space-x-3 mb-6">
-                    {[
-                      { src: "https://flagcdn.com/gb-eng.svg", alt: "England" },
-                      {
-                        src: "https://flagcdn.com/gb-sct.svg",
-                        alt: "Scotland",
-                      },
-                      { src: "https://flagcdn.com/gb-wls.svg", alt: "Wales" },
-                      {
-                        src: "https://flagcdn.com/gb-nir.svg",
-                        alt: "Northern Ireland",
-                      },
-                    ].map((flag) => (
-                      <div
-                        key={flag.src}
-                        className="inline-block h-10 w-10 rounded-full ring-2 dark:ring-gray-900 ring-gray-100"
-                      >
-                        <img
-                          src={flag.src}
-                          alt={flag.alt}
-                          className="h-full w-full rounded-full object-cover"
-                        />
-                      </div>
-                    ))}
-                  </div>
                   <h3 className="text-xl tracking-tight font-semibold">
                     Explore All Communities
                   </h3>
@@ -134,20 +99,23 @@ function FeatureGrid() {
               </div>
             </Link>
 
-            <div className="hover:bg-muted bg-primary/5 rounded-2xl h-full lg:col-span-2 p-8 flex justify-between flex-col transition-all duration-300 relative md:overflow-hidden">
+            <Link
+              href="/features"
+              className="hover:bg-muted bg-primary/5 rounded-2xl h-full lg:col-span-2 p-8 flex justify-between flex-col transition-all duration-300 relative md:overflow-hidden"
+            >
               <div className="relative z-10">
-                <School className="w-8 h-8 stroke-1.5 text-primary mb-6" />
+                <Lightbulb className="w-8 h-8 stroke-1.5 text-primary mb-6" />
                 <div className="flex flex-col mt-auto">
                   <h3 className="text-xl tracking-tight font-semibold">
-                    Universities
+                    Ideas
                   </h3>
                   <p className="text-muted-foreground max-w-xs text-base mt-2">
-                    Find your class, clubs, or accommodation and connect with
-                    your peers.
+                    Vote on features you'd like to see in Lcly or suggest your
+                    own ideas.
                   </p>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
