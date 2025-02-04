@@ -11,9 +11,6 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { AnimatedCard } from "@/components/ui/animated-card";
-import { Meteors } from "@/components/ui/meteors";
-import { FlickeringGrid } from "@/components/ui/flickering-grid";
 import { useLocation } from "@/hooks/use-location";
 
 function FeatureGrid() {
@@ -36,10 +33,10 @@ function FeatureGrid() {
               <h2 className="text-3xl md:text-4xl tracking-tighter max-w-xl font-regular text-left">
                 Explore Communities
               </h2>
-              {/* <p className="text-lg max-w-xl lg:max-w-lg leading-relaxed tracking-tight text-muted-foreground text-left">
+              <p className="text-lg max-w-xl lg:max-w-lg leading-relaxed tracking-tight text-muted-foreground text-left">
                 Connect with your neighbors, stay informed, and make a
                 difference in your local area.
-              </p> */}
+              </p>
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -134,18 +131,10 @@ function FeatureGrid() {
                     platform.
                   </p>
                 </div>
-                <Meteors number={20} />
               </div>
             </Link>
 
             <div className="hover:bg-muted bg-primary/5 rounded-2xl h-full lg:col-span-2 p-8 flex justify-between flex-col transition-all duration-300 relative md:overflow-hidden">
-              <div className="absolute inset-0 opacity-30 dark:opacity-100">
-                <FlickeringGrid
-                  color="rgb(var(--primary))"
-                  maxOpacity={0.15}
-                  flickerChance={0.2}
-                />
-              </div>
               <div className="relative z-10">
                 <School className="w-8 h-8 stroke-1.5 text-primary mb-6" />
                 <div className="flex flex-col mt-auto">

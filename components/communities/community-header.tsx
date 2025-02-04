@@ -21,6 +21,8 @@ import Link from "next/link";
 import { ShareButton } from "@/components/share-button";
 import { weatherCodes } from "@/lib/utils/weather";
 import { useJoinCommunity } from "@/hooks/use-join-community";
+import { WikipediaData } from "@/types/community";
+import { BackButton } from "../ui/back-button";
 
 interface ExtendedCommunity extends Community {
   weather?: {
@@ -29,13 +31,6 @@ interface ExtendedCommunity extends Community {
     time: string;
   };
   isMember: boolean;
-}
-
-interface WikipediaData {
-  extract?: string;
-  thumbnail?: {
-    source: string;
-  };
 }
 
 interface CommunityHeaderProps {
@@ -71,11 +66,7 @@ export function CommunityHeader({ community }: CommunityHeaderProps) {
     <div className="relative container mx-auto px-6 h-full min-h-[80vh] flex flex-col items-center justify-center">
       {/* Back Button */}
       <div className="absolute left-4 top-8 z-10">
-        <Link href="/communities">
-          <Button variant="secondary" size="icon" className="h-8 w-8">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
+        <BackButton />
       </div>
 
       <div className="flex flex-col items-center pb-6 pt-12">
