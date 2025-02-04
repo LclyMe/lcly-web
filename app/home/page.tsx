@@ -16,8 +16,6 @@ export default async function HomePage() {
 
   const firstCommunity = await getUserFirstCommunity(profile.id);
 
-  console.log(firstCommunity);
-
   // Fetch weather if we have a postcode location
   let weather;
   if (profile.postcode_location) {

@@ -23,12 +23,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
     },
     {
-      url: `${baseUrl}/map`,
-      lastModified: new Date(),
-      priority: 0.8,
-      changeFrequency: "daily",
-    },
-    {
       url: `${baseUrl}/communities`,
       lastModified: new Date(),
       priority: 0.8,
@@ -51,6 +45,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       priority: 0.6,
       changeFrequency: "monthly",
+    },
+    {
+      url: `${baseUrl}/features`,
+      lastModified: new Date(),
+      priority: 0.6,
+      changeFrequency: "weekly",
     },
     // Dynamic routes like /c/[slug], /u/[username], and /thoughts/public/[id]
     // will be generated at request time or through generateStaticParams

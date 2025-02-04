@@ -45,7 +45,6 @@ export async function getPostcodeLocation(
   }
 
   if (cachedLocation) {
-    console.log("Cached location found");
     return cachedLocation;
   }
 
