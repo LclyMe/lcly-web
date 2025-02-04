@@ -7,13 +7,16 @@ import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
 import { getWeather } from "@/lib/utils/weather";
 import { weatherCodes } from "@/lib/utils/weather";
-import { cn } from "@/lib/utils";
+import { cn, getSupabaseStorageUrl } from "@/lib/utils";
+import { WikipediaData } from "@/types/community";
 
 export default async function HomePage() {
   const profile = await getCurrentProfile();
   if (!profile) redirect("/login");
 
   const firstCommunity = await getUserFirstCommunity(profile.id);
+
+  console.log(firstCommunity);
 
   // Fetch weather if we have a postcode location
   let weather;
@@ -31,11 +34,11 @@ export default async function HomePage() {
         <Button
           variant="secondary"
           size="sm"
-          className="font-bold text-lg h-10"
+          className="font-semibold text-foreground/80 text-lg h-10"
           asChild
         >
           <Link href={`/postcode/${profile.postcode}`}>
-            <MapPin className="h-6 w-6" />
+            <MapPin className="h-7 w-7" />
             {profile.postcode}
           </Link>
         </Button>
@@ -120,14 +123,34 @@ export default async function HomePage() {
               )}
             >
               <div className="flex items-start justify-between">
-                <div>
-                  <h2 className="font-semibold text-lg mb-1">Your Community</h2>
-                  <p className="text-muted-foreground text-sm mb-3">
-                    {firstCommunity.name}
-                  </p>
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <Users className="h-4 w-4 mr-1" />
-                    <span>View community</span>
+                <div className="flex gap-4">
+                  <div className="relative h-20 aspect-square rounded-xl overflow-hidden flex-shrink-0">
+                    <img
+                      src={
+                        firstCommunity.avatar
+                          ? getSupabaseStorageUrl(
+                              "community-avatars",
+                              firstCommunity.avatar || ""
+                            )
+                          : (firstCommunity.wikipedia_data as WikipediaData)
+                              ?.thumbnail?.source ||
+                            "/avatars/default-community.jpg"
+                      }
+                      alt={firstCommunity.name}
+                      className="object-cover h-full w-full"
+                    />
+                  </div>
+                  <div>
+                    <h2 className="font-semibold text-lg mb-1">
+                      Your Community
+                    </h2>
+                    <p className="text-muted-foreground text-sm mb-2">
+                      {firstCommunity.name}
+                    </p>
+                    <div className="flex items-center text-sm text-muted-foreground">
+                      <Users className="h-4 w-4 mr-1" />
+                      <span>View community</span>
+                    </div>
                   </div>
                 </div>
                 <ArrowRight className="h-5 w-5 text-muted-foreground" />

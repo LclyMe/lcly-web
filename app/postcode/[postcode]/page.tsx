@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { getWeather } from "@/lib/utils/weather";
+import { BackButton } from "@/components/ui/back-button";
 
 interface PostcodePageProps {
   params: Promise<{
@@ -102,11 +103,7 @@ export default async function PostcodePage({ params }: PostcodePageProps) {
     <div className="relative container mx-auto px-6 h-full min-h-[80vh] flex flex-col items-center justify-center">
       {/* Back Button */}
       <div className="absolute left-4 top-8 z-10">
-        <Link href="/">
-          <Button variant="secondary" size="icon" className="h-8 w-8">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
+        <BackButton />
       </div>
 
       <div className="flex flex-col items-center pb-6 pt-16">
