@@ -25,6 +25,7 @@ export function UKMap() {
   const map = new DottedMap({ map: JSON.parse(precomputedMap) });
   const lineColor = "#0ea5e9"; // Adding the same color as world map
   const { resolvedTheme: theme } = useTheme();
+  const showLines = false; // Add this line to control line visibility
 
   const svgMap = map.getSVG({
     radius: 0.22,
@@ -110,28 +111,32 @@ export function UKMap() {
         </defs>
 
         {/* Draw connections */}
-        {UK_POINTS.map((point, i) =>
-          UK_POINTS.slice(i + 1).map((endPoint, j) => {
-            const startPoint = projectPoint(point.lat, point.lng);
-            const end = projectPoint(endPoint.lat, endPoint.lng);
-            return (
-              <motion.path
-                key={`path-${i}-${j}`}
-                d={createCurvedPath(startPoint, end)}
-                fill="none"
-                stroke="url(#path-gradient)"
-                strokeWidth="2"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{
-                  duration: 1,
-                  delay: 0.5 * (i + j),
-                  ease: "easeOut",
-                }}
-              />
-            );
-          })
-        )}
+        {showLines &&
+          UK_POINTS.map((point, i) => {
+            // Only draw lines from England (index 0) to other points
+            if (i !== 0) return null;
+
+            return UK_POINTS.slice(1).map((endPoint, j) => {
+              const startPoint = projectPoint(point.lat, point.lng);
+              const end = projectPoint(endPoint.lat, endPoint.lng);
+              return (
+                <motion.path
+                  key={`path-${i}-${j}`}
+                  d={createCurvedPath(startPoint, end)}
+                  fill="none"
+                  stroke="url(#path-gradient)"
+                  strokeWidth="2"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{
+                    duration: 1,
+                    delay: 0.5 * j,
+                    ease: "easeOut",
+                  }}
+                />
+              );
+            });
+          })}
 
         {/* Draw points */}
         {UK_POINTS.map((point, i) => {

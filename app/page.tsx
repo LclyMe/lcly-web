@@ -24,7 +24,6 @@ import {
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { PostcodeSearch } from "@/components/postcode-search";
-import { MapButton } from "@/components/map-button";
 import { LoginButton } from "@/components/auth/login-button";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -49,7 +48,7 @@ export default function Home() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
           scrolled
-            ? "bg-background/60 backdrop-blur-md shadow-sm pt-4"
+            ? "bg-background/60 backdrop-blur-md shadow-sm pt-3 md:pt-4"
             : "pt-10"
         }`}
       >
@@ -57,7 +56,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-row items-center justify-between sm:h-9 mb-4 gap-4"
+          className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-row items-center justify-between sm:h-9 mb-3 md:mb-4 gap-4"
         >
           <div className="flex items-center gap-3 sm:gap-4">
             <Image
@@ -68,7 +67,7 @@ export default function Home() {
               className="h-8 w-8 sm:h-9 sm:w-9 rounded-full"
               priority
             />
-            <LclyLogo className="h-5 sm:h-7 w-auto text-black/90 dark:text-white -mb-1.5" />
+            <LclyLogo className="h-5 sm:h-6 w-auto text-black/90 dark:text-white -mb-1.5" />
           </div>
           <div className="flex items-center gap-3 md:gap-2">
             <Link href="/about">
@@ -88,17 +87,14 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="max-w-2xl flex flex-col lg:flex-row lg:max-w-none lg:items-center lg:justify-between lg:gap-8 mt-16 lg:mt-0 h-[100dvh]"
+          className="max-w-2xl flex flex-col lg:flex-row lg:max-w-none lg:items-center lg:justify-between lg:gap-8 mt-16 lg:mt-0 h-[90vh] md:h-[100dvh]"
         >
           <div className="flex-1 flex flex-col justify-center">
             <h2 className="flex items-center gap-2 text-xs leading-7 bg-primary/5 font-semibold text-primary px-3 rounded-full self-start border border-primary/10 text-foreground/60">
               <div className="w-2 h-2 bg-[#0ea5e9]/75 rounded-full" /> Join the
               UK Localverse
             </h2>
-            <p
-              className="mt-6 text-3xl md:text-5xl tracking-tighter max-w-xl font-regular text-left text-foreground"
-              style={{ fontSize: "2.5rem" }}
-            >
+            <p className="mt-6 text-3xl md:text-5xl tracking-tighter max-w-xl font-regular text-left text-foreground">
               Your Local Community Hub
             </p>
             <p className="mt-2 text-lg leading-8 text-muted-foreground">
@@ -127,7 +123,7 @@ export default function Home() {
                   ].map((url) => (
                     <div
                       key={url}
-                      className="inline-block h-9 w-9 rounded-full ring-2 ring-background"
+                      className="inline-block h-8 w-8 md:h-9 md:w-9 rounded-full ring-2 ring-background"
                     >
                       <Image
                         src={url}
@@ -140,7 +136,7 @@ export default function Home() {
                   ))}
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Join 1000s building their local community
+                  Join your local community
                 </p>
               </div>
 
