@@ -25,7 +25,8 @@ export function UKMap() {
   const map = new DottedMap({ map: JSON.parse(precomputedMap) });
   const lineColor = "#0ea5e9"; // Adding the same color as world map
   const { resolvedTheme: theme } = useTheme();
-
+  const showLines = false; // Add this line to control line visibility
+  const showPoints = true; // Add this line to control point visibility
   const svgMap = map.getSVG({
     radius: 0.22,
     color: theme === "dark" ? "#0ea5e9" : "#0ea5e9",
@@ -110,83 +111,88 @@ export function UKMap() {
         </defs>
 
         {/* Draw connections */}
-        {UK_POINTS.map((point, i) =>
-          UK_POINTS.slice(i + 1).map((endPoint, j) => {
-            const startPoint = projectPoint(point.lat, point.lng);
-            const end = projectPoint(endPoint.lat, endPoint.lng);
-            return (
-              <motion.path
-                key={`path-${i}-${j}`}
-                d={createCurvedPath(startPoint, end)}
-                fill="none"
-                stroke="url(#path-gradient)"
-                strokeWidth="2"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{
-                  duration: 1,
-                  delay: 0.5 * (i + j),
-                  ease: "easeOut",
-                }}
-              />
-            );
-          })
-        )}
+        {showLines &&
+          UK_POINTS.map((point, i) => {
+            // Only draw lines from England (index 0) to other points
+            if (i !== 0) return null;
+
+            return UK_POINTS.slice(1).map((endPoint, j) => {
+              const startPoint = projectPoint(point.lat, point.lng);
+              const end = projectPoint(endPoint.lat, endPoint.lng);
+              return (
+                <motion.path
+                  key={`path-${i}-${j}`}
+                  d={createCurvedPath(startPoint, end)}
+                  fill="none"
+                  stroke="url(#path-gradient)"
+                  strokeWidth="2"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{
+                    duration: 1,
+                    delay: 0.5 * j,
+                    ease: "easeOut",
+                  }}
+                />
+              );
+            });
+          })}
 
         {/* Draw points */}
-        {UK_POINTS.map((point, i) => {
-          const { x, y } = projectPoint(point.lat, point.lng);
-          return (
-            <g key={`point-${i}`}>
-              <circle cx={x} cy={y} r="14" fill={lineColor} opacity="0.5">
-                <animate
-                  attributeName="r"
-                  from="16"
-                  to="46"
-                  dur="1.5s"
-                  begin="0s"
-                  repeatCount="indefinite"
-                />
-                <animate
-                  attributeName="opacity"
-                  from="0.5"
-                  to="0"
-                  dur="1.5s"
-                  begin="0s"
-                  repeatCount="indefinite"
-                />
-              </circle>
-              <circle cx={x} cy={y} r="10" fill={"currentColor"} />
+        {showPoints &&
+          UK_POINTS.map((point, i) => {
+            const { x, y } = projectPoint(point.lat, point.lng);
+            return (
+              <g className="hidden lg:block" key={`point-${i}`}>
+                <circle cx={x} cy={y} r="14" fill={lineColor} opacity="0.5">
+                  <animate
+                    attributeName="r"
+                    from="16"
+                    to="46"
+                    dur="1.5s"
+                    begin="0s"
+                    repeatCount="indefinite"
+                  />
+                  <animate
+                    attributeName="opacity"
+                    from="0.5"
+                    to="0"
+                    dur="1.5s"
+                    begin="0s"
+                    repeatCount="indefinite"
+                  />
+                </circle>
+                <circle cx={x} cy={y} r="10" fill={"currentColor"} />
 
-              {/* Label card */}
-              <motion.g
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5 + i * 0.1 }}
-                className="ml-4"
-              >
-                <rect
-                  x={x + 20}
-                  y={y - 10}
-                  width={point.label.length * 10 + 40}
-                  height="60"
-                  rx="8"
-                  fill="currentColor"
-                  fillOpacity=".9"
-                />
-                <text
-                  x={x + 32}
-                  y={y + 27}
-                  fontSize="24"
-                  fill={theme === "dark" ? "black" : "white"}
-                  className="font-medium"
+                {/* Label card */}
+                <motion.g
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.5 + i * 0.1 }}
+                  className="ml-4"
                 >
-                  {point.label}
-                </text>
-              </motion.g>
-            </g>
-          );
-        })}
+                  <rect
+                    x={x + 20}
+                    y={y - 10}
+                    width={point.label.length * 10 + 40}
+                    height="60"
+                    rx="8"
+                    fill="currentColor"
+                    fillOpacity=".9"
+                  />
+                  <text
+                    x={x + 32}
+                    y={y + 27}
+                    fontSize="24"
+                    fill={theme === "dark" ? "black" : "white"}
+                    className="font-medium"
+                  >
+                    {point.label}
+                  </text>
+                </motion.g>
+              </g>
+            );
+          })}
       </svg>
       {/* </div> */}
     </motion.div>
