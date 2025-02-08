@@ -89,31 +89,22 @@ export default function Home() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="max-w-2xl flex flex-col lg:flex-row lg:max-w-none lg:items-center lg:justify-between lg:gap-8 mt-16 lg:mt-0 h-[90vh] md:h-[100dvh]"
         >
-          <div className="flex-1 flex flex-col justify-center">
-            <h2 className="flex items-center gap-2 text-xs leading-7 bg-primary/5 font-semibold text-primary px-3 rounded-full self-start border border-primary/10 text-foreground/60">
+          <div className="flex-1 flex flex-col justify-center z-10">
+            <h2 className="flex items-center gap-2 text-xs leading-7 bg-primary/5 backdrop-blur-sm font-semibold text-primary px-3 rounded-full self-start border border-primary/10 text-foreground/60">
               <div className="w-2 h-2 bg-[#0ea5e9]/75 rounded-full" /> Join the
               UK Localverse
             </h2>
-            <p className="mt-6 text-3xl md:text-5xl tracking-tighter max-w-xl font-regular text-left text-foreground">
-              Your Local Community Hub
+            <p className="mt-6 text-4xl md:text-5xl tracking-tighter max-w-xl font-regular text-left text-foreground">
+              Your Postcode Online
             </p>
             <p className="mt-2 text-lg leading-8 text-muted-foreground">
-              Lcly is an Free &amp; Open Source project building digital
-              infrastructure for local communities. Find your local community or
-              if you&apos;re a developer come build Lcly with us (
-              <a
-                className="underline"
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://github.com/LclyMe/lcly-web"
-              >
-                Github
-              </a>
-              ).
+              Lcly is an Free &amp; Open Source project built for local people.
+              Find your community, meet your neighbours, and improve your local
+              area.
             </p>
             <div className="mt-10">
-              <PostcodeSearch />
-              <div className="mt-5 flex items-center gap-2">
+              <PostcodeSearch className="backdrop-blur-sm" />
+              {/* <div className="mt-5 flex items-center gap-2">
                 <div className="flex -space-x-2">
                   {[
                     "/avatars/amy.png",
@@ -138,32 +129,45 @@ export default function Home() {
                 <p className="text-sm text-muted-foreground">
                   Join your local community
                 </p>
-              </div>
+              </div> */}
 
               {/* New Documentation Links */}
-              <div className="mt-8 flex flex-row gap-3 text-foreground/70">
-                <Link href="/roadmap">
-                  <Button
-                    variant="outline"
-                    className="w-full sm:w-auto group hover:border-primary/20 hover:bg-primary/5"
-                  >
-                    <Rocket className="mr-2 h-4 w-4 group-hover:animate-pulse" />
-                    Our Roadmap
-                  </Button>
+              <div className="mt-8 flex gap-4">
+                <Link href="/roadmap" className="w-[35%] md:w-[25%]">
+                  <div className="hover:bg-muted bg-primary/5 backdrop-blur-sm rounded-2xl aspect-square p-4 flex justify-between flex-col transition-all duration-300">
+                    <div className="flex justify-between items-start">
+                      <Rocket className="w-6 h-6 md:w-8 md:h-8 stroke-1.5 text-primary mb-6" />
+                    </div>
+                    <div className="flex flex-col">
+                      <h3 className="text-base md:text-xl tracking-tight font-semibold">
+                        Our Roadmap
+                      </h3>
+                      {/* <p className="text-muted-foreground max-w-xs text-base mt-2">
+                        See our development plans and upcoming features.
+                      </p> */}
+                    </div>
+                  </div>
                 </Link>
-                <Link href="/whitepaper">
-                  <Button
-                    variant="outline"
-                    className="w-full sm:w-auto group hover:border-primary/20 hover:bg-primary/5"
-                  >
-                    <FileText className="mr-2 h-4 w-4 group-hover:animate-pulse" />
-                    Read the Whitepaper
-                  </Button>
+                <Link href="/whitepaper" className="w-[35%] md:w-[25%]">
+                  <div className="hover:bg-muted bg-primary/5 backdrop-blur-sm rounded-2xl aspect-square p-4 flex justify-between flex-col transition-all duration-300">
+                    <div className="flex justify-between items-start">
+                      <FileText className="w-6 h-6 md:w-8 md:h-8 stroke-1.5 text-primary mb-6" />
+                    </div>
+                    <div className="flex flex-col">
+                      <h3 className="text-base md:text-xl tracking-tight font-semibold">
+                        Read the
+                        <br /> Whitepaper
+                      </h3>
+                      {/* <p className="text-muted-foreground max-w-xs text-base mt-2">
+                        Learn about our vision and technical architecture.
+                      </p> */}
+                    </div>
+                  </div>
                 </Link>
               </div>
             </div>
           </div>
-          <div className="hidden lg:block lg:w-[45%]">
+          <div className="absolute top-0 left-0 w-full h-full -z-0 opacity-20 lg:opacity-100 lg:relative lg:w-[45%]">
             <UKMap />
           </div>
         </motion.div>

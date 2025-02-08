@@ -100,7 +100,7 @@ export default async function PostcodePage({ params }: PostcodePageProps) {
   const weather = await getWeather(location.latitude, location.longitude, true);
 
   return (
-    <div className="relative container mx-auto px-6 h-full min-h-[80vh] flex flex-col items-center justify-center">
+    <div className="relative container mx-auto px-6 h-full min-h-[80vh] flex flex-col items-center justify-center pb-6">
       {/* Back Button */}
       <div className="absolute left-4 top-8 z-10">
         <BackButton />
