@@ -89,12 +89,12 @@ export default function Home() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="max-w-2xl flex flex-col lg:flex-row lg:max-w-none lg:items-center lg:justify-between lg:gap-8 mt-16 lg:mt-0 h-[90vh] md:h-[100dvh]"
         >
-          <div className="flex-1 flex flex-col justify-center z-10">
+          <div className="flex-1 flex flex-col justify-center z-10 lg:mt-20">
             <h2 className="flex items-center gap-2 text-xs leading-7 bg-primary/5 backdrop-blur-sm font-semibold text-primary px-3 rounded-full self-start border border-primary/10 text-foreground/60">
               <div className="w-2 h-2 bg-[#0ea5e9]/75 rounded-full" /> Join the
               UK Localverse
             </h2>
-            <p className="mt-6 text-4xl md:text-5xl tracking-tighter max-w-xl font-regular text-left text-foreground">
+            <p className="mt-6 text-4xl md:text-6xl tracking-tight max-w-xl font-regular text-left text-foreground">
               Your Postcode Online
             </p>
             <p className="mt-2 text-lg leading-8 text-muted-foreground">
@@ -139,7 +139,7 @@ export default function Home() {
                       <Rocket className="w-6 h-6 md:w-8 md:h-8 stroke-1.5 text-primary mb-6" />
                     </div>
                     <div className="flex flex-col">
-                      <h3 className="text-base md:text-xl tracking-tight font-semibold">
+                      <h3 className="text-base md:text-lg tracking-tight font-regular">
                         Our Roadmap
                       </h3>
                       {/* <p className="text-muted-foreground max-w-xs text-base mt-2">
@@ -154,7 +154,7 @@ export default function Home() {
                       <FileText className="w-6 h-6 md:w-8 md:h-8 stroke-1.5 text-primary mb-6" />
                     </div>
                     <div className="flex flex-col">
-                      <h3 className="text-base md:text-xl tracking-tight font-semibold">
+                      <h3 className="text-base md:text-lg tracking-tight font-regular">
                         Read the
                         <br /> Whitepaper
                       </h3>
