@@ -63,7 +63,7 @@ export function LocationInfoSheet({
           <div className="space-y-4">
             <p className="text-muted-foreground text-sm">{description}</p>
 
-            {isConstituency ? (
+            {isConstituency && mpData ? (
               <p className="text-base font-medium">MP for {value}</p>
             ) : (
               <p className="text-sm">
@@ -95,10 +95,8 @@ export function LocationInfoSheet({
         <div className="px-4 pb-8 space-y-4">
           <p className="text-muted-foreground text-sm">{description}</p>
 
-          {isConstituency ? (
-            <p className="text-base font-medium">
-              Your parliamentary constituency: {value}
-            </p>
+          {isConstituency && mpData ? (
+            <p className="text-base font-medium">MP for {value}</p>
           ) : (
             <p className="text-sm">
               <span className="font-medium">Your {title.toLowerCase()}:</span>{" "}
