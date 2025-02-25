@@ -33,9 +33,6 @@ export interface MPData {
 import { createAdminClient } from "@/lib/supabase/server";
 import { Json } from "@/types/database.types";
 
-// API key for TheyWorkForYou
-const API_KEY = "GiatNDCM9jXNC5EkfuCZkvVk";
-
 /**
  * Fetch MP data from TheyWorkForYou API
  */
@@ -43,7 +40,7 @@ export async function fetchMPFromAPI(constituency: string): Promise<MPData> {
   const response = await fetch(
     `https://www.theyworkforyou.com/api/getMP?constituency=${encodeURIComponent(
       constituency
-    )}&output=json&key=${API_KEY}`,
+    )}&output=json&key=${process.env.TWFY_API_KEY}`,
     { next: { revalidate: 86400 } } // Cache for 24 hours
   );
 
