@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { PostcodeData } from "@/types/location";
 import { useTheme } from "next-themes";
 import { useMounted } from "@/hooks/use-mounted";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import "@/styles/leaflet-overrides.css";
-import { Marker } from "react-leaflet";
-import { MapPin } from "lucide-react";
+import { TileLayer, useMap } from "react-leaflet";
+import dynamic from "next/dynamic";
 
 interface StaticMapProps {
   location: PostcodeData;
@@ -26,13 +26,55 @@ const mapProviders = {
   },
 };
 
+// Dynamic import of MapContainer to avoid SSR issues
+const MapWithNoSSR = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  {
+    ssr: false,
+  }
+);
+
+// Component to handle map configuration using useMap
+function MapController({
+  location,
+  theme,
+}: {
+  location: PostcodeData;
+  theme: "dark" | "light";
+}) {
+  const map = useMap();
+
+  useEffect(() => {
+    // Set center and options
+    map.setView([location.latitude, location.longitude], 13);
+    map.dragging.disable();
+    map.touchZoom.disable();
+    map.doubleClickZoom.disable();
+    map.scrollWheelZoom.disable();
+    map.boxZoom.disable();
+    map.keyboard.disable();
+
+    // Remove attribution and zoom controls if they exist
+    if (map.attributionControl) {
+      map.removeControl(map.attributionControl);
+    }
+    if (map.zoomControl) {
+      map.removeControl(map.zoomControl);
+    }
+
+    return () => {
+      // Cleanup if needed
+    };
+  }, [map, location.latitude, location.longitude]);
+
+  return <TileLayer url={mapProviders[theme].url} attribution="" />;
+}
+
 export function StaticMap({
   location,
   className,
   invertTheme = false,
 }: StaticMapProps) {
-  const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<any | null>(null);
   const { resolvedTheme } = useTheme();
   const mounted = useMounted();
   const router = useRouter();
@@ -42,64 +84,24 @@ export function StaticMap({
     router.push(`/map?lat=${location.latitude}&lng=${location.longitude}`);
   };
 
-  useEffect(() => {
-    if (!mounted) return;
+  if (!mounted) {
+    // Return placeholder while mounting
+    return (
+      <div
+        className={`h-full w-full overflow-hidden rounded-2xl border border-border/30 ${className}`}
+      >
+        <div className="h-full w-full bg-muted animate-pulse" />
+      </div>
+    );
+  }
 
-    // Dynamically import Leaflet to avoid SSR issues
-    const loadMap = async () => {
-      if (!mapRef.current) return;
-
-      // Import Leaflet dynamically
-      const L = (await import("leaflet")).default;
-
-      // Import CSS - ignore TypeScript warning about missing type declarations
-      // @ts-ignore
-      await import("leaflet/dist/leaflet.css");
-
-      // Clean up previous map instance if it exists
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove();
-        mapInstanceRef.current = null;
-      }
-
-      // Determine theme
-      const realTheme = resolvedTheme === "dark" ? "dark" : "light";
-      const theme = invertTheme
-        ? realTheme === "dark"
-          ? "light"
-          : "dark"
-        : realTheme;
-
-      // Create map
-      const map = L.map(mapRef.current, {
-        center: [location.latitude, location.longitude],
-        zoom: 13,
-        zoomControl: false,
-        dragging: false,
-        touchZoom: false,
-        doubleClickZoom: false,
-        scrollWheelZoom: false,
-        boxZoom: false,
-        keyboard: false,
-        attributionControl: false,
-      });
-
-      // Add tile layer
-      L.tileLayer(mapProviders[theme].url).addTo(map);
-
-      // Store map instance for cleanup
-      mapInstanceRef.current = map;
-    };
-
-    loadMap();
-
-    return () => {
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove();
-        mapInstanceRef.current = null;
-      }
-    };
-  }, [location.latitude, location.longitude, mounted, resolvedTheme]);
+  // Determine theme
+  const realTheme = resolvedTheme === "dark" ? "dark" : "light";
+  const theme = invertTheme
+    ? realTheme === "dark"
+      ? "light"
+      : "dark"
+    : realTheme;
 
   // Using Link component for better navigation handling
   return (
@@ -110,7 +112,18 @@ export function StaticMap({
       <div
         className={`h-full w-full overflow-hidden rounded-2xl border border-border/30 cursor-pointer hover:opacity-90 transition-opacity ${className}`}
       >
-        <div ref={mapRef} className="h-full w-full" />
+        <MapWithNoSSR
+          center={[location.latitude, location.longitude]}
+          zoom={13}
+          zoomControl={false}
+          attributionControl={false}
+          className="h-full w-full"
+        >
+          <MapController
+            location={location}
+            theme={theme as "dark" | "light"}
+          />
+        </MapWithNoSSR>
       </div>
     </Link>
   );
