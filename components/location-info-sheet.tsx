@@ -1,17 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { MPData } from "@/lib/server/mp";
 import { MPCard } from "@/components/mp-card";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "./ui/drawer";
-import { Building, Navigation, User, Globe, Award } from "lucide-react";
+import { Building, Navigation, Globe, Award } from "lucide-react";
+import { MPData } from "@/lib/server/mp";
 
 interface LocationInfoSheetProps {
   title: string;

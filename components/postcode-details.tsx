@@ -1,24 +1,13 @@
 "use client";
 
-import { MPCard } from "@/components/mp-card";
-import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  MapPin,
-  Navigation,
-  Building,
-  Globe,
-  User,
-  Fullscreen,
-} from "lucide-react";
-import Link from "next/link";
+import { Navigation, Building, Globe, User, Fullscreen } from "lucide-react";
 import { PostcodeData } from "@/types/location";
 import { useState } from "react";
 import { LocationInfoSheet } from "@/components/location-info-sheet";
-import { MPData } from "@/lib/server/mp";
 import { WeatherCard } from "@/components/weather-card";
 import { StaticMap } from "@/components/static-map";
+import { MPData } from "@/lib/server/mp";
 
 interface Weather {
   temperature_2m: number;
