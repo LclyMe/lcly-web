@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { PostcodeData } from "@/types/location";
+import { getMP, MPData } from "@/lib/server/mp";
 
 const POSTCODE_API_URL = "https://api.postcodes.io/postcodes";
 
@@ -11,6 +12,7 @@ export interface PostcodeLocation {
   region: string;
   country: string;
   created_at: string;
+  mp_data?: MPData | null;
 }
 
 export interface PostcodeResponse {
@@ -19,6 +21,7 @@ export interface PostcodeResponse {
   longitude: number;
   region: string;
   country: string;
+  mp_data?: MPData | null;
 }
 
 export async function getPostcodeLocation(
@@ -44,8 +47,19 @@ export async function getPostcodeLocation(
     console.error("Error fetching cached location:", cachedLocationError);
   }
 
+  // If we have a cached location
   if (cachedLocation) {
-    return cachedLocation;
+    // Fetch MP data if we have a parliamentary constituency
+    let mpData = null;
+    if (cachedLocation.parliamentary_constituency) {
+      mpData = await getMP(cachedLocation.parliamentary_constituency);
+    }
+
+    // Return the cached location with MP data
+    return {
+      ...cachedLocation,
+      mp_data: mpData,
+    } as PostcodeData;
   }
 
   // If not cached, fetch from postcodes.io
@@ -58,7 +72,13 @@ export async function getPostcodeLocation(
     throw new Error("Invalid postcode");
   }
 
-  // Cache the result
+  // Fetch MP data if we have a parliamentary constituency
+  let mpData = null;
+  if (data.result.parliamentary_constituency) {
+    mpData = await getMP(data.result.parliamentary_constituency);
+  }
+
+  // Cache the result (without MP data reference)
   const { data: newLocation, error } = await supabase
     .from("postcode_locations")
     .insert({
@@ -88,8 +108,12 @@ export async function getPostcodeLocation(
       admin_district: data.result.admin_district,
       parliamentary_constituency: data.result.parliamentary_constituency,
       admin_ward: data.result.admin_ward,
+      mp_data: mpData,
     } as PostcodeData;
   }
 
-  return newLocation;
+  return {
+    ...newLocation,
+    mp_data: mpData,
+  } as PostcodeData;
 }

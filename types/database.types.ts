@@ -453,6 +453,51 @@ export type Database = {
           },
         ]
       }
+      mps: {
+        Row: {
+          constituency: string
+          created_at: string | null
+          entered_house: string | null
+          family_name: string | null
+          full_name: string
+          given_name: string | null
+          id: string
+          last_updated: string | null
+          office: Json | null
+          party: string
+          person_id: string
+          title: string | null
+        }
+        Insert: {
+          constituency: string
+          created_at?: string | null
+          entered_house?: string | null
+          family_name?: string | null
+          full_name: string
+          given_name?: string | null
+          id?: string
+          last_updated?: string | null
+          office?: Json | null
+          party: string
+          person_id: string
+          title?: string | null
+        }
+        Update: {
+          constituency?: string
+          created_at?: string | null
+          entered_house?: string | null
+          family_name?: string | null
+          full_name?: string
+          given_name?: string | null
+          id?: string
+          last_updated?: string | null
+          office?: Json | null
+          party?: string
+          person_id?: string
+          title?: string | null
+        }
+        Relationships: []
+      }
       postcode_locations: {
         Row: {
           admin_district: string

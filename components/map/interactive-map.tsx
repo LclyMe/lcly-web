@@ -195,6 +195,7 @@ export default function InteractiveMap({
         scrollWheelZoom={false}
         touchZoom={false}
         doubleClickZoom={false}
+        attributionControl={false}
       >
         <TopBar
           selectedMapProvider={selectedMapProvider}
