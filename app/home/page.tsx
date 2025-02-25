@@ -6,9 +6,9 @@ import { getUserFirstCommunity } from "@/lib/server/profile";
 import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/ui/page-header";
 import { getWeather } from "@/lib/utils/weather";
-import { weatherCodes } from "@/lib/utils/weather";
 import { cn, getSupabaseStorageUrl } from "@/lib/utils";
 import { WikipediaData } from "@/types/community";
+import { WeatherCard } from "@/components/weather-card";
 
 export default async function HomePage() {
   const profile = await getCurrentProfile();
@@ -52,63 +52,7 @@ export default async function HomePage() {
       <div className="flex flex-col gap-4 px-3">
         {/* Weather Card */}
         {profile.postcode_location && weather && (
-          <div
-            className={cn(
-              "p-6 rounded-3xl bg-black text-white dark:bg-black/90 border border-border/50",
-              "backdrop-blur-sm shadow-sm"
-            )}
-          >
-            <div className="flex flex-col gap-4">
-              {/* Current Weather */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="text-4xl">
-                    {weatherCodes[weather.weather_code]?.icon || "🌦️"}
-                  </div>
-                  <div>
-                    <div className="text-4xl font-semibold">
-                      {Math.round(weather.temperature_2m)}°
-                    </div>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="text-xl">
-                    {weatherCodes[weather.weather_code]?.label || "Weather"}
-                  </div>
-                  <div className="text-gray-400">
-                    {profile.postcode_location.admin_ward || "Unknown"}
-                  </div>
-                </div>
-              </div>
-
-              {/* Hourly Forecast */}
-              <div className="flex justify-between">
-                {[...Array(6)].map((_, i) => {
-                  const hour = new Date().getHours() + i + 1;
-                  const displayHour = hour % 24;
-                  return (
-                    <div key={i} className="flex flex-col items-center gap-2">
-                      <div className="text-sm text-gray-400">
-                        {displayHour === 12
-                          ? "12 PM"
-                          : displayHour === 0
-                          ? "12 AM"
-                          : displayHour > 12
-                          ? `${displayHour - 12} PM`
-                          : `${displayHour} AM`}
-                      </div>
-                      <div className="text-2xl">
-                        {weatherCodes[weather.weather_code]?.icon || "🌦️"}
-                      </div>
-                      <div className="text-sm">
-                        {Math.round(weather.temperature_2m - i)}°
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
+          <WeatherCard weather={weather} location={profile.postcode_location} />
         )}
 
         {/* Community Card */}

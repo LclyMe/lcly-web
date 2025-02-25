@@ -1,0 +1,42 @@
+/* Override Leaflet z-index values to prevent it from appearing above modals */
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+  z-index: 10 !important;
+}
+
+.leaflet-overlay-pane {
+  z-index: 11 !important;
+}
+
+.leaflet-shadow-pane {
+  z-index: 12 !important;
+}
+
+.leaflet-marker-pane {
+  z-index: 13 !important;
+}
+
+.leaflet-tooltip-pane {
+  z-index: 14 !important;
+}
+
+.leaflet-popup-pane {
+  z-index: 15 !important;
+}
+
+.leaflet-control {
+  z-index: 16 !important;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 20 !important;
+}
