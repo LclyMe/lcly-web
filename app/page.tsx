@@ -390,10 +390,17 @@ export default function Home() {
                 href="https://github.com/LclyMe/lcly-web"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="hover:text-foreground transition-colors"
               >
                 Github
               </a>
-              ).
+              ).{" "}
+              <Link
+                href="/open-source"
+                className="hover:text-foreground transition-colors"
+              >
+                Open Source
+              </Link>
             </p>
             <div className="flex items-center space-x-4">
               <a

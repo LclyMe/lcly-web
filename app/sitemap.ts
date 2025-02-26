@@ -52,6 +52,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
       changeFrequency: "weekly",
     },
+    {
+      url: `${baseUrl}/open-source`,
+      lastModified: new Date(),
+      priority: 0.7,
+      changeFrequency: "monthly",
+    },
     // Dynamic routes like /c/[slug], /u/[username], and /thoughts/public/[id]
     // will be generated at request time or through generateStaticParams
   ];

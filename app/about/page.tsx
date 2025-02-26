@@ -181,7 +181,19 @@ export default function AboutPage() {
         >
           <p>
             &copy; {new Date().getFullYear()} Lcly. Build Lcly with us (
-            <a href="https://github.com/lcly/contribute">Github</a>).
+            <a
+              href="https://github.com/lcly/contribute"
+              className="hover:text-foreground transition-colors"
+            >
+              Github
+            </a>
+            ).{" "}
+            <Link
+              href="/open-source"
+              className="hover:text-foreground transition-colors"
+            >
+              Open Source
+            </Link>
           </p>
         </motion.footer>
       </motion.div>
