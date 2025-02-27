@@ -3,8 +3,6 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, MapPin, User, Newspaper, LayoutGrid } from "lucide-react";
-import { useProfile } from "@/hooks/use-profile";
 
 interface AppFooterProps {
   className?: string;
@@ -25,7 +23,8 @@ export function AppFooter({ className, navItems }: AppFooterProps) {
         "bg-background/80 backdrop-blur-md",
         "border-t border-border",
         "pt-2",
-        "pb-[calc(env(safe-area-inset-bottom)+32px)]",
+        "pb-2",
+        // "pb-[calc(env(safe-area-inset-bottom)+32px)]",
         className
       )}
     >

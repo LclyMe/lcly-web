@@ -134,7 +134,7 @@ const projects: OpenSourceProject[] = [
     name: "TheyWorkForUs",
     description:
       "Integrates local representative data to connect communities with their elected officials.",
-    logo: "/open-source/theyworkforus.svg",
+    logo: "/open-source/theyworkforus.png",
     website: "https://www.theyworkforyou.com/",
     github: "https://github.com/mysociety/theyworkforyou",
     category: "Data",

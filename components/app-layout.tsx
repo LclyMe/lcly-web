@@ -64,7 +64,7 @@ export function AppLayout({ children }: AppLayoutProps) {
         className={cn(
           "flex-grow",
           showMobileNav &&
-            "pb-[calc(env(safe-area-inset-bottom)+32px+70px)] md:pb-0 flex-grow flex flex-col min-h-[100vh]"
+            "pb-[calc(env(safe-area-inset-bottom)+32px+80px)] md:pb-0 min-h-[100vh]"
         )}
       >
         {children}
