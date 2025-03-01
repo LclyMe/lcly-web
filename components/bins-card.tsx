@@ -26,6 +26,8 @@ import { BinsAddressSelector } from "@/components/bins-card-client";
 
 export async function BinsCard({
   postcode,
+  postcodeLatitude,
+  postcodeLongitude,
   className,
   showComingSoonBanner = false,
 }: BinsCardProps) {
@@ -119,7 +121,13 @@ export async function BinsCard({
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                {message && <BinsCardClient.MessageButton message={message} />}
+                {message && (
+                  <BinsCardClient.MessageButton
+                    message={message}
+                    latitude={postcodeLatitude}
+                    longitude={postcodeLongitude}
+                  />
+                )}
               </div>
             </div>
 
@@ -173,7 +181,13 @@ export async function BinsCard({
           )}
         </div>
         <div className="flex items-center gap-2">
-          {message && <BinsCardClient.MessageButton message={message} />}
+          {message && (
+            <BinsCardClient.MessageButton
+              message={message}
+              latitude={postcodeLatitude || selectedAddress?.Latitude}
+              longitude={postcodeLongitude || selectedAddress?.Longitude}
+            />
+          )}
         </div>
       </div>
 

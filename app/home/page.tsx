@@ -58,7 +58,12 @@ export default async function HomePage() {
 
         {/* Bins Card */}
         {profile.postcode && (
-          <BinsCard postcode={profile.postcode} showComingSoonBanner />
+          <BinsCard
+            postcode={profile.postcode}
+            postcodeLatitude={profile.postcode_location?.latitude}
+            postcodeLongitude={profile.postcode_location?.longitude}
+            showComingSoonBanner
+          />
         )}
 
         {/* Community Card */}

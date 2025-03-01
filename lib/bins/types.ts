@@ -7,6 +7,8 @@ export interface PremiseAddress {
   LocalAuthority: string;
   Town: string;
   Postcode: string;
+  Latitude?: number;
+  Longitude?: number;
 }
 
 export interface BinCollection {
@@ -32,6 +34,8 @@ export interface GroupedCollection {
 
 export interface BinsCardProps {
   postcode: string;
+  postcodeLatitude?: number;
+  postcodeLongitude?: number;
   className?: string;
   showComingSoonBanner?: boolean;
 }
