@@ -22,39 +22,39 @@ export const formatHouseName = (address: PremiseAddress) => {
 export const getBinColor = (binType: string) => {
   switch (binType.toUpperCase()) {
     case "GREEN":
-      return "bg-green-600";
+      return "#43a047"; // green-600
     case "BLACK":
-      return "bg-gray-800";
+      return "#1f2937"; // gray-800
     case "BROWN":
-      return "bg-amber-800";
+      return "#ff8f00"; // amber-800
     case "BLUE":
-      return "bg-blue-600";
+      return "#1e88e5"; // blue-600
     case "GREY":
-      return "bg-gray-500";
+      return "#9e9e9e"; // gray-500
     case "PINK":
-      return "bg-pink-500";
+      return "#e91e63"; // pink-500
     case "PURPLE":
-      return "bg-purple-600";
+      return "#8e24aa"; // purple-600
     case "RED":
-      return "bg-red-600";
+      return "#e53935"; // red-600
     case "ORANGE":
-      return "bg-orange-500";
+      return "#ff9800"; // orange-500
     case "YELLOW":
-      return "bg-yellow-500";
+      return "#ffeb3b"; // yellow-500
     default:
       // If the bin type is not recognized, try to match it to a color
-      if (binType.toUpperCase().includes("GREEN")) return "bg-green-600";
-      if (binType.toUpperCase().includes("BLACK")) return "bg-gray-800";
-      if (binType.toUpperCase().includes("BROWN")) return "bg-amber-800";
-      if (binType.toUpperCase().includes("BLUE")) return "bg-blue-600";
-      if (binType.toUpperCase().includes("GREY")) return "bg-gray-500";
-      if (binType.toUpperCase().includes("GRAY")) return "bg-gray-500";
-      if (binType.toUpperCase().includes("PINK")) return "bg-pink-500";
-      if (binType.toUpperCase().includes("PURPLE")) return "bg-purple-600";
-      if (binType.toUpperCase().includes("RED")) return "bg-red-600";
-      if (binType.toUpperCase().includes("ORANGE")) return "bg-orange-500";
-      if (binType.toUpperCase().includes("YELLOW")) return "bg-yellow-500";
-      return "bg-primary";
+      if (binType.toUpperCase().includes("GREEN")) return "#43a047"; // green-600
+      if (binType.toUpperCase().includes("BLACK")) return "#1f2937"; // gray-800
+      if (binType.toUpperCase().includes("BROWN")) return "#ff8f00"; // amber-800
+      if (binType.toUpperCase().includes("BLUE")) return "#1e88e5"; // blue-600
+      if (binType.toUpperCase().includes("GREY")) return "#9e9e9e"; // gray-500
+      if (binType.toUpperCase().includes("GRAY")) return "#9e9e9e"; // gray-500
+      if (binType.toUpperCase().includes("PINK")) return "#e91e63"; // pink-500
+      if (binType.toUpperCase().includes("PURPLE")) return "#8e24aa"; // purple-600
+      if (binType.toUpperCase().includes("RED")) return "#e53935"; // red-600
+      if (binType.toUpperCase().includes("ORANGE")) return "#ff9800"; // orange-500
+      if (binType.toUpperCase().includes("YELLOW")) return "#ffeb3b"; // yellow-500
+      return "#0891b2"; // primary color (cyan-600)
   }
 };
 

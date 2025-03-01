@@ -309,9 +309,11 @@ export function ExpandableCollections({
         <div className="flex items-center gap-3">
           <div
             className={cn(
-              "w-10 h-10 rounded-full flex items-center justify-center text-white",
-              getBinColor(nextCollection.BinType)
+              "w-10 h-10 rounded-full flex items-center justify-center text-white"
             )}
+            style={{
+              backgroundColor: getBinColor(nextCollection.BinType),
+            }}
           >
             <Trash2 className="h-5 w-5" />
           </div>
@@ -356,9 +358,11 @@ export function ExpandableCollections({
                     <div
                       key={`${collection.BinType}-${collection.CollectionDate}`}
                       className={cn(
-                        "px-2 py-0.5 rounded text-sm text-white flex items-center gap-1",
-                        getBinColor(collection.BinType)
+                        "px-3 py-0.5 rounded-full text-sm text-white flex items-center gap-1"
                       )}
+                      style={{
+                        backgroundColor: getBinColor(collection.BinType),
+                      }}
                     >
                       <Trash2 className="h-3 w-3" />
                       <span className="capitalize">
