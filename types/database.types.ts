@@ -567,6 +567,90 @@ export type Database = {
         }
         Relationships: []
       }
+      recycling_centres: {
+        Row: {
+          accepts_mixed_glass: boolean | null
+          accepts_paper: boolean | null
+          accepts_small_electrical: boolean | null
+          accepts_textiles: boolean | null
+          address: string
+          cleaning: string | null
+          created_at: string | null
+          has_sticker: boolean | null
+          id: number
+          latitude: number | null
+          location_type: string | null
+          longitude: number | null
+          non_lcc_banks: string | null
+          number_of_glass_banks: number | null
+          post_code: string | null
+          postcode_area: string | null
+          site_name: string
+          site_number: string | null
+          site_type: string | null
+          tally_of_sites: number | null
+          updated_at: string | null
+          uprn: string | null
+          ward: string | null
+          x_coordinate: number | null
+          y_coordinate: number | null
+        }
+        Insert: {
+          accepts_mixed_glass?: boolean | null
+          accepts_paper?: boolean | null
+          accepts_small_electrical?: boolean | null
+          accepts_textiles?: boolean | null
+          address: string
+          cleaning?: string | null
+          created_at?: string | null
+          has_sticker?: boolean | null
+          id?: number
+          latitude?: number | null
+          location_type?: string | null
+          longitude?: number | null
+          non_lcc_banks?: string | null
+          number_of_glass_banks?: number | null
+          post_code?: string | null
+          postcode_area?: string | null
+          site_name: string
+          site_number?: string | null
+          site_type?: string | null
+          tally_of_sites?: number | null
+          updated_at?: string | null
+          uprn?: string | null
+          ward?: string | null
+          x_coordinate?: number | null
+          y_coordinate?: number | null
+        }
+        Update: {
+          accepts_mixed_glass?: boolean | null
+          accepts_paper?: boolean | null
+          accepts_small_electrical?: boolean | null
+          accepts_textiles?: boolean | null
+          address?: string
+          cleaning?: string | null
+          created_at?: string | null
+          has_sticker?: boolean | null
+          id?: number
+          latitude?: number | null
+          location_type?: string | null
+          longitude?: number | null
+          non_lcc_banks?: string | null
+          number_of_glass_banks?: number | null
+          post_code?: string | null
+          postcode_area?: string | null
+          site_name?: string
+          site_number?: string | null
+          site_type?: string | null
+          tally_of_sites?: number | null
+          updated_at?: string | null
+          uprn?: string | null
+          ward?: string | null
+          x_coordinate?: number | null
+          y_coordinate?: number | null
+        }
+        Relationships: []
+      }
       role_permissions: {
         Row: {
           id: number
@@ -641,6 +725,39 @@ export type Database = {
           is_story_mode?: boolean
           location?: unknown | null
           title?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_bin_preferences: {
+        Row: {
+          address_json: Json
+          created_at: string | null
+          id: number
+          local_authority: string
+          postcode: string
+          premise_id: number
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          address_json: Json
+          created_at?: string | null
+          id?: number
+          local_authority: string
+          postcode: string
+          premise_id: number
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          address_json?: Json
+          created_at?: string | null
+          id?: number
+          local_authority?: string
+          postcode?: string
+          premise_id?: number
+          updated_at?: string | null
           user_id?: string
         }
         Relationships: []
@@ -1343,6 +1460,28 @@ export type Database = {
           creator_id: string
           messages: Json
           members: Json
+        }[]
+      }
+      find_nearest_recycling_centers_by_coords: {
+        Args: {
+          search_lat: number
+          search_lng: number
+          limit_count?: number
+        }
+        Returns: {
+          id: number
+          site_name: string
+          address: string
+          post_code: string
+          location_type: string
+          site_type: string
+          latitude: number
+          longitude: number
+          distance_meters: number
+          accepts_mixed_glass: boolean
+          accepts_paper: boolean
+          accepts_textiles: boolean
+          accepts_small_electrical: boolean
         }[]
       }
       geography:

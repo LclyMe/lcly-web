@@ -48,22 +48,17 @@ export function FeatureIdeasGrid({ initialFeatures }: FeatureIdeasGridProps) {
       featureId: string;
       hasVoted: boolean;
     }) => {
-      console.log(JSON.stringify({ featureId, hasVoted }, null, 2));
       if (hasVoted) {
         const { error } = await supabase
           .from("feature_votes")
           .delete()
           .eq("feature_id", featureId);
 
-        console.log(JSON.stringify(error, null, 2));
-
         if (error) throw error;
       } else {
         const { error } = await supabase
           .from("feature_votes")
           .insert([{ feature_id: featureId }]);
-
-        console.log(JSON.stringify(error, null, 2));
 
         if (error) throw error;
       }
@@ -93,8 +88,6 @@ export function FeatureIdeasGrid({ initialFeatures }: FeatureIdeasGridProps) {
       return { previousFeatures };
     },
     onError: (err, variables, context) => {
-      console.log(JSON.stringify(err, null, 2));
-      //   queryClient.setQueryData(["features"], context?.previousFeatures);
       toast({
         title: "Failed to register vote",
         description: "Please try again later",

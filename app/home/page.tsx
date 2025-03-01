@@ -50,7 +50,7 @@ export default async function HomePage() {
       <PageHeader title={headerTitle} showNotifications />
 
       {/* Main Cards */}
-      <div className="flex flex-col gap-4 px-3 w-full">
+      <div className="flex flex-col gap-3 px-3 w-full">
         {/* Weather Card */}
         {profile.postcode_location && weather && (
           <WeatherCard weather={weather} location={profile.postcode_location} />
@@ -58,7 +58,7 @@ export default async function HomePage() {
 
         {/* Bins Card */}
         {profile.postcode && (
-          <BinsCard postcode={profile.postcode} compact={true} />
+          <BinsCard postcode={profile.postcode} showComingSoonBanner />
         )}
 
         {/* Community Card */}
