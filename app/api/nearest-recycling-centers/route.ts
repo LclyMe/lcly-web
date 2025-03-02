@@ -1,6 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
+// Define the RecyclingCenter type with distance fields
+interface RecyclingCenterFromDB {
+  id: number;
+  site_name: string;
+  address: string;
+  post_code: string;
+  location_type: string;
+  site_type: string;
+  latitude: number;
+  longitude: number;
+  distance_meters: number;
+  accepts_mixed_glass: boolean;
+  accepts_paper: boolean;
+  accepts_textiles: boolean;
+  accepts_small_electrical: boolean;
+}
+
+// Extended type with calculated distance fields
+interface RecyclingCenterWithDistance extends RecyclingCenterFromDB {
+  distance_km: string;
+  distance_miles: string;
+}
+
 export async function GET(request: NextRequest) {
   try {
     // Get latitude and longitude from query parameters
@@ -49,7 +72,7 @@ export async function GET(request: NextRequest) {
       }
 
       // Format the response with miles and kilometers
-      const formattedData = data.map((center: any) => ({
+      const formattedData = data.map((center: RecyclingCenterFromDB) => ({
         ...center,
         distance_km: (center.distance_meters / 1000).toFixed(2),
         distance_miles: (center.distance_meters / 1609.34).toFixed(2),

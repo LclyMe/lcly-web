@@ -21,6 +21,21 @@ import { useRouter } from "next/navigation";
 import { Search, Loader2, Trash2 } from "lucide-react";
 import type { PremiseAddress } from "@/lib/bins/types";
 
+// Define a type for the cleaned address to avoid using 'any'
+type CleanedPremiseAddress = {
+  PremiseID: number;
+  Address1: string;
+  Address2: string;
+  Street: string;
+  Locality: string;
+  LocalAuthority: string;
+  Town: string;
+  Postcode: string;
+  Latitude?: number;
+  Longitude?: number;
+  [key: string]: string | number | undefined;
+};
+
 interface AddressSelectorProps {
   addresses: PremiseAddress[];
   postcode: string;
@@ -49,7 +64,7 @@ export function AddressSelector({
         const supabase = createClient();
         const cleanedAddress = Object.fromEntries(
           Object.entries(address).filter(([_, value]) => value !== "\u0000")
-        );
+        ) as CleanedPremiseAddress;
 
         await supabase
           .from("user_bin_preferences")
@@ -58,7 +73,7 @@ export function AddressSelector({
             postcode: postcode.replace(/\s+/g, ""),
             premise_id: cleanedAddress.PremiseID,
             local_authority: cleanedAddress.LocalAuthority,
-            address_json: cleanedAddress as unknown as any,
+            address_json: cleanedAddress,
             updated_at: new Date().toISOString(),
           })
           .select();
