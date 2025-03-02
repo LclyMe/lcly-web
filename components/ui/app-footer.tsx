@@ -3,6 +3,14 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+
+// Extend Navigator interface to include the standalone property
+declare global {
+  interface Navigator {
+    standalone?: boolean;
+  }
+}
 
 interface AppFooterProps {
   className?: string;
@@ -15,6 +23,17 @@ interface AppFooterProps {
 
 export function AppFooter({ className, navItems }: AppFooterProps) {
   const pathname = usePathname();
+  const [isStandaloneIOS, setIsStandaloneIOS] = useState(false);
+
+  useEffect(() => {
+    // Check if the app is running in standalone mode on iOS
+    const isInStandaloneMode = window.navigator.standalone === true;
+    const isIOS = /iphone|ipad|ipod/.test(
+      window.navigator.userAgent.toLowerCase()
+    );
+
+    setIsStandaloneIOS(isInStandaloneMode && isIOS);
+  }, []);
 
   return (
     <footer
@@ -23,8 +42,9 @@ export function AppFooter({ className, navItems }: AppFooterProps) {
         "bg-background/80 backdrop-blur-md",
         "border-t border-border",
         "pt-2",
-        "pb-2",
-        // "pb-[calc(env(safe-area-inset-bottom)+32px)]",
+        isStandaloneIOS
+          ? "pb-[calc(env(safe-area-inset-bottom)+28px)]"
+          : "pb-2",
         className
       )}
     >
