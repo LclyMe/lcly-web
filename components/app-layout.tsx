@@ -3,17 +3,8 @@
 import { usePathname } from "next/navigation";
 import { AppFooter } from "./ui/app-footer";
 import { Dock, DockIcon, DockItem, DockLabel } from "./ui/dock";
-import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import {
-  Home,
-  Bell,
-  MapPin,
-  User,
-  Newspaper,
-  Grid,
-  LayoutGrid,
-} from "lucide-react";
+import { Home, MapPin, User, Newspaper, LayoutGrid } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/hooks/use-auth";
 import { useProfile } from "@/hooks/use-profile";
@@ -64,7 +55,7 @@ export function AppLayout({ children }: AppLayoutProps) {
         className={cn(
           "flex-grow",
           showMobileNav &&
-            "pb-[calc(env(safe-area-inset-bottom)+32px+70px)] md:pb-0 flex-grow flex flex-col min-h-[100vh]"
+            "pb-[calc(env(safe-area-inset-bottom)+32px+80px)] md:pb-0 min-h-[100vh]"
         )}
       >
         {children}

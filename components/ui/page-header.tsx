@@ -5,6 +5,7 @@ import { Bell } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./button";
 import { ReactNode } from "react";
+import LclyLogo from "../logos/LclyLogo";
 
 interface PageHeaderProps {
   title: ReactNode;
@@ -20,11 +21,15 @@ export function PageHeader({
   return (
     <div
       className={cn(
-        "relative flex items-center justify-between py-4 md:pt-8 px-4 mb-6",
+        "relative flex items-center justify-between py-4 md:pt-8 px-4",
         className
       )}
     >
-      <div className="flex-1" /> {/* Spacer */}
+      <div className="flex-1">
+        <Link href="/">
+          <LclyLogo className="w-16 h-16" />
+        </Link>
+      </div>
       <div className="flex items-center gap-2 text-lg">{title}</div>
       <div className="flex-1 flex justify-end">
         {" "}

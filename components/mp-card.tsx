@@ -5,15 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  User,
-  Calendar,
-  Briefcase,
-  ExternalLink,
-  ChevronDown,
-  ChevronUp,
-  Award,
-} from "lucide-react";
+import { User, Calendar, Briefcase, ExternalLink, Award } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import {
@@ -22,7 +14,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { MPData } from "@/lib/server/mp";
 import { cn } from "@/lib/utils";
@@ -139,7 +130,7 @@ export function MPCard({
           {/* MP Details */}
           <div className="mt-6 space-y-4">
             <div className="flex justify-between items-center">
-              <div className="text-sm text-gray-300">MP since</div>
+              <div className="text-sm text-muted-foreground">MP since</div>
               <div className="font-medium">
                 {new Date(mp.entered_house).getFullYear()}
               </div>
@@ -147,7 +138,9 @@ export function MPCard({
 
             {mp.office && mp.office.length > 0 && (
               <div className="flex justify-between items-center">
-                <div className="text-sm text-gray-300">Current Role</div>
+                <div className="text-sm text-muted-foreground">
+                  Current Role
+                </div>
                 <div className="font-medium">{mp.office[0].position}</div>
               </div>
             )}

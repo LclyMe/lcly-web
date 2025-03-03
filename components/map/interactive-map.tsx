@@ -9,6 +9,7 @@ import { TopBar } from "./top-bar";
 import { useMapData, DataType, MapViewName } from "@/hooks/use-map-data";
 import { PostcodeData } from "@/types/location";
 import { motion } from "framer-motion";
+import { RecyclingCentersLayer } from "./recycling-centers-layer";
 
 interface ThoughtMarker {
   id: number;
@@ -128,12 +129,18 @@ function DataLayer({
   }, [data, map, selectedMapProvider]);
 
   return (
-    <MapControls
-      selectedMapProvider={selectedMapProvider}
-      setSelectedMapProvider={setSelectedMapProvider}
-      enabledDataTypes={enabledDataTypes}
-      onToggleDataType={handleToggleDataType}
-    />
+    <>
+      <MapControls
+        selectedMapProvider={selectedMapProvider}
+        setSelectedMapProvider={setSelectedMapProvider}
+        enabledDataTypes={enabledDataTypes}
+        onToggleDataType={handleToggleDataType}
+      />
+      <RecyclingCentersLayer
+        visible={enabledDataTypes.includes("recycling")}
+        selectedMapProvider={selectedMapProvider}
+      />
+    </>
   );
 }
 
@@ -191,10 +198,10 @@ export default function InteractiveMap({
         ]}
         minZoom={5}
         zoomControl={false}
-        dragging={false}
-        scrollWheelZoom={false}
-        touchZoom={false}
-        doubleClickZoom={false}
+        dragging={true}
+        scrollWheelZoom={true}
+        touchZoom={true}
+        doubleClickZoom={true}
         attributionControl={false}
       >
         <TopBar

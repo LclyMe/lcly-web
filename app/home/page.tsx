@@ -9,6 +9,7 @@ import { getWeather } from "@/lib/utils/weather";
 import { cn, getSupabaseStorageUrl } from "@/lib/utils";
 import { WikipediaData } from "@/types/community";
 import { WeatherCard } from "@/components/weather-card";
+import { BinsCard } from "@/components/bins-card";
 
 export default async function HomePage() {
   const profile = await getCurrentProfile();
@@ -49,10 +50,20 @@ export default async function HomePage() {
       <PageHeader title={headerTitle} showNotifications />
 
       {/* Main Cards */}
-      <div className="flex flex-col gap-4 px-3">
+      <div className="flex flex-col gap-3 px-3 w-full">
         {/* Weather Card */}
         {profile.postcode_location && weather && (
           <WeatherCard weather={weather} location={profile.postcode_location} />
+        )}
+
+        {/* Bins Card */}
+        {profile.postcode && (
+          <BinsCard
+            postcode={profile.postcode}
+            postcodeLatitude={profile.postcode_location?.latitude}
+            postcodeLongitude={profile.postcode_location?.longitude}
+            showComingSoonBanner
+          />
         )}
 
         {/* Community Card */}

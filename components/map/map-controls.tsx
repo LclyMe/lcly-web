@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Sun, Moon, Palette, PenLine } from "lucide-react";
+import { Sun, Moon, Palette, PenLine, Trash2 } from "lucide-react";
 import type { DataType } from "@/hooks/use-map-data";
 
 interface MapControlsProps {
@@ -15,6 +15,10 @@ const dataTypeConfig = {
   thoughts: {
     icon: PenLine,
     label: "Thoughts",
+  },
+  recycling: {
+    icon: Trash2,
+    label: "Recycling Centers",
   },
   // people: {
   //   icon: Users,
