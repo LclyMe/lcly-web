@@ -2,21 +2,7 @@ import { useEffect, useState } from "react";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
 import { Trash2 } from "lucide-react";
-
-interface RecyclingCenter {
-  id: number;
-  site_name: string;
-  address: string;
-  post_code: string;
-  location_type: string;
-  site_type: string;
-  latitude: number;
-  longitude: number;
-  accepts_mixed_glass: boolean;
-  accepts_paper: boolean;
-  accepts_textiles: boolean;
-  accepts_small_electrical: boolean;
-}
+import { useAllRecyclingCenters } from "@/hooks/use-recycling-centers";
 
 interface RecyclingCentersLayerProps {
   visible: boolean;
@@ -28,49 +14,35 @@ export function RecyclingCentersLayer({
   selectedMapProvider,
 }: RecyclingCentersLayerProps) {
   const map = useMap();
-  const [centers, setCenters] = useState<RecyclingCenter[]>([]);
   const [markers, setMarkers] = useState<L.Marker[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  // Fetch recycling centers
-  useEffect(() => {
-    if (!visible) return;
+  // Use React Query hook to fetch all recycling centers
+  const {
+    data: centers = [],
+    isLoading,
+    error,
+  } = useAllRecyclingCenters(visible);
 
-    const fetchCenters = async () => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const response = await fetch("/api/recycling-centers");
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
-        }
-        const data = await response.json();
-        setCenters(data);
-      } catch (err) {
-        console.error("Failed to fetch recycling centers:", err);
-        setError("Failed to load recycling centers");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCenters();
-  }, [visible]);
-
-  // Create and manage markers
+  // Create markers when centers data changes
   useEffect(() => {
     // Remove existing markers
     markers.forEach((marker) => marker.remove());
 
-    if (!visible || centers.length === 0) {
+    if (!visible || !centers.length) {
+      setMarkers([]);
       return;
     }
 
-    // Add markers to the map
+    // Create new markers
     const newMarkers = centers.map((center) => {
       // Create custom icon based on what the center accepts
+      const acceptsCount = [
+        center.accepts_mixed_glass,
+        center.accepts_paper,
+        center.accepts_textiles,
+        center.accepts_small_electrical,
+      ].filter(Boolean).length;
+
       const iconHtml = `
         <div class="flex items-center justify-center w-full h-full rounded-full ${
           selectedMapProvider === "dark"
@@ -144,5 +116,5 @@ export function RecyclingCentersLayer({
     };
   }, [centers, map, visible, selectedMapProvider]);
 
-  return null; // This component doesn't render anything directly
+  return null;
 }

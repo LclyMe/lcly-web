@@ -27,29 +27,13 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { Button } from "@/components/ui/button";
 import { AddressSelector } from "@/components/bins/address-selector";
 import { AddAddressPrompt } from "@/components/bins/add-address-prompt";
+import { useRecyclingCenters } from "@/hooks/use-recycling-centers";
 import type {
   PremiseAddress,
   BinMessage,
   BinCollection,
 } from "@/lib/bins/types";
 import { getBinColor } from "@/lib/bins/utils";
-
-// Define a type for recycling centers
-interface RecyclingCenter {
-  id: number;
-  site_name: string;
-  address: string;
-  post_code: string;
-  location_type: string;
-  site_type: string;
-  latitude: number;
-  longitude: number;
-  distance_meters: number;
-  accepts_mixed_glass: boolean;
-  accepts_paper: boolean;
-  accepts_textiles: boolean;
-  accepts_small_electrical: boolean;
-}
 
 interface MessageButtonProps {
   message: BinMessage;
@@ -85,43 +69,14 @@ export function MessageButton({
 }: MessageButtonProps) {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [recyclingCenters, setRecyclingCenters] = useState<RecyclingCenter[]>(
-    []
-  );
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const fetchRecyclingCenters = useCallback(async () => {
-    if (!latitude || !longitude) return;
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch(
-        `/api/nearest-recycling-centers?lat=${latitude}&lng=${longitude}`
-      );
-
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setRecyclingCenters(data);
-    } catch (error) {
-      console.error("Error fetching recycling centers:", error);
-      setError("Unable to load recycling centers. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [latitude, longitude]);
-
-  useEffect(() => {
-    // Fetch nearest recycling centers when modal is opened and coordinates are available
-    if (open && latitude && longitude) {
-      fetchRecyclingCenters();
-    }
-  }, [open, latitude, longitude, fetchRecyclingCenters]);
+  // Use the React Query hook to fetch recycling centers
+  const {
+    data: recyclingCenters = [],
+    isLoading,
+    error,
+    refetch,
+  } = useRecyclingCenters(latitude, longitude, 3, open);
 
   const renderMessageContent = () => (
     <div
@@ -156,7 +111,7 @@ export function MessageButton({
           <Button
             variant="ghost"
             size="sm"
-            onClick={fetchRecyclingCenters}
+            onClick={() => refetch()}
             className="text-xs h-7 px-2"
           >
             Retry
@@ -169,7 +124,10 @@ export function MessageButton({
           <div className="animate-spin h-5 w-5 border-2 border-primary border-t-transparent rounded-full"></div>
         </div>
       ) : error ? (
-        <p className="text-sm text-muted-foreground">{error}</p>
+        <p className="text-sm text-muted-foreground">
+          {(error as Error).message ||
+            "Unable to load recycling centers. Please try again."}
+        </p>
       ) : recyclingCenters.length > 0 ? (
         <div className="space-y-3">
           {recyclingCenters.map((center) => (
@@ -180,7 +138,10 @@ export function MessageButton({
               <div className="flex justify-between">
                 <h4 className="font-medium text-sm">{center.site_name}</h4>
                 <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
-                  {(center.distance_meters / 1609.34).toFixed(1)} miles
+                  {center.distance_meters
+                    ? (center.distance_meters / 1609.34).toFixed(1)
+                    : "?"}{" "}
+                  miles
                 </span>
               </div>
               <p className="text-xs text-muted-foreground mt-1">

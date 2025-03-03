@@ -1,8 +1,5 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
-import { revalidatePath } from "next/cache";
-
 export interface PremiseAddress {
   PremiseID: number;
   Address1: string;
@@ -21,24 +18,6 @@ export interface BinCollection {
   CollectionDate: string;
 }
 
-// export async function updateBinPreference(
-//   userId: string,
-//   postcode: string,
-//   address: PremiseAddress
-// ) {
-//   const supabase = await createClient();
-
-//   await supabase.from("user_bin_preferences").upsert({
-//     user_id: userId,
-//     postcode: postcode,
-//     premise_id: address.PremiseID,
-//     local_authority: address.LocalAuthority,
-//     address_json: address as any, // Type assertion needed due to Json type
-//   });
-
-//   revalidatePath(`/`);
-// }
-
 export async function fetchCollections(
   premiseId: number,
   localAuthority: string
@@ -52,7 +31,7 @@ export async function fetchCollections(
         headers: {
           accept: "*/*",
         },
-        next: { revalidate: 3600 }, // Cache for 1 hour
+        next: { revalidate: 86400 }, // Cache for 1 day
       }
     );
 
@@ -66,24 +45,3 @@ export async function fetchCollections(
     return [];
   }
 }
-
-// export async function selectAddress(
-//   userId: string | undefined,
-//   postcode: string,
-//   address: PremiseAddress
-// ) {
-//   // Save user preference if logged in
-//   if (userId) {
-//     await updateBinPreference(userId, postcode, address);
-//   }
-
-//   // Fetch collections for this address
-//   const collections = await fetchCollections(
-//     address.PremiseID,
-//     address.LocalAuthority
-//   );
-
-//   revalidatePath(`/`);
-
-//   return { collections };
-// }
