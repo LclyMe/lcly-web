@@ -12,6 +12,8 @@ export function Analytics() {
         "www.lcly.me",
         "lcly.space",
         "www.lcly.space",
+        "lcly.org",
+        "www.lcly.org",
       ],
     });
 
