@@ -78,7 +78,10 @@ export function PostcodeSearch({
       />
       <Button
         type="submit"
-        className={cn("h-10 text-base w-24 opacity-90", buttonClassName)}
+        className={cn(
+          "h-10 text-base w-24 opacity-80 backdrop-blur-sm",
+          buttonClassName
+        )}
         disabled={isLoading}
       >
         {isLoading ? (
@@ -87,8 +90,8 @@ export function PostcodeSearch({
           </>
         ) : (
           <>
-            <span>Visit</span>
-            <ArrowRight className="ml-1 h-4 w-4" />
+            <span>Find</span>
+            <ArrowRight className="h-4 w-4" />
           </>
         )}
       </Button>

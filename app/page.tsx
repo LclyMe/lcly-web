@@ -128,7 +128,7 @@ export default function Home() {
                   ))}
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  5k+ Neighbours in your area
+                  1k+ Neighbours in your area
                 </p>
               </div>
 
@@ -170,7 +170,7 @@ export default function Home() {
               )}
             </div>
           </div>
-          <div className="absolute top-0 left-0 w-full h-full -z-0 opacity-20 lg:opacity-100 lg:relative lg:w-[45%]">
+          <div className="absolute top-0 left-0 w-full h-full -z-0 opacity-30 lg:opacity-100 lg:relative lg:w-[45%]">
             <UKMap />
           </div>
         </motion.div>
