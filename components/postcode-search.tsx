@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
-import { Loader2 } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface PostcodeSearchProps {
@@ -74,11 +74,15 @@ export function PostcodeSearch({
           setPostcode(formatted);
         }}
         maxLength={8}
-        className={cn("flex-1 h-10", className)}
+        className={cn("flex-1 h-12", className)}
       />
       <Button
         type="submit"
-        className={cn("h-10 text-base w-24 opacity-90", buttonClassName)}
+        className={cn(
+          "h-12 text-base w-12 sm:w-24 opacity-80 backdrop-blur-sm",
+          buttonClassName
+        )}
+        size="icon"
         disabled={isLoading}
       >
         {isLoading ? (
@@ -86,7 +90,10 @@ export function PostcodeSearch({
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           </>
         ) : (
-          "Search"
+          <>
+            <span className="hidden sm:block">Find</span>
+            <ArrowRight className="h-4 w-4" />
+          </>
         )}
       </Button>
     </form>

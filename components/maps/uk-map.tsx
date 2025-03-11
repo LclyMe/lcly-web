@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import DottedMap from "dotted-map/without-countries";
 import Image from "next/image";
@@ -27,6 +27,24 @@ export function UKMap() {
   const { resolvedTheme: theme } = useTheme();
   const showLines = false; // Add this line to control line visibility
   const showPoints = true; // Add this line to control point visibility
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
+
+  // Check if we're on a large screen
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsLargeScreen(window.innerWidth >= 1024);
+    };
+
+    // Initial check
+    checkScreenSize();
+
+    // Add event listener for resize
+    window.addEventListener("resize", checkScreenSize);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
   const svgMap = map.getSVG({
     radius: 0.22,
     color: theme === "dark" ? "#0ea5e9" : "#0ea5e9",
@@ -83,7 +101,10 @@ export function UKMap() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      transition={{
+        duration: 0.5,
+        delay: isLargeScreen ? 0.2 : 1.0, // Longer delay only on mobile
+      }}
       className="relative font-sans overflow-hidden h-full lg:h-[100dvh]"
     >
       <Image
