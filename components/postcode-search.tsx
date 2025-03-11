@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
-import { Loader2 } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface PostcodeSearchProps {
@@ -86,7 +86,10 @@ export function PostcodeSearch({
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           </>
         ) : (
-          "Search"
+          <>
+            <span>Visit</span>
+            <ArrowRight className="ml-1 h-4 w-4" />
+          </>
         )}
       </Button>
     </form>

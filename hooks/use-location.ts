@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Database } from "@/types/database.types";
 
 type Community = Database["public"]["Tables"]["communities"]["Row"];
@@ -18,28 +18,36 @@ interface LocationData {
 }
 
 export function useLocation() {
-  const [locationData, setLocationData] = useState<LocationData | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchLocation() {
-      try {
-        const response = await fetch("/api/location");
-        if (!response.ok) {
-          throw new Error("Failed to fetch location");
-        }
-        const data = await response.json();
-        setLocationData(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to get location");
-      } finally {
-        setLoading(false);
+  // Fetch location data using React Query
+  const {
+    data: locationData,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["location"],
+    queryFn: async () => {
+      const response = await fetch("/api/location");
+      if (!response.ok) {
+        throw new Error("Failed to fetch location");
       }
-    }
+      return response.json() as Promise<LocationData>;
+    },
+    staleTime: 1000 * 60 * 60, // Cache for 1 hour
+    gcTime: 1000 * 60 * 60, // Keep in cache for 1 hour
+    retry: 2,
+  });
 
-    fetchLocation();
-  }, []);
+  // Convert error to string format to maintain the same API
+  const errorMessage =
+    error instanceof Error
+      ? error.message
+      : error
+      ? "Failed to get location"
+      : null;
 
-  return { locationData, error, loading };
+  return {
+    locationData,
+    error: errorMessage,
+    loading: isLoading,
+  };
 }

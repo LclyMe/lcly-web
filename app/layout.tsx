@@ -17,8 +17,39 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Lcly UK",
-  description: "Build your local community. Join the localverse now.",
+  title: "Lcly",
+  description:
+    "Your UK Postcode Online. Find your community, meet neighbours, and improve your local area.",
+  keywords: [
+    "postcode",
+    "community",
+    "neighbours",
+    "local",
+    "uk",
+    "uk postcode",
+    "uk community",
+    "uk neighbours",
+    "uk local",
+    "nextdoor",
+    "nextdoor uk",
+    "nextdoor neighbours",
+    "lcly",
+    "lcly uk",
+    "lcly uk postcode",
+    "lcly uk community",
+    "lcly uk neighbours",
+    "lcly uk local",
+    "lcly uk postcode",
+    "lcly uk community",
+    "lcly uk neighbours",
+    "lcly uk local",
+    "local social media",
+    "local community",
+    "local neighbourhood",
+  ],
+  alternates: {
+    canonical: "https://lcly.org",
+  },
 };
 
 export default function RootLayout({
