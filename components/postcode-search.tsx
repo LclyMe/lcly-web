@@ -74,14 +74,15 @@ export function PostcodeSearch({
           setPostcode(formatted);
         }}
         maxLength={8}
-        className={cn("flex-1 h-10", className)}
+        className={cn("flex-1 h-12", className)}
       />
       <Button
         type="submit"
         className={cn(
-          "h-10 text-base w-24 opacity-80 backdrop-blur-sm",
+          "h-12 text-base w-12 sm:w-24 opacity-80 backdrop-blur-sm",
           buttonClassName
         )}
+        size="icon"
         disabled={isLoading}
       >
         {isLoading ? (
@@ -90,7 +91,7 @@ export function PostcodeSearch({
           </>
         ) : (
           <>
-            <span>Find</span>
+            <span className="hidden sm:block">Find</span>
             <ArrowRight className="h-4 w-4" />
           </>
         )}

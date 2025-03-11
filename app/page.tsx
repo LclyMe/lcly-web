@@ -99,13 +99,13 @@ export default function Home() {
               Your UK Postcode Online.
             </h1>
             <p className="mt-2 text-lg leading-8 text-muted-foreground">
-              Lcly is a Free &amp; Open Source project built for local people.
-              Enter your UK postcode to find your community, meet neighbours,
-              and improve your area.
+              Lcly is a 100% Open Source service built for local people. Enter
+              your UK postcode to find your community, meet neighbours, and
+              improve your local area.
             </p>
-            <div className="mt-10">
+            <div className="mt-6">
               <PostcodeSearch className="backdrop-blur-sm" />
-              <div className="mt-5 flex items-center gap-2">
+              <div className="mt-7 flex items-center gap-2">
                 <div className="flex -space-x-2">
                   {[
                     "/avatars/amy.png",

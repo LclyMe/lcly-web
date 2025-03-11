@@ -33,6 +33,8 @@ export const metadata: Metadata = {
     "nextdoor",
     "nextdoor uk",
     "nextdoor neighbours",
+    "nextdoor local",
+    "open source nextdoor",
     "lcly",
     "lcly uk",
     "lcly uk postcode",
