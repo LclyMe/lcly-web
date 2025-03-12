@@ -15,12 +15,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { MPData } from "@/lib/server/mp";
+import { MPOffice, MPRecord } from "@/lib/server/mp";
 import { cn } from "@/lib/utils";
 
 interface MPCardProps {
   constituency?: string;
-  mp?: MPData;
+  mp?: MPRecord;
   showTitle?: boolean;
 }
 
@@ -64,7 +64,6 @@ export function MPCard({
     isLoading,
     error: fetchError,
   } = useMPQuery(constituency);
-  const [isExpanded, setIsExpanded] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // Use provided MP data if available, otherwise use fetched data
@@ -132,16 +131,20 @@ export function MPCard({
             <div className="flex justify-between items-center">
               <div className="text-sm text-muted-foreground">MP since</div>
               <div className="font-medium">
-                {new Date(mp.entered_house).getFullYear()}
+                {mp.entered_house
+                  ? new Date(mp.entered_house).getFullYear()
+                  : "Unknown"}
               </div>
             </div>
 
-            {mp.office && mp.office.length > 0 && (
+            {mp.office && Array.isArray(mp.office) && mp.office.length > 0 && (
               <div className="flex justify-between items-center">
                 <div className="text-sm text-muted-foreground">
                   Current Role
                 </div>
-                <div className="font-medium">{mp.office[0].position}</div>
+                <div className="font-medium">
+                  {(mp.office[0] as MPOffice).position}
+                </div>
               </div>
             )}
           </div>
@@ -194,20 +197,26 @@ export function MPCard({
                 <span className="text-sm">
                   MP since{" "}
                   <span className="font-medium">
-                    {new Date(mp.entered_house).getFullYear()}
+                    {mp.entered_house
+                      ? new Date(mp.entered_house).getFullYear()
+                      : "Unknown"}
                   </span>
                 </span>
               </div>
 
-              {mp.office && mp.office.length > 0 && (
-                <div className="flex items-center gap-2">
-                  <Briefcase className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">
-                    Current role:{" "}
-                    <span className="font-medium">{mp.office[0].position}</span>
-                  </span>
-                </div>
-              )}
+              {mp.office &&
+                Array.isArray(mp.office) &&
+                mp.office.length > 0 && (
+                  <div className="flex items-center gap-2">
+                    <Briefcase className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm">
+                      Current role:{" "}
+                      <span className="font-medium">
+                        {(mp.office[0] as MPOffice).position}
+                      </span>
+                    </span>
+                  </div>
+                )}
             </div>
 
             <Button

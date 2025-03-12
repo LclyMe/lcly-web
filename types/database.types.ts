@@ -146,6 +146,57 @@ export type Database = {
           },
         ]
       }
+      councils: {
+        Row: {
+          address: string | null
+          created_at: string | null
+          description: string | null
+          email: string | null
+          id: string
+          logo: string | null
+          name: string
+          phone: string | null
+          services: Json | null
+          short_name: string | null
+          slug: string
+          type: string
+          updated_at: string | null
+          website: string | null
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string | null
+          description?: string | null
+          email?: string | null
+          id?: string
+          logo?: string | null
+          name: string
+          phone?: string | null
+          services?: Json | null
+          short_name?: string | null
+          slug: string
+          type: string
+          updated_at?: string | null
+          website?: string | null
+        }
+        Update: {
+          address?: string | null
+          created_at?: string | null
+          description?: string | null
+          email?: string | null
+          id?: string
+          logo?: string | null
+          name?: string
+          phone?: string | null
+          services?: Json | null
+          short_name?: string | null
+          slug?: string
+          type?: string
+          updated_at?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
       entities: {
         Row: {
           avatar: string | null
@@ -458,6 +509,7 @@ export type Database = {
           constituency: string
           created_at: string | null
           entered_house: string | null
+          extra_information: Json | null
           family_name: string | null
           full_name: string
           given_name: string | null
@@ -472,6 +524,7 @@ export type Database = {
           constituency: string
           created_at?: string | null
           entered_house?: string | null
+          extra_information?: Json | null
           family_name?: string | null
           full_name: string
           given_name?: string | null
@@ -486,6 +539,7 @@ export type Database = {
           constituency?: string
           created_at?: string | null
           entered_house?: string | null
+          extra_information?: Json | null
           family_name?: string | null
           full_name?: string
           given_name?: string | null
@@ -504,6 +558,7 @@ export type Database = {
           admin_ward: string
           country: string
           created_at: string
+          extra_information: Json | null
           id: string
           latitude: number
           longitude: number
@@ -516,6 +571,7 @@ export type Database = {
           admin_ward: string
           country: string
           created_at?: string
+          extra_information?: Json | null
           id?: string
           latitude: number
           longitude: number
@@ -528,6 +584,7 @@ export type Database = {
           admin_ward?: string
           country?: string
           created_at?: string
+          extra_information?: Json | null
           id?: string
           latitude?: number
           longitude?: number
@@ -695,6 +752,7 @@ export type Database = {
       }
       thoughts: {
         Row: {
+          audience: string | null
           content: string
           created_at: string
           id: number
@@ -706,6 +764,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          audience?: string | null
           content: string
           created_at?: string
           id?: number
@@ -717,6 +776,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          audience?: string | null
           content?: string
           created_at?: string
           id?: number
@@ -1946,6 +2006,27 @@ export type Database = {
           creator_id: string
           messages: Json
           members: Json
+        }[]
+      }
+      get_council: {
+        Args: {
+          councilid: string
+        }
+        Returns: {
+          address: string | null
+          created_at: string | null
+          description: string | null
+          email: string | null
+          id: string
+          logo: string | null
+          name: string
+          phone: string | null
+          services: Json | null
+          short_name: string | null
+          slug: string
+          type: string
+          updated_at: string | null
+          website: string | null
         }[]
       }
       get_feature_ideas_with_votes: {

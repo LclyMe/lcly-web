@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import type { LatLngBounds } from "leaflet";
 import { MAP_VIEWS } from "@/components/map/map-views";
 
-export type DataType = "thoughts" | "recycling";
+export type DataType = "thoughts";
 // | "people" | "homes";
 export type MapViewName = keyof typeof MAP_VIEWS;
 

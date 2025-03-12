@@ -93,15 +93,17 @@ export default function Home() {
             <p className="flex items-center gap-2 text-sm leading-7 bg-primary/5 backdrop-blur-sm font-regular text-primary px-3 py-1 rounded-full self-start border border-primary/10 text-foreground/60">
               {/* <div className="w-2 h-2 bg-[#0ea5e9]/75 rounded-full" />{" "} */}
               <GithubIcon className="w-5 h-5" />
-              Community-Built & Free
+              Built by the community
             </p>
             <h1 className="mt-6 text-4xl md:text-6xl tracking-tight max-w-xl font-regular text-left text-foreground">
               Your UK Postcode Online.
             </h1>
             <p className="mt-2 text-lg leading-8 text-muted-foreground">
-              Lcly is a 100% Open Source service built for local people. Enter
-              your UK postcode to find your community, meet neighbours, and
-              improve your local area.
+              <span className="hidden md:inline mr-1">
+                Lcly is a community-built, open source service.
+              </span>
+              Enter your UK postcode to find your community, meet neighbours,
+              and improve your local area.
             </p>
             <div className="mt-6">
               <PostcodeSearch className="backdrop-blur-sm" />

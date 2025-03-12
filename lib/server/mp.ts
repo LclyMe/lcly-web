@@ -30,8 +30,10 @@ export interface MPData {
   office: MPOffice[];
 }
 
+export type MPRecord = Database["public"]["Tables"]["mps"]["Row"];
+
 import { createAdminClient } from "@/lib/supabase/server";
-import { Json } from "@/types/database.types";
+import { Database, Json } from "@/types/database.types";
 
 /**
  * Fetch MP data from TheyWorkForYou API
@@ -53,175 +55,109 @@ export async function fetchMPFromAPI(constituency: string): Promise<MPData> {
 }
 
 /**
- * Convert Json to MPOffice array safely
- */
-function convertJsonToMPOffice(jsonData: Json | null): MPOffice[] {
-  if (!jsonData) return [];
-
-  try {
-    // If it's already an array, try to convert it
-    if (Array.isArray(jsonData)) {
-      return jsonData.map((item) => {
-        // Ensure item is an object
-        if (typeof item !== "object" || item === null) {
-          return {
-            moffice_id: "",
-            dept: "",
-            position: "",
-            from_date: "",
-            to_date: "",
-            person: "",
-            source: "",
-          };
-        }
-
-        // Now we can safely access properties
-        const typedItem = item as Record<string, unknown>;
-        return {
-          moffice_id:
-            typeof typedItem.moffice_id === "string"
-              ? typedItem.moffice_id
-              : "",
-          dept: typeof typedItem.dept === "string" ? typedItem.dept : "",
-          position:
-            typeof typedItem.position === "string" ? typedItem.position : "",
-          from_date:
-            typeof typedItem.from_date === "string" ? typedItem.from_date : "",
-          to_date:
-            typeof typedItem.to_date === "string" ? typedItem.to_date : "",
-          person: typeof typedItem.person === "string" ? typedItem.person : "",
-          source: typeof typedItem.source === "string" ? typedItem.source : "",
-        };
-      });
-    }
-
-    return [];
-  } catch (error) {
-    console.error("Error converting JSON to MPOffice:", error);
-    return [];
-  }
-}
-
-/**
  * Get MP data from database or API, caching results in the database
  */
-export async function getMP(constituency: string): Promise<MPData | null> {
+export async function getMP(constituency: string): Promise<MPRecord | null> {
   if (!constituency) return null;
 
   const supabase = createAdminClient();
 
-  // Check if we have the MP data cached and it's not too old (less than 7 days old)
+  // Check if the MP data is more than a week old
   const oneWeekAgo = new Date();
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
-  const { data: cachedMP, error: cachedMPError } = await supabase
+  const { data: cachedMPs, error: cachedMPError } = await supabase
     .from("mps")
     .select()
     .eq("constituency", constituency)
     .gt("last_updated", oneWeekAgo.toISOString())
-    .single();
+    .limit(1);
 
   if (cachedMPError) {
-    console.log(
-      "No cached MP data found or it's too old:",
-      cachedMPError.message
-    );
+    console.log("Error fetching cached MP data:", cachedMPError.message);
   }
 
   // If we have cached data that's recent enough, return it
-  if (cachedMP) {
-    return {
-      member_id: cachedMP.person_id,
-      house: "commons",
-      constituency: cachedMP.constituency,
-      party: cachedMP.party,
-      entered_house: cachedMP.entered_house || "",
-      left_house: "",
-      entered_reason: "",
-      left_reason: "",
-      person_id: cachedMP.person_id,
-      lastupdate: cachedMP.last_updated || new Date().toISOString(),
-      title: cachedMP.title || "",
-      given_name: cachedMP.given_name || "",
-      family_name: cachedMP.family_name || "",
-      full_name: cachedMP.full_name,
-      url: "",
-      image: "",
-      image_height: 0,
-      image_width: 0,
-      office: convertJsonToMPOffice(cachedMP.office),
-    };
+  if (cachedMPs && cachedMPs.length > 0) {
+    const cachedMP = cachedMPs[0];
+    return cachedMP;
   }
 
   try {
     // Fetch from API
     const mpData = await fetchMPFromAPI(constituency);
 
-    // Cache the result
-    const { data: newMP, error } = await supabase
+    // Uncomment to log the fetched MP data
+    // console.log("Fetched MP data from API: ", mpData);
+
+    // First check if a record with this constituency already exists
+    const { data: existingMPs } = await supabase
       .from("mps")
-      .upsert({
-        person_id: mpData.person_id,
-        constituency: mpData.constituency,
-        full_name: mpData.full_name,
-        party: mpData.party,
-        entered_house: mpData.entered_house,
-        title: mpData.title,
-        given_name: mpData.given_name,
-        family_name: mpData.family_name,
-        office: mpData.office as unknown as Json,
-        last_updated: new Date().toISOString(),
-      })
-      .select()
-      .single();
+      .select("id")
+      .eq("constituency", constituency);
+
+    // Extract the fields we specifically store in columns
+    const {
+      person_id,
+      constituency: mpConstituency,
+      full_name,
+      party,
+      entered_house,
+      title,
+      given_name,
+      family_name,
+      office,
+      ...extraInformation
+    } = mpData;
+
+    // Prepare the MP data for upsert
+    const mpRecord = {
+      person_id,
+      constituency: mpConstituency,
+      full_name,
+      party,
+      entered_house,
+      title,
+      given_name,
+      family_name,
+      office: office as unknown as Json,
+      extra_information: extraInformation as unknown as Json,
+      last_updated: new Date().toISOString(),
+    };
+
+    let error;
+    let savedMP;
+
+    // If a record exists, update it using its ID
+    if (existingMPs && existingMPs.length > 0) {
+      const { data: updatedMP, error: updateError } = await supabase
+        .from("mps")
+        .update(mpRecord)
+        .eq("id", existingMPs[0].id)
+        .select()
+        .single();
+
+      error = updateError;
+      savedMP = updatedMP;
+    } else {
+      // Otherwise insert a new record
+      const { data: newMP, error: insertError } = await supabase
+        .from("mps")
+        .insert(mpRecord)
+        .select()
+        .single();
+
+      error = insertError;
+      savedMP = newMP;
+    }
 
     if (error) {
       console.error("Error caching MP data:", error);
     }
 
-    return mpData;
+    return savedMP;
   } catch (error) {
     console.error("Error fetching MP data:", error);
-    return null;
-  }
-}
-
-/**
- * Update the MP data for a constituency in the database
- */
-export async function updateMPData(
-  constituency: string
-): Promise<MPData | null> {
-  try {
-    const mpData = await fetchMPFromAPI(constituency);
-    const supabase = createAdminClient();
-
-    // Update the database
-    const { data: updatedMP, error } = await supabase
-      .from("mps")
-      .upsert({
-        person_id: mpData.person_id,
-        constituency: mpData.constituency,
-        full_name: mpData.full_name,
-        party: mpData.party,
-        entered_house: mpData.entered_house,
-        title: mpData.title,
-        given_name: mpData.given_name,
-        family_name: mpData.family_name,
-        office: mpData.office as unknown as Json,
-        last_updated: new Date().toISOString(),
-      })
-      .select()
-      .single();
-
-    if (error) {
-      console.error("Error updating MP data:", error);
-      return null;
-    }
-
-    return mpData;
-  } catch (error) {
-    console.error("Error fetching MP data for update:", error);
     return null;
   }
 }

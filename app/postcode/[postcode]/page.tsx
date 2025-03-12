@@ -9,6 +9,15 @@ interface PostcodePageProps {
   }>;
 }
 
+export async function generateMetadata({ params }: PostcodePageProps) {
+  const { postcode } = await params;
+  const decodedPostcode = decodeURIComponent(postcode);
+  return {
+    title: `${decodedPostcode}`,
+    description: `Explore the postcode ${decodedPostcode} and its surrounding area.`,
+  };
+}
+
 export default async function PostcodePage({ params }: PostcodePageProps) {
   const { postcode } = await params;
   const decodedPostcode = decodeURIComponent(postcode);
@@ -25,7 +34,7 @@ export default async function PostcodePage({ params }: PostcodePageProps) {
       <PostcodeDetails
         location={location}
         weather={weather}
-        mpData={location.mp_data}
+        mpData={location.mp_data || undefined}
       />
     </div>
   );

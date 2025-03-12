@@ -9,7 +9,7 @@ import { TopBar } from "./top-bar";
 import { useMapData, DataType, MapViewName } from "@/hooks/use-map-data";
 import { PostcodeData } from "@/types/location";
 import { motion } from "framer-motion";
-import { RecyclingCentersLayer } from "./recycling-centers-layer";
+// import { RecyclingCentersLayer } from "./recycling-centers-layer";
 
 interface ThoughtMarker {
   id: number;
@@ -62,9 +62,7 @@ function DataLayer({
   setSelectedMapProvider,
 }: DataLayerProps) {
   const map = useMap();
-  const [enabledDataTypes, setEnabledDataTypes] = useState<DataType[]>([
-    "thoughts",
-  ]);
+  const [enabledDataTypes, setEnabledDataTypes] = useState<DataType[]>([]);
   const [markers, setMarkers] = useState<L.Marker[]>([]);
 
   const bounds = map.getBounds();
@@ -136,10 +134,10 @@ function DataLayer({
         enabledDataTypes={enabledDataTypes}
         onToggleDataType={handleToggleDataType}
       />
-      <RecyclingCentersLayer
+      {/* <RecyclingCentersLayer
         visible={enabledDataTypes.includes("recycling")}
         selectedMapProvider={selectedMapProvider}
-      />
+      /> */}
     </>
   );
 }

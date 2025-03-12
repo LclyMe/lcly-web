@@ -1,8 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
 import { Database } from "@/types/database.types";
+import { PostcodeData } from "@/types/location";
 
 export type Profile = Database["public"]["Tables"]["users"]["Row"] & {
-  postcode_location?: Database["public"]["Tables"]["postcode_locations"]["Row"];
+  postcode_location?: PostcodeData;
 };
 
 export async function getCurrentProfile(): Promise<Profile | null> {
@@ -35,7 +36,7 @@ export async function getProfile(userId: string): Promise<Profile | null> {
 
     return {
       ...user,
-      postcode_location: postcodeLocation || undefined,
+      postcode_location: (postcodeLocation as PostcodeData) || undefined,
     };
   }
 

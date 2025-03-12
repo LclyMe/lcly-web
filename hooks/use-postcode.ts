@@ -1,22 +1,20 @@
 import { useCallback, useState, useEffect } from "react";
 import { useDebounce } from "./use-debounce";
 import { useQuery } from "@tanstack/react-query";
-import { LocalPostcodeData, PostcodeData } from "@/types/location";
+import { PostcodeData } from "@/types/location";
 
 export function usePostcode(initialPostcode?: string) {
   const [error, setError] = useState<string>();
   const debouncedPostcode = useDebounce(initialPostcode, 500);
 
   // For storing local data
-  const [postcodeData, setPostcodeData] = useState<LocalPostcodeData | null>(
-    () => {
-      if (typeof window !== "undefined") {
-        const saved = localStorage.getItem("postcodeData");
-        return saved ? JSON.parse(saved) : null;
-      }
-      return null;
+  const [postcodeData, setPostcodeData] = useState<PostcodeData | null>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("postcodeData");
+      return saved ? JSON.parse(saved) : null;
     }
-  );
+    return null;
+  });
 
   // Real-time validation
   const validatePostcode = useCallback(async (postcode: string) => {
