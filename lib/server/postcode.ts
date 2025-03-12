@@ -1,28 +1,8 @@
 import { createAdminClient, createClient } from "@/lib/supabase/server";
 import { PostcodeData } from "@/types/location";
-import { getMP, MPData } from "@/lib/server/mp";
+import { getMP, MPData, MPRecord } from "@/lib/server/mp";
 
 const POSTCODE_API_URL = "https://api.postcodes.io/postcodes";
-
-export interface PostcodeLocation {
-  id: string;
-  postcode: string;
-  latitude: number;
-  longitude: number;
-  region: string;
-  country: string;
-  created_at: string;
-  mp_data?: MPData | null;
-}
-
-export interface PostcodeResponse {
-  postcode: string;
-  latitude: number;
-  longitude: number;
-  region: string;
-  country: string;
-  mp_data?: MPData | null;
-}
 
 export async function getPostcodeLocation(
   postcode: string

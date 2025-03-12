@@ -7,11 +7,13 @@ import { useMounted } from "@/hooks/use-mounted";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import "@/styles/leaflet-overrides.css";
-import { TileLayer, useMap } from "react-leaflet";
+import { Marker, TileLayer, useMap } from "react-leaflet";
 import dynamic from "next/dynamic";
+import L from "leaflet";
 
 interface StaticMapProps {
-  location: PostcodeData;
+  latitude: number;
+  longitude: number;
   className?: string;
   invertTheme?: boolean;
 }
@@ -34,19 +36,33 @@ const MapWithNoSSR = dynamic(
   }
 );
 
+// Custom blinking marker icon
+const createBlinkingMarkerIcon = (theme: "dark" | "light") => {
+  return L.divIcon({
+    html: `<div class="blinking-marker ${
+      theme === "dark" ? "blinking-marker-dark" : "blinking-marker-light"
+    }"></div>`,
+    className: "blinking-marker-container",
+    iconSize: [20, 20],
+    iconAnchor: [10, 10],
+  });
+};
+
 // Component to handle map configuration using useMap
 function MapController({
-  location,
+  latitude,
+  longitude,
   theme,
 }: {
-  location: PostcodeData;
+  latitude: number;
+  longitude: number;
   theme: "dark" | "light";
 }) {
   const map = useMap();
 
   useEffect(() => {
     // Set center and options
-    map.setView([location.latitude, location.longitude], 13);
+    map.setView([latitude, longitude], 13);
     map.dragging.disable();
     map.touchZoom.disable();
     map.doubleClickZoom.disable();
@@ -65,24 +81,27 @@ function MapController({
     return () => {
       // Cleanup if needed
     };
-  }, [map, location.latitude, location.longitude]);
+  }, [map, latitude, longitude]);
 
-  return <TileLayer url={mapProviders[theme].url} attribution="" />;
+  const markerIcon = createBlinkingMarkerIcon(theme);
+
+  return (
+    <>
+      <TileLayer url={mapProviders[theme].url} attribution="" />
+      <Marker position={[latitude, longitude]} icon={markerIcon} />
+    </>
+  );
 }
 
 export function StaticMap({
-  location,
+  latitude,
+  longitude,
   className,
   invertTheme = false,
 }: StaticMapProps) {
   const { resolvedTheme } = useTheme();
   const mounted = useMounted();
   const router = useRouter();
-
-  // Handle click to navigate to full map
-  const handleMapClick = () => {
-    router.push(`/map?lat=${location.latitude}&lng=${location.longitude}`);
-  };
 
   if (!mounted) {
     // Return placeholder while mounting
@@ -106,21 +125,79 @@ export function StaticMap({
   // Using Link component for better navigation handling
   return (
     <Link
-      href={`/map?lat=${location.latitude}&lng=${location.longitude}`}
+      href={`/map?lat=${latitude}&lng=${longitude}`}
       className={`block h-full w-full z-0`}
     >
       <div
         className={`h-full w-full overflow-hidden rounded-2xl border border-border/30 cursor-pointer hover:opacity-90 transition-opacity ${className}`}
       >
+        <style jsx global>{`
+          .blinking-marker-container {
+            background: transparent;
+            border: none;
+          }
+
+          .blinking-marker {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            position: relative;
+            animation: pulse 1.5s ease-in-out infinite;
+          }
+
+          .blinking-marker::after {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #fff;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+
+          .blinking-marker-light {
+            background: rgba(59, 130, 246, 0.5);
+          }
+
+          .blinking-marker-light::after {
+            background: #3b82f6;
+          }
+
+          .blinking-marker-dark {
+            background: rgba(96, 165, 250, 0.5);
+          }
+
+          .blinking-marker-dark::after {
+            background: #60a5fa;
+          }
+
+          @keyframes pulse {
+            0% {
+              transform: scale(0.5);
+              opacity: 1;
+            }
+            70% {
+              transform: scale(1.5);
+              opacity: 0;
+            }
+            100% {
+              transform: scale(0.5);
+              opacity: 0;
+            }
+          }
+        `}</style>
         <MapWithNoSSR
-          center={[location.latitude, location.longitude]}
+          center={[latitude, longitude]}
           zoom={13}
           zoomControl={false}
           attributionControl={false}
           className="h-full w-full"
         >
           <MapController
-            location={location}
+            latitude={latitude}
+            longitude={longitude}
             theme={theme as "dark" | "light"}
           />
         </MapWithNoSSR>

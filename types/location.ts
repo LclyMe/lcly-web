@@ -1,17 +1,17 @@
+import { MPRecord } from "@/lib/server/mp";
 import { Database } from "@/types/database.types";
-import { MPData } from "@/lib/server/mp";
 
-export interface LocalPostcodeData {
-  postcode: string;
-  latitude: number;
-  longitude: number;
-  admin_district: string;
-  region: string;
-  country: string;
-  parliamentary_constituency: string;
-  admin_ward: string;
-  mp_data?: MPData | null;
-}
+export type ExtraInformation = {
+  primary_care_trust?: string | null;
+  ccg?: string | null;
+  admin_county?: string | null;
+  parish?: string | null;
+  [key: string]: any;
+} | null;
 
-export type PostcodeData =
-  Database["public"]["Tables"]["postcode_locations"]["Row"] & LocalPostcodeData;
+type PostcodeRow = Database["public"]["Tables"]["postcode_locations"]["Row"];
+
+export type PostcodeData = PostcodeRow & {
+  extra_information?: ExtraInformation;
+  mp_data?: MPRecord | null;
+};

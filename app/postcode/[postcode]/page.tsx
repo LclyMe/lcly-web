@@ -25,7 +25,7 @@ export default async function PostcodePage({ params }: PostcodePageProps) {
       <PostcodeDetails
         location={location}
         weather={weather}
-        mpData={location.mp_data}
+        mpData={location.mp_data || undefined}
       />
     </div>
   );

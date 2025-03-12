@@ -10,7 +10,7 @@ import { MPCard } from "@/components/mp-card";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "./ui/drawer";
 import { Building, Navigation, Globe, Award } from "lucide-react";
-import { MPData } from "@/lib/server/mp";
+import { MPRecord } from "@/lib/server/mp";
 
 interface LocationInfoSheetProps {
   title: string;
@@ -18,7 +18,7 @@ interface LocationInfoSheetProps {
   value: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  mpData?: MPData | null;
+  mpData?: MPRecord | null;
   isConstituency?: boolean;
 }
 
