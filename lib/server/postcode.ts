@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient, createClient } from "@/lib/supabase/server";
 import { PostcodeData } from "@/types/location";
 import { getMP, MPData } from "@/lib/server/mp";
 
@@ -27,7 +27,7 @@ export interface PostcodeResponse {
 export async function getPostcodeLocation(
   postcode: string
 ): Promise<PostcodeData> {
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
 
   // Format postcode for comparison: remove spaces and convert to uppercase
   const formattedPostcode = postcode.replace(/\s+/g, "").toUpperCase();
@@ -52,6 +52,7 @@ export async function getPostcodeLocation(
     // Fetch MP data if we have a parliamentary constituency
     let mpData = null;
     if (cachedLocation.parliamentary_constituency) {
+      console.log("fetching mp data (cached)");
       mpData = await getMP(cachedLocation.parliamentary_constituency);
     }
 
@@ -68,6 +69,8 @@ export async function getPostcodeLocation(
   );
   const data = await response.json();
 
+  console.log("postcode data", data);
+
   if (!data.result) {
     throw new Error("Invalid postcode");
   }
@@ -75,21 +78,34 @@ export async function getPostcodeLocation(
   // Fetch MP data if we have a parliamentary constituency
   let mpData = null;
   if (data.result.parliamentary_constituency) {
+    console.log("fetching mp data (not cached)");
     mpData = await getMP(data.result.parliamentary_constituency);
   }
+
+  const {
+    latitude,
+    longitude,
+    region,
+    country,
+    admin_district,
+    parliamentary_constituency,
+    admin_ward,
+    ...rest
+  } = data.result;
 
   // Cache the result (without MP data reference)
   const { data: newLocation, error } = await supabase
     .from("postcode_locations")
     .insert({
-      postcode: data.result.postcode,
-      latitude: data.result.latitude,
-      longitude: data.result.longitude,
-      region: data.result.region,
-      country: data.result.country,
-      admin_district: data.result.admin_district,
-      parliamentary_constituency: data.result.parliamentary_constituency,
-      admin_ward: data.result.admin_ward,
+      postcode: postcode || "",
+      latitude: latitude,
+      longitude: longitude,
+      region: region || "",
+      country: country || "",
+      admin_district: admin_district || "",
+      parliamentary_constituency: parliamentary_constituency || "",
+      admin_ward: admin_ward || "",
+      extra_information: rest,
     })
     .select()
     .single();
@@ -100,15 +116,16 @@ export async function getPostcodeLocation(
     return {
       id: "temp",
       created_at: new Date().toISOString(),
-      postcode: data.result.postcode,
-      latitude: data.result.latitude,
-      longitude: data.result.longitude,
-      region: data.result.region,
-      country: data.result.country,
-      admin_district: data.result.admin_district,
-      parliamentary_constituency: data.result.parliamentary_constituency,
-      admin_ward: data.result.admin_ward,
+      postcode: postcode,
+      latitude: latitude,
+      longitude: longitude,
+      region: region,
+      country: country,
+      admin_district: admin_district,
+      parliamentary_constituency: parliamentary_constituency,
+      admin_ward: admin_ward,
       mp_data: mpData,
+      extra_information: rest,
     } as PostcodeData;
   }
 
