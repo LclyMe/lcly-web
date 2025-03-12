@@ -16,10 +16,10 @@ const dataTypeConfig = {
     icon: PenLine,
     label: "Thoughts",
   },
-  recycling: {
-    icon: Trash2,
-    label: "Recycling Centers",
-  },
+  // recycling: {
+  //   icon: Trash2,
+  //   label: "Recycling Centers",
+  // },
   // people: {
   //   icon: Users,
   //   label: "People",

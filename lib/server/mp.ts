@@ -87,6 +87,7 @@ export async function getMP(constituency: string): Promise<MPRecord | null> {
     // Fetch from API
     const mpData = await fetchMPFromAPI(constituency);
 
+    // Uncomment to log the fetched MP data
     // console.log("Fetched MP data from API: ", mpData);
 
     // First check if a record with this constituency already exists

@@ -32,7 +32,6 @@ export async function getPostcodeLocation(
     // Fetch MP data if we have a parliamentary constituency
     let mpData = null;
     if (cachedLocation.parliamentary_constituency) {
-      console.log("fetching mp data (cached)");
       mpData = await getMP(cachedLocation.parliamentary_constituency);
     }
 
@@ -49,7 +48,8 @@ export async function getPostcodeLocation(
   );
   const data = await response.json();
 
-  console.log("postcode data", data);
+  // Uncomment to log the fetched postcode data
+  // console.log("postcode data", data);
 
   if (!data.result) {
     throw new Error("Invalid postcode");
@@ -58,7 +58,6 @@ export async function getPostcodeLocation(
   // Fetch MP data if we have a parliamentary constituency
   let mpData = null;
   if (data.result.parliamentary_constituency) {
-    console.log("fetching mp data (not cached)");
     mpData = await getMP(data.result.parliamentary_constituency);
   }
 
