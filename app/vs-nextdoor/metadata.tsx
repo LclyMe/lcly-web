@@ -3,7 +3,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Lcly vs Nextdoor: The Better Alternative for UK Communities | Lcly",
   description:
-    "Compare Lcly and Nextdoor to see why Lcly is the better choice for UK communities. Open-source, privacy-focused, and community-owned alternative to Nextdoor.",
+    "Compare Lcly and Nextdoor to see why Lcly is the better choice for UK communities. Open-source, privacy-focused, community-owned alternative with local government integration.",
   keywords: [
     "Lcly vs Nextdoor",
     "Nextdoor alternative",
@@ -25,6 +25,14 @@ export const metadata: Metadata = {
     "local social network UK",
     "community app comparison",
     "UK neighborhood platform",
+    "local government integration",
+    "civic engagement platform",
+    "local democracy app",
+    "community council information",
+    "MP activity tracker",
+    "local elections information",
+    "civic participation platform",
+    "community decision making",
   ],
   alternates: {
     canonical: "https://lcly.org/vs-nextdoor",
@@ -32,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Lcly vs Nextdoor: The Better Alternative for UK Communities",
     description:
-      "Discover why Lcly is the better choice for UK communities with its open-source, privacy-focused approach compared to Nextdoor.",
+      "Discover why Lcly is the better choice for UK communities with its open-source, privacy-focused approach and local government integration compared to Nextdoor.",
     url: "https://lcly.org/vs-nextdoor",
     siteName: "Lcly",
     locale: "en_GB",
@@ -50,7 +58,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Lcly vs Nextdoor: The Better Alternative for UK Communities",
     description:
-      "Discover why Lcly is the better choice for UK communities with its open-source, privacy-focused approach compared to Nextdoor.",
+      "Discover why Lcly is the better choice for UK communities with its open-source, privacy-focused approach and local government integration compared to Nextdoor.",
     images: ["https://lcly.org/opengraph-image.png"],
   },
 };

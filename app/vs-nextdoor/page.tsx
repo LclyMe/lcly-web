@@ -2,18 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import {
-  ArrowLeftIcon,
-  CheckCircle2,
-  XCircle,
-  ShieldCheck,
-  Lock,
-  Globe,
-  Heart,
-  GitBranch,
-  Server,
-} from "lucide-react";
+import { ArrowLeftIcon, CheckCircle2, XCircle } from "lucide-react";
 import Link from "next/link";
+import { BenefitsGrid } from "@/components/benefits-grid";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -48,6 +39,18 @@ const comparisonPoints = [
     nextdoor: { value: false, description: "For-profit, advertising-driven" },
   },
   {
+    feature: "Local Government Integration",
+    lcly: {
+      value: true,
+      description:
+        "Integrates local government data to promote civic engagement",
+    },
+    nextdoor: {
+      value: false,
+      description: "Limited focus on local democracy",
+    },
+  },
+  {
     feature: "Data Ownership",
     lcly: { value: true, description: "Users own their data" },
     nextdoor: {
@@ -56,62 +59,17 @@ const comparisonPoints = [
     },
   },
   {
-    feature: "Self-Hosting Option",
-    lcly: { value: true, description: "Can be self-hosted by communities" },
-    nextdoor: { value: false, description: "No self-hosting option" },
-  },
-  {
     feature: "Local Community Focus",
-    lcly: { value: true, description: "Built specifically for UK communities" },
+    lcly: { value: true, description: "Focus on real towns and villages" },
     nextdoor: {
-      value: true,
-      description: "Supports local communities globally",
+      value: false,
+      description: "Based on general proximity",
     },
   },
   {
     feature: "Advertising",
     lcly: { value: false, description: "No intrusive advertising" },
     nextdoor: { value: true, description: "Ad-supported platform" },
-  },
-];
-
-// Key benefits of Lcly
-const lclyBenefits = [
-  {
-    title: "Open Source",
-    description:
-      "The entire platform is open source and always will be, allowing for community contributions and transparency.",
-    icon: GitBranch,
-  },
-  {
-    title: "Self-Hostable",
-    description:
-      "Communities can self-host their own instance of Lcly, ensuring complete control over their data.",
-    icon: Server,
-  },
-  {
-    title: "Non-Profit",
-    description:
-      "We believe public infrastructure should never be a profit-making venture, ensuring decisions are made for communities, not shareholders.",
-    icon: Heart,
-  },
-  {
-    title: "Privacy First",
-    description:
-      "We're committed to protecting your privacy and personal data, with minimal data collection and no data selling.",
-    icon: Lock,
-  },
-  {
-    title: "UK Focused",
-    description:
-      "Built specifically for UK communities, with features tailored to local needs and concerns.",
-    icon: Globe,
-  },
-  {
-    title: "Community Owned",
-    description:
-      "Lcly is built by and for communities, ensuring the platform serves the people who use it.",
-    icon: ShieldCheck,
   },
 ];
 
@@ -144,6 +102,7 @@ export default function NextdoorComparisonPage() {
               communities, with a focus on privacy, open-source development, and
               community ownership.
             </p>
+            <div className="w-24 h-1 bg-primary/20 mx-auto mt-8 rounded-full"></div>
           </motion.div>
         </div>
 
@@ -162,6 +121,16 @@ export default function NextdoorComparisonPage() {
               attention through advertising, Lcly is built as a non-profit,
               open-source platform that prioritizes community needs and user
               privacy above all.
+            </p>
+
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              What truly sets Lcly apart is our deep integration with local
+              government data and services. We actively promote civic engagement
+              by connecting residents with information about local elections,
+              council meetings, and MP activities. By making this information
+              accessible and actionable, Lcly empowers communities to
+              participate meaningfully in local democracy—something commercial
+              platforms like Nextdoor simply don't prioritize.
             </p>
           </div>
         </motion.div>
@@ -203,7 +172,7 @@ export default function NextdoorComparisonPage() {
                         ) : (
                           <XCircle className="h-6 w-6 text-red-500 mb-2" />
                         )}
-                        <span className="text-sm text-center">
+                        <span className="text-sm text-center text-muted-foreground">
                           {point.lcly.description}
                         </span>
                       </div>
@@ -215,7 +184,7 @@ export default function NextdoorComparisonPage() {
                         ) : (
                           <XCircle className="h-6 w-6 text-red-500 mb-2" />
                         )}
-                        <span className="text-sm text-center">
+                        <span className="text-sm text-center text-muted-foreground">
                           {point.nextdoor.description}
                         </span>
                       </div>
@@ -228,32 +197,7 @@ export default function NextdoorComparisonPage() {
         </motion.div>
 
         {/* Key Benefits of Lcly */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <h2 className="text-3xl font-bold text-center mb-10">
-            Why Choose Lcly?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-            {lclyBenefits.map((benefit, index) => (
-              <motion.div
-                key={benefit.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-                className="bg-gray-50 dark:bg-white/5 p-6 rounded-2xl"
-              >
-                <div className="text-4xl mb-4">
-                  <benefit.icon className="h-8 w-8" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
-                <p className="text-muted-foreground">{benefit.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        <BenefitsGrid showHeader={true} headerText="Why Choose Lcly?" />
 
         {/* FAQ Section */}
         <motion.div
@@ -285,6 +229,18 @@ export default function NextdoorComparisonPage() {
                 contributions, grants, and optional donations. We believe
                 essential community infrastructure shouldn't be driven by profit
                 motives.
+              </p>
+            </div>
+            <div className="bg-gray-50 dark:bg-white/5 p-6 rounded-2xl">
+              <h3 className="text-xl font-semibold mb-2">
+                How does Lcly integrate with local government?
+              </h3>
+              <p className="text-muted-foreground">
+                We pull data from various government APIs and public sources to
+                provide information about local elections, council meetings, MP
+                voting records, and other civic activities. This helps residents
+                stay informed about local democracy and encourages participation
+                in community decision-making.
               </p>
             </div>
             <div className="bg-gray-50 dark:bg-white/5 p-6 rounded-2xl">
@@ -329,7 +285,7 @@ export default function NextdoorComparisonPage() {
           </p>
           <Link href="/login">
             <Button size="lg" className="h-12 px-8">
-              Join Lcly Now
+              Join Now
             </Button>
           </Link>
         </motion.div>

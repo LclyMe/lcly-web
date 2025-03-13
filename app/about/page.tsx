@@ -3,40 +3,15 @@
 import { WorldMap } from "@/components/maps/world-map";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowLeftIcon, GitBranch, Heart, Lock, Server } from "lucide-react";
+import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
+import { BenefitsGrid } from "@/components/benefits-grid";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.5 },
 };
-
-const features = [
-  {
-    title: "Open Source",
-    description: "The entire platform is open source, it always will be.",
-    icon: GitBranch,
-  },
-  {
-    title: "Self-Hostable",
-    description:
-      "You can self-host your own instance of Lcly, so you own everything.",
-    icon: Server,
-  },
-  {
-    title: "Non-Profit",
-    description:
-      "Public infrastructure should never be a profit making venture.",
-    icon: Heart,
-  },
-  {
-    title: "Privacy First",
-    description:
-      "We will do everything we can to protect your privacy and personal data.",
-    icon: Lock,
-  },
-];
 
 export default function AboutPage() {
   return (
@@ -132,28 +107,7 @@ export default function AboutPage() {
         </motion.div>
 
         {/* Features Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24"
-        >
-          {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-              className="bg-gray-50 dark:bg-white/5 p-6 rounded-2xl"
-            >
-              <div className="text-4xl mb-4">
-                <feature.icon className="h-8 w-8" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-              <p className="text-muted-foreground">{feature.description}</p>
-            </motion.div>
-          ))}
-        </motion.div>
+        <BenefitsGrid showHeader={false} />
 
         {/* Call to Action */}
         <motion.div
