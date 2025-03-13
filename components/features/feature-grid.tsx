@@ -1,10 +1,18 @@
-import { Users2, Code2, Loader2, Flag, Lightbulb } from "lucide-react";
+import {
+  Users2,
+  Code2,
+  Loader2,
+  Flag,
+  Lightbulb,
+  ExternalLink,
+  Scale,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { useLocation } from "@/hooks/use-location";
 
 function FeatureGrid() {
-  const { locationData, loading, error } = useLocation();
+  // const { locationData, loading, error } = useLocation();
 
   return (
     <div className="w-full">
@@ -30,6 +38,26 @@ function FeatureGrid() {
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Link
+              href="/vs-nextdoor"
+              className="hover:bg-muted bg-primary/5 rounded-2xl sm:aspect-square p-8 flex justify-between flex-col transition-all duration-300"
+            >
+              <Scale className="w-8 h-8 stroke-1.5 text-primary mb-6" />
+              <div className="flex flex-col mt-auto">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-xl tracking-tight font-semibold">
+                    Lcly vs Nextdoor
+                  </h3>
+                  <Badge variant="outline" className="text-xs">
+                    New
+                  </Badge>
+                </div>
+                <p className="text-muted-foreground max-w-xs text-base mt-2">
+                  See how Lcly compares to Nextdoor and why we're building a
+                  better alternative for UK communities.
+                </p>
+              </div>
+            </Link>
             <Link href="/communities" className="group">
               <div className="hover:bg-muted bg-primary/5 rounded-2xl sm:aspect-square p-8 flex justify-between flex-col transition-all duration-300">
                 <div className="flex justify-between items-start">
@@ -46,7 +74,7 @@ function FeatureGrid() {
                 </div>
               </div>
             </Link>
-            <Link
+            {/* <Link
               href={`/c/${locationData?.community.slug}`}
               className="hover:bg-muted bg-primary/5 rounded-2xl sm:aspect-square p-8 flex justify-between flex-col transition-all duration-300"
             >
@@ -77,7 +105,7 @@ function FeatureGrid() {
                   )}
                 </p>
               </div>
-            </Link>
+            </Link> */}
 
             <Link
               href="https://github.com/LclyMe/lcly-web"
