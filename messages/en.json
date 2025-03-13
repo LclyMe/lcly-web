@@ -1,0 +1,77 @@
+{
+  "common": {
+    "header": {
+      "about": "About"
+    },
+    "github": "Built by the community",
+    "hero": {
+      "title": "Your UK Postcode Online.",
+      "description": "Lcly is a community-built, open source service. Enter your UK postcode to find your community, meet neighbours, and improve your local area.",
+      "description_mobile": "Enter your UK postcode to find your community, meet neighbours, and improve your local area.",
+      "neighbors": "1k+ Neighbours in your area"
+    },
+    "features": {
+      "title": "Explore Communities",
+      "description": "Connect with your neighbors, stay informed, and make a difference in your local area.",
+      "vs_nextdoor": {
+        "title": "Lcly vs Nextdoor",
+        "badge": "New",
+        "description": "See how Lcly compares to Nextdoor and why we're building a better alternative for UK communities."
+      },
+      "explore": {
+        "title": "Explore All Communities",
+        "description": "Discover vibrant local communities across the United Kingdom."
+      },
+      "developers": {
+        "title": "Developers",
+        "description": "Join us in building digital infrastructure for local communities. Deploy your own app or contribute to the platform."
+      },
+      "ideas": {
+        "title": "Ideas",
+        "description": "Vote on features you'd like to see in Lcly or suggest your own ideas."
+      }
+    },
+    "benefits": {
+      "connect": {
+        "title": "Connect with Neighbours",
+        "description": "Build meaningful connections with people in your area, organize local events, and help each other out."
+      },
+      "news": {
+        "title": "Local News",
+        "description": "Get updates on what's happening in your area, from community events to important local developments."
+      },
+      "leadership": {
+        "title": "Community Leadership",
+        "description": "Become a community leader and help shape the future of your local community."
+      },
+      "democracy": {
+        "title": "Local Democracy",
+        "description": "Stay informed about local elections, participate in community decisions, and make your voice heard."
+      },
+      "projects": {
+        "title": "Community Projects",
+        "description": "Start or join in with local improvement projects, from neighborhood clean-ups to community gardens."
+      },
+      "safety": {
+        "title": "Community Safety",
+        "description": "Stay safe and informed with crime alerts, emergency resources, or start a community protection group."
+      },
+      "education": {
+        "title": "Local Education",
+        "description": "Find local learning resources, activities, or start a community home schooling group."
+      },
+      "charity": {
+        "title": "Local Charity",
+        "description": "Find help or volunteer at local charities and community support groups."
+      }
+    },
+    "cta": {
+      "title": "Ready to join the UK Localverse?",
+      "description": "Find your postcode and meet your neighbours or found your local community.",
+      "button": "Join Now"
+    },
+    "footer": {
+      "copyright": "© {year} Lcly. Build Lcly with us (Github). Open Source"
+    }
+  }
+}

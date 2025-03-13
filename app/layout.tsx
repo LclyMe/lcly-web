@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/providers";
 import Analytics from "@/components/analytics";
 import { AppLayout } from "@/components/app-layout";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale } from "next-intl/server";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,21 +59,24 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-[100dvh] bg-white dark:bg-background transition-colors duration-200`}
       >
-        <Providers>
-          <AppLayout>{children}</AppLayout>
-          <Analytics />
-          <Toaster />
-        </Providers>
+        <NextIntlClientProvider>
+          <Providers>
+            <AppLayout>{children}</AppLayout>
+            <Analytics />
+            <Toaster />
+          </Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
