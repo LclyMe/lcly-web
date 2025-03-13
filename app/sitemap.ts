@@ -23,6 +23,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
     },
     {
+      url: `${baseUrl}/vs-nextdoor`,
+      lastModified: new Date(),
+      priority: 0.9,
+      changeFrequency: "weekly",
+    },
+    {
       url: `${baseUrl}/communities`,
       lastModified: new Date(),
       priority: 0.8,
