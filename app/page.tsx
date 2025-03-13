@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import LclyLogo from "@/components/logos/LclyLogo";
-import { WaitlistForm } from "@/components/waitlist-form";
 import {
   Building2,
   Users2,
@@ -17,8 +16,6 @@ import {
   FileText,
   Twitter,
   Instagram as InstagramIcon,
-  // Youtube as YoutubeIcon,
-  // Video,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -29,9 +26,12 @@ import Link from "next/link";
 import { UKMap } from "@/components/maps/uk-map";
 import { FeatureGrid } from "@/components/features/feature-grid";
 import GithubIcon from "@/components/icons/brands/Github";
+import { useTranslations } from "next-intl";
+import { LanguageSwitcher } from "@/components/language-switcher";
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
+  const t = useTranslations("common");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,7 +75,7 @@ export default function Home() {
                 <HelpCircle className="h-4 w-4" />
               </Button>
             </Link>
-            {/* <MapButton /> */}
+            <LanguageSwitcher />
             <LoginButton />
           </div>
         </motion.div>
@@ -96,19 +96,17 @@ export default function Home() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-sm leading-7 bg-primary/5 backdrop-blur-sm font-regular text-primary px-3 py-1 rounded-full self-start border border-primary/10 text-foreground/60 hover:bg-primary/10 transition-all duration-300"
             >
-              {/* <div className="w-2 h-2 bg-[#0ea5e9]/75 rounded-full" />{" "} */}
               <GithubIcon className="w-5 h-5" />
-              Built by the community
+              {t("github")}
             </a>
             <h1 className="mt-6 text-4xl md:text-6xl tracking-tight max-w-xl font-regular text-left text-foreground">
-              Your UK Postcode Online.
+              {t("hero.title")}
             </h1>
             <p className="mt-2 text-lg leading-8 text-muted-foreground">
               <span className="hidden md:inline mr-1">
-                Lcly is a community-built, open source service.
+                {t("hero.description")}
               </span>
-              Enter your UK postcode to find your community, meet neighbours,
-              and improve your local area.
+              <span className="md:hidden">{t("hero.description_mobile")}</span>
             </p>
             <div className="mt-6">
               <PostcodeSearch className="backdrop-blur-sm" />
@@ -135,7 +133,7 @@ export default function Home() {
                   ))}
                 </div>
                 <p className="text-sm dark:text-muted-foreground bg-background/10 backdrop-blur-sm rounded-full px-2 py-1">
-                  1k+ Neighbours in your area
+                  {t("hero.neighbors")}
                 </p>
               </div>
 
@@ -151,9 +149,6 @@ export default function Home() {
                         <h3 className="text-base md:text-lg tracking-tight font-regular">
                           Our Roadmap
                         </h3>
-                        {/* <p className="text-muted-foreground max-w-xs text-base mt-2">
-                        See our development plans and upcoming features.
-                      </p> */}
                       </div>
                     </div>
                   </Link>
@@ -167,9 +162,6 @@ export default function Home() {
                           Read the
                           <br /> Whitepaper
                         </h3>
-                        {/* <p className="text-muted-foreground max-w-xs text-base mt-2">
-                        Learn about our vision and technical architecture.
-                      </p> */}
                       </div>
                     </div>
                   </Link>
@@ -200,12 +192,11 @@ export default function Home() {
                 <Users2 className="h-6 w-6 text-primary" />
               </div>
               <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
-                Connect with Neighbours
+                {t("benefits.connect.title")}
               </dt>
             </div>
             <dd className="mt-2 leading-7 text-muted-foreground">
-              Build meaningful connections with people in your area, organize
-              local events, and help each other out.
+              {t("benefits.connect.description")}
             </dd>
           </motion.div>
           <motion.div
@@ -220,12 +211,11 @@ export default function Home() {
                 <Newspaper className="h-6 w-6 text-primary" />
               </div>
               <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
-                Local News
+                {t("benefits.news.title")}
               </dt>
             </div>
             <dd className="mt-2 leading-7 text-muted-foreground">
-              Get updates on what's happening in your area, from community
-              events to important local developments.
+              {t("benefits.news.description")}
             </dd>
           </motion.div>
           <motion.div
@@ -240,12 +230,11 @@ export default function Home() {
                 <SquareUserRound className="h-6 w-6 text-primary" />
               </div>
               <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
-                Community Leadership
+                {t("benefits.leadership.title")}
               </dt>
             </div>
             <dd className="mt-2 leading-7 text-muted-foreground">
-              Become a community leader and help shape the future of your local
-              community.
+              {t("benefits.leadership.description")}
             </dd>
           </motion.div>
           <motion.div
@@ -260,12 +249,11 @@ export default function Home() {
                 <Vote className="h-6 w-6 text-primary" />
               </div>
               <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
-                Local Democracy
+                {t("benefits.democracy.title")}
               </dt>
             </div>
             <dd className="mt-2 leading-7 text-muted-foreground">
-              Stay informed about local elections, participate in community
-              decisions, and make your voice heard.
+              {t("benefits.democracy.description")}
             </dd>
           </motion.div>
           <motion.div
@@ -280,12 +268,11 @@ export default function Home() {
                 <Building2 className="h-6 w-6 text-primary" />
               </div>
               <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
-                Community Projects
+                {t("benefits.projects.title")}
               </dt>
             </div>
             <dd className="mt-2 leading-7 text-muted-foreground">
-              Start or join in with local improvement projects, from
-              neighborhood clean-ups to community gardens.
+              {t("benefits.projects.description")}
             </dd>
           </motion.div>
           <motion.div
@@ -300,12 +287,11 @@ export default function Home() {
                 <Shield className="h-6 w-6 text-primary" />
               </div>
               <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
-                Community Safety
+                {t("benefits.safety.title")}
               </dt>
             </div>
             <dd className="mt-2 leading-7 text-muted-foreground">
-              Stay safe and informed with crime alerts, emergency resources, or
-              start a community protection group.
+              {t("benefits.safety.description")}
             </dd>
           </motion.div>
           <motion.div
@@ -320,12 +306,11 @@ export default function Home() {
                 <School className="h-6 w-6 text-primary" />
               </div>
               <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
-                Local Education
+                {t("benefits.education.title")}
               </dt>
             </div>
             <dd className="mt-2 leading-7 text-muted-foreground">
-              Find local learning resources, activities, or start a community
-              home schooling group.
+              {t("benefits.education.description")}
             </dd>
           </motion.div>
           <motion.div
@@ -340,12 +325,11 @@ export default function Home() {
                 <Heart className="h-6 w-6 text-primary" />
               </div>
               <dt className="mt-0 sm:mt-4 font-semibold text-foreground">
-                Local Charity
+                {t("benefits.charity.title")}
               </dt>
             </div>
             <dd className="mt-2 leading-7 text-muted-foreground">
-              Find help or volunteer at local charities and community support
-              groups.
+              {t("benefits.charity.description")}
             </dd>
           </motion.div>
         </dl>
@@ -371,11 +355,10 @@ export default function Home() {
 
           <div className="relative">
             <h2 className="mx-auto max-w-2xl text-center text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Ready to join the UK Localverse?
+              {t("cta.title")}
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-center text-lg leading-8 text-white/80">
-              Find your postcode and meet your neighbours or found your local
-              community.
+              {t("cta.description")}
             </p>
             <div className="mt-10 flex justify-center">
               <Button
@@ -383,7 +366,7 @@ export default function Home() {
                 size="lg"
                 className="bg-white text-black"
               >
-                Join Now
+                {t("cta.button")}
               </Button>
             </div>
           </div>
@@ -401,22 +384,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-6 pb-8 lg:px-8">
           <div className="border-t border-border pt-8 flex flex-row items-center justify-between">
             <p className="text-sm leading-5 text-muted-foreground">
-              &copy; {new Date().getFullYear()} Lcly. Build Lcly with us (
-              <a
-                href="https://github.com/LclyMe/lcly-web"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-foreground transition-colors"
-              >
-                Github
-              </a>
-              ).{" "}
-              <Link
-                href="/open-source"
-                className="hover:text-foreground transition-colors"
-              >
-                Open Source
-              </Link>
+              {t.rich("footer.copyright", { year: new Date().getFullYear() })}
             </p>
             <div className="flex items-center space-x-4">
               <a
@@ -443,22 +411,6 @@ export default function Home() {
               >
                 <InstagramIcon className="h-5 w-5" />
               </a>
-              {/* <a
-                href="https://tiktok.com/@LclyMe"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Video className="h-5 w-5" />
-              </a>
-              <a
-                href="https://youtube.com/@LclyMe"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <YoutubeIcon className="h-5 w-5" />
-              </a> */}
             </div>
           </div>
         </div>

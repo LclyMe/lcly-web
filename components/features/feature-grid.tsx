@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Users2,
   Code2,
@@ -10,9 +12,11 @@ import {
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { useLocation } from "@/hooks/use-location";
+import { useTranslations } from "next-intl";
 
 function FeatureGrid() {
   // const { locationData, loading, error } = useLocation();
+  const t = useTranslations("common");
 
   return (
     <div className="w-full">
@@ -29,11 +33,10 @@ function FeatureGrid() {
             </div>
             <div className="flex gap-2 flex-col">
               <h2 className="text-3xl md:text-4xl tracking-tighter max-w-xl font-regular text-left">
-                Explore Communities
+                {t("features.title")}
               </h2>
               <p className="text-lg max-w-xl lg:max-w-lg leading-relaxed tracking-tight text-muted-foreground text-left">
-                Connect with your neighbors, stay informed, and make a
-                difference in your local area.
+                {t("features.description")}
               </p>
             </div>
           </div>
@@ -46,15 +49,14 @@ function FeatureGrid() {
               <div className="flex flex-col mt-auto">
                 <div className="flex items-center gap-2">
                   <h3 className="text-xl tracking-tight font-semibold">
-                    Lcly vs Nextdoor
+                    {t("features.vs_nextdoor.title")}
                   </h3>
                   <Badge variant="outline" className="text-xs">
-                    New
+                    {t("features.vs_nextdoor.badge")}
                   </Badge>
                 </div>
                 <p className="text-muted-foreground max-w-xs text-base mt-2">
-                  See how Lcly compares to Nextdoor and why we're building a
-                  better alternative for UK communities.
+                  {t("features.vs_nextdoor.description")}
                 </p>
               </div>
             </Link>
@@ -65,11 +67,10 @@ function FeatureGrid() {
                 </div>
                 <div className="flex flex-col mt-auto">
                   <h3 className="text-xl tracking-tight font-semibold">
-                    Explore All Communities
+                    {t("features.explore.title")}
                   </h3>
                   <p className="text-muted-foreground max-w-xs text-base mt-2">
-                    Discover vibrant local communities across the United
-                    Kingdom.
+                    {t("features.explore.description")}
                   </p>
                 </div>
               </div>
@@ -116,12 +117,10 @@ function FeatureGrid() {
                 <Code2 className="w-8 h-8 stroke-1.5 text-primary mb-6" />
                 <div className="flex flex-col mt-auto">
                   <h3 className="text-xl tracking-tight font-semibold">
-                    Developers
+                    {t("features.developers.title")}
                   </h3>
                   <p className="text-muted-foreground max-w-xs text-base mt-2">
-                    Join us in building digital infrastructure for local
-                    communities. Deploy your own app or contribute to the
-                    platform.
+                    {t("features.developers.description")}
                   </p>
                 </div>
               </div>
@@ -135,11 +134,10 @@ function FeatureGrid() {
                 <Lightbulb className="w-8 h-8 stroke-1.5 text-primary mb-6" />
                 <div className="flex flex-col mt-auto">
                   <h3 className="text-xl tracking-tight font-semibold">
-                    Ideas
+                    {t("features.ideas.title")}
                   </h3>
                   <p className="text-muted-foreground max-w-xs text-base mt-2">
-                    Vote on features you'd like to see in Lcly or suggest your
-                    own ideas.
+                    {t("features.ideas.description")}
                   </p>
                 </div>
               </div>

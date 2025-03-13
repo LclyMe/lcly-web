@@ -1,0 +1,77 @@
+{
+  "common": {
+    "header": {
+      "about": "À propos"
+    },
+    "github": "Construit par la communauté",
+    "hero": {
+      "title": "Votre code postal britannique en ligne.",
+      "description": "Lcly est un service open source construit par la communauté. Entrez votre code postal britannique pour trouver votre communauté, rencontrer vos voisins et améliorer votre quartier.",
+      "description_mobile": "Entrez votre code postal britannique pour trouver votre communauté, rencontrer vos voisins et améliorer votre quartier.",
+      "neighbors": "Plus de 1000 voisins dans votre région"
+    },
+    "features": {
+      "title": "Explorer les communautés",
+      "description": "Connectez-vous avec vos voisins, restez informé et faites la différence dans votre quartier.",
+      "vs_nextdoor": {
+        "title": "Lcly vs Nextdoor",
+        "badge": "Nouveau",
+        "description": "Découvrez comment Lcly se compare à Nextdoor et pourquoi nous construisons une meilleure alternative pour les communautés britanniques."
+      },
+      "explore": {
+        "title": "Explorer toutes les communautés",
+        "description": "Découvrez des communautés locales dynamiques à travers le Royaume-Uni."
+      },
+      "developers": {
+        "title": "Développeurs",
+        "description": "Rejoignez-nous pour construire l'infrastructure numérique des communautés locales. Déployez votre propre application ou contribuez à la plateforme."
+      },
+      "ideas": {
+        "title": "Idées",
+        "description": "Votez pour les fonctionnalités que vous aimeriez voir dans Lcly ou suggérez vos propres idées."
+      }
+    },
+    "benefits": {
+      "connect": {
+        "title": "Se connecter avec les voisins",
+        "description": "Établissez des liens significatifs avec les personnes de votre région, organisez des événements locaux et aidez-vous mutuellement."
+      },
+      "news": {
+        "title": "Actualités locales",
+        "description": "Recevez des mises à jour sur ce qui se passe dans votre région, des événements communautaires aux développements locaux importants."
+      },
+      "leadership": {
+        "title": "Leadership communautaire",
+        "description": "Devenez un leader communautaire et aidez à façonner l'avenir de votre communauté locale."
+      },
+      "democracy": {
+        "title": "Démocratie locale",
+        "description": "Restez informé des élections locales, participez aux décisions communautaires et faites entendre votre voix."
+      },
+      "projects": {
+        "title": "Projets communautaires",
+        "description": "Lancez ou participez à des projets d'amélioration locale, du nettoyage du quartier aux jardins communautaires."
+      },
+      "safety": {
+        "title": "Sécurité communautaire",
+        "description": "Restez en sécurité et informé avec des alertes de criminalité, des ressources d'urgence, ou créez un groupe de protection communautaire."
+      },
+      "education": {
+        "title": "Éducation locale",
+        "description": "Trouvez des ressources d'apprentissage locales, des activités, ou créez un groupe d'enseignement à domicile communautaire."
+      },
+      "charity": {
+        "title": "Charité locale",
+        "description": "Trouvez de l'aide ou faites du bénévolat auprès d'organisations caritatives locales et de groupes de soutien communautaire."
+      }
+    },
+    "cta": {
+      "title": "Prêt à rejoindre le Localverse britannique ?",
+      "description": "Trouvez votre code postal et rencontrez vos voisins ou fondez votre communauté locale.",
+      "button": "Rejoindre maintenant"
+    },
+    "footer": {
+      "copyright": "© {year} Lcly. Construisez Lcly avec nous (Github). Open Source"
+    }
+  }
+}
