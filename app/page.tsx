@@ -90,11 +90,16 @@ export default function Home() {
           className="max-w-2xl flex flex-col lg:flex-row lg:max-w-none lg:items-center lg:justify-between lg:gap-8 mt-16 lg:mt-0 h-[90vh] md:h-[100dvh]"
         >
           <div className="flex-1 flex flex-col justify-center z-10 lg:mt-20">
-            <p className="flex items-center gap-2 text-sm leading-7 bg-primary/5 backdrop-blur-sm font-regular text-primary px-3 py-1 rounded-full self-start border border-primary/10 text-foreground/60">
+            <a
+              href="https://github.com/LclyMe"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm leading-7 bg-primary/5 backdrop-blur-sm font-regular text-primary px-3 py-1 rounded-full self-start border border-primary/10 text-foreground/60 hover:bg-primary/10 transition-all duration-300"
+            >
               {/* <div className="w-2 h-2 bg-[#0ea5e9]/75 rounded-full" />{" "} */}
               <GithubIcon className="w-5 h-5" />
               Built by the community
-            </p>
+            </a>
             <h1 className="mt-6 text-4xl md:text-6xl tracking-tight max-w-xl font-regular text-left text-foreground">
               Your UK Postcode Online.
             </h1>
@@ -107,7 +112,7 @@ export default function Home() {
             </p>
             <div className="mt-6">
               <PostcodeSearch className="backdrop-blur-sm" />
-              <div className="mt-7 flex items-center gap-2">
+              <div className="mt-7 flex items-center gap-1">
                 <div className="flex -space-x-2">
                   {[
                     "/avatars/amy.png",
@@ -129,7 +134,7 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm dark:text-muted-foreground bg-background/10 backdrop-blur-sm rounded-full px-2 py-1">
                   1k+ Neighbours in your area
                 </p>
               </div>
@@ -355,7 +360,7 @@ export default function Home() {
         className="mx-auto mt-8 max-w-7xl sm:mt-40 px-6 lg:px-8"
       >
         <div
-          className="relative isolate overflow-hidden bg-primary px-6 py-24 shadow-2xl rounded-3xl sm:px-24"
+          className="relative isolate overflow-hidden border border-border/75 bg-primary px-6 py-24 shadow-2xl rounded-3xl sm:px-24"
           style={{
             backgroundImage: "url('/images/london-map-dark.png')",
             backgroundSize: "cover",
@@ -366,14 +371,20 @@ export default function Home() {
 
           <div className="relative">
             <h2 className="mx-auto max-w-2xl text-center text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Join the UK Localverse
+              Ready to join the UK Localverse?
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-center text-lg leading-8 text-white/80">
-              Join our waitlist and we'll let you know when we launch in your
-              area.
+              Find your postcode and meet your neighbours or found your local
+              community.
             </p>
             <div className="mt-10 flex justify-center">
-              <WaitlistForm lightMode />
+              <Button
+                variant="default"
+                size="lg"
+                className="bg-white text-black"
+              >
+                Join Now
+              </Button>
             </div>
           </div>
         </div>
