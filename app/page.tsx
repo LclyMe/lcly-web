@@ -90,11 +90,16 @@ export default function Home() {
           className="max-w-2xl flex flex-col lg:flex-row lg:max-w-none lg:items-center lg:justify-between lg:gap-8 mt-16 lg:mt-0 h-[90vh] md:h-[100dvh]"
         >
           <div className="flex-1 flex flex-col justify-center z-10 lg:mt-20">
-            <p className="flex items-center gap-2 text-sm leading-7 bg-primary/5 backdrop-blur-sm font-regular text-primary px-3 py-1 rounded-full self-start border border-primary/10 text-foreground/60">
+            <a
+              href="https://github.com/LclyMe"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm leading-7 bg-primary/5 backdrop-blur-sm font-regular text-primary px-3 py-1 rounded-full self-start border border-primary/10 text-foreground/60 hover:bg-primary/10 transition-all duration-300"
+            >
               {/* <div className="w-2 h-2 bg-[#0ea5e9]/75 rounded-full" />{" "} */}
               <GithubIcon className="w-5 h-5" />
               Built by the community
-            </p>
+            </a>
             <h1 className="mt-6 text-4xl md:text-6xl tracking-tight max-w-xl font-regular text-left text-foreground">
               Your UK Postcode Online.
             </h1>

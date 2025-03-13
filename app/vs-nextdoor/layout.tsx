@@ -37,28 +37,18 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://lcly.org/vs-nextdoor",
   },
-  openGraph: {
-    title: "Lcly vs Nextdoor: The Better Alternative for UK Communities",
-    description:
-      "Discover why Lcly is the better choice for UK communities with its open-source, privacy-focused approach and local government integration compared to Nextdoor.",
-    url: "https://lcly.org/vs-nextdoor",
-    siteName: "Lcly",
-    locale: "en_GB",
-    type: "website",
-    images: [
-      {
-        url: "https://lcly.org/opengraph-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Lcly vs Nextdoor Comparison",
-      },
-    ],
-  },
   twitter: {
     card: "summary_large_image",
     title: "Lcly vs Nextdoor: The Better Alternative for UK Communities",
     description:
       "Discover why Lcly is the better choice for UK communities with its open-source, privacy-focused approach and local government integration compared to Nextdoor.",
-    images: ["https://lcly.org/opengraph-image.png"],
   },
 };
+
+export default function VsNextdoorLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <>{children}</>;
+}
