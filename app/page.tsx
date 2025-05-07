@@ -104,11 +104,12 @@ export default function Home() {
               Your UK Postcode Online.
             </h1>
             <p className="mt-2 text-lg leading-8 text-muted-foreground">
-              <span className="hidden md:inline mr-1">
-                Lcly is a community-built, open source service.
+              <span className="mr-1">
+                Lcly is a free and open source app built by real people in the
+                UK.
               </span>
-              Enter your UK postcode to find your community, meet neighbours,
-              and improve your local area.
+              Simply enter your UK postcode to find your community, meet
+              neighbours, and improve your local area.
             </p>
             <div className="mt-6">
               <PostcodeSearch className="backdrop-blur-sm" />
@@ -134,7 +135,7 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-                <p className="text-sm dark:text-muted-foreground bg-background/10 backdrop-blur-sm rounded-full px-2 py-1">
+                <p className="text-sm dark:text-muted-foreground bg-background/5 backdrop-blur-sm rounded-full px-2 py-1">
                   1k+ Neighbours in your area
                 </p>
               </div>
@@ -371,7 +372,7 @@ export default function Home() {
 
           <div className="relative">
             <h2 className="mx-auto max-w-2xl text-center text-3xl font-bold tracking-tight text-white sm:text-4xl">
-              Ready to join the UK Localverse?
+              Ready to join your local community?
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-center text-lg leading-8 text-white/80">
               Find your postcode and meet your neighbours or found your local

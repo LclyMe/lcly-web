@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: PostcodePageProps) {
   const { postcode } = await params;
   const decodedPostcode = decodeURIComponent(postcode);
   return {
-    title: `${decodedPostcode}`,
+    title: `Postcode ${decodedPostcode}`,
     description: `Explore the postcode ${decodedPostcode} and its surrounding area.`,
   };
 }
@@ -22,6 +22,7 @@ export default async function PostcodePage({ params }: PostcodePageProps) {
   const { postcode } = await params;
   const decodedPostcode = decodeURIComponent(postcode);
   const location = await getPostcodeLocation(decodedPostcode);
+  // console.log(location);
   const weather = await getWeather(location.latitude, location.longitude, true);
 
   return (

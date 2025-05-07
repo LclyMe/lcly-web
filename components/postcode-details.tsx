@@ -48,7 +48,7 @@ export function PostcodeDetails({
   const adminCounty = extraInfo?.admin_county || null;
   const parish = extraInfo?.parish || null;
   const policeForce = extraInfo?.pfa || null;
-
+  const ced = extraInfo?.ced || null;
   const locationInfo = {
     ward: {
       title: "Electoral Ward",
@@ -97,6 +97,12 @@ export function PostcodeDetails({
       description:
         "A police force is a law enforcement agency responsible for maintaining public order and enforcing the law in a specific area. Each force has its own police officers and staff.",
       value: policeForce || "Not available",
+    },
+    ced: {
+      title: "County Electoral Division",
+      description:
+        "County Electoral Divisions (CEDs) are areas used for county council elections. Each division elects one or more county councillors who represent residents' interests at the county level.",
+      value: extraInfo?.ced || "Not available",
     },
   };
 
@@ -160,6 +166,23 @@ export function PostcodeDetails({
             </div>
           </div>
         </div>
+
+        {ced && location.ced_councillors && (
+          <div
+            className="p-4 bg-gray-100 dark:bg-white/5 md:aspect-square border-none rounded-2xl py-5 cursor-pointer hover:bg-gray-200 dark:hover:bg-white/10 transition-colors"
+            onClick={() => setActiveSheet("ced")}
+          >
+            <div className="flex flex-col items-center gap-3 text-center h-full">
+              <div className="flex-grow flex items-center justify-center">
+                <Building className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <div className="text-sm font-medium mb-1">CED</div>
+                <div className="text-sm text-muted-foreground">{ced}</div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* District */}
         <div
@@ -309,7 +332,15 @@ export function PostcodeDetails({
           open={activeSheet === key}
           onOpenChange={(open) => setActiveSheet(open ? key : null)}
           mpData={key === "constituency" ? mpData : undefined}
+          councillors={
+            key === "ward"
+              ? location.councillors
+              : key === "ced"
+              ? location.ced_councillors
+              : undefined
+          }
           isConstituency={key === "constituency"}
+          isWard={key === "ward" || key === "ced"}
         />
       ))}
     </div>
