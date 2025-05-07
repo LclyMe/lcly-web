@@ -78,10 +78,7 @@ export function PostcodeSearch({
       />
       <Button
         type="submit"
-        className={cn(
-          "h-12 text-base w-12 sm:w-24 opacity-80 backdrop-blur-sm",
-          buttonClassName
-        )}
+        className={cn("h-12 text-base w-12 sm:w-24", buttonClassName)}
         size="icon"
         disabled={isLoading}
       >

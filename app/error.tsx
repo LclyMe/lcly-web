@@ -12,11 +12,6 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    // Log the error to an error reporting service
-    console.error(error);
-  }, [error]);
-
   return (
     <div className="h-screen w-full flex items-center justify-center">
       <div className="max-w-lg w-full mx-auto p-6 text-center">
@@ -25,10 +20,10 @@ export default function Error({
             <AlertCircle className="h-8 w-8 text-red-500" />
           </div>
         </div>
-        <h1 className="text-2xl font-semibold text-white mb-2">
+        <h1 className="text-2xl font-semibold text-foreground mb-2">
           Something went wrong
         </h1>
-        <p className="text-white/80 mb-8">
+        <p className="text-muted-foreground mb-8">
           An error occurred while loading this page. We've been notified and are
           looking into it.
         </p>

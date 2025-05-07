@@ -18,11 +18,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Lcly",
+    default: "Lcly | Your UK Postcode Online",
     template: "%s | Lcly",
   },
   description:
-    "Your UK Postcode Online. Find your community, meet neighbours, and improve your local area. Or help up build app that real communities can actually use.",
+    "Find your community, meet neighbours, and improve your local area. Or help up build app that real communities can actually use.",
   keywords: [
     "postcode",
     "community",
